@@ -78,11 +78,18 @@ class NovalnetServiceProvider extends ServiceProvider
                 AfterBasketItemAdd::class,
                 AfterBasketCreate::class
             ]);
+        $payContainer->register('plenty_novalnet::NOVALNET_INVOICE', NovalnetInvoicePaymentMethod::class,
+            [
+                AfterBasketChanged::class,
+                AfterBasketItemAdd::class,
+                AfterBasketCreate::class
+            ]);
 
         // Listen for the event that gets the payment method content
         $eventDispatcher->listen(GetPaymentMethodContent::class,
                 function(GetPaymentMethodContent $event) use($paymentHelper, $paymentService, $basketRepository, $paymentMethodService, $sessionStorage, $twig)
                 {
+                    $this->getLogger(__METHOD__)->error('TEST', $event->getMop());
                     if($event->getMop() == $paymentHelper->getPaymentMethod())
                     {
                         $serverRequestData = $paymentService->getRequestParameters($basketRepository->load());
