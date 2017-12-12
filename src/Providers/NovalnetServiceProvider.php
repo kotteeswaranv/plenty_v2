@@ -92,7 +92,7 @@ class NovalnetServiceProvider extends ServiceProvider
                 function(GetPaymentMethodContent $event) use($paymentHelper, $paymentService, $basketRepository, $paymentMethodService, $sessionStorage, $twig)
                 {
                     $this->getLogger(__METHOD__)->error('TEST', $event->getMop());
-                    if($event->getMop() == $paymentHelper->getPaymentMethod())
+                    if($paymentHelper->isNovalnetPaymentMethod($event->getMop()))
                     {
                         $serverRequestData = $paymentService->getRequestParameters($basketRepository->load());
 
@@ -112,7 +112,7 @@ class NovalnetServiceProvider extends ServiceProvider
         $eventDispatcher->listen(ExecutePayment::class,
             function (ExecutePayment $event) use ($paymentHelper, $paymentService, $sessionStorage, $transactionLogData)
             {
-                if($event->getMop() == $paymentHelper->getPaymentMethod())
+                if($paymentHelper->isNovalnetPaymentMethod($event->getMop()))
                 {
                     $requestData = $sessionStorage->getPlugin()->getValue('nnPaymentData');
                     $sessionStorage->getPlugin()->setValue('nnPaymentData',null);
