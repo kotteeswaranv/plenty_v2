@@ -5,7 +5,7 @@
     "type"             : "payment",
     "version"          : "1.0.0",
     "license"          : "GPL-3.0",
-    "isClosedSource"   : true,
+    "isClosedSource"   : false,
     "pluginIcon"       : "icon_plugin_xs.png",
     "price"            : 0.00,
     "description"      : "PCI Compliant, seamless integration with the various types of payment and payment-related services integrated into one unique platform",
