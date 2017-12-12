@@ -177,7 +177,7 @@ class PaymentHelper
         /** @var Payment $payment */
         $payment = pluginApp(\Plenty\Modules\Payment\Models\Payment::class);
 
-        $payment->mopId           = (int) $this->getPaymentMethod();
+        $payment->mopId           = (int) $requestData['mop'];
         $payment->transactionType = Payment::TRANSACTION_TYPE_BOOKED_POSTING;
         $payment->status          = Payment::STATUS_CAPTURED;
         $payment->currency        = $requestData['currency'];
