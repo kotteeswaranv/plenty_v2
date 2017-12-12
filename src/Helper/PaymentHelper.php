@@ -102,21 +102,45 @@ class PaymentHelper
      *
      * @return string|int
      */
-    public function getPaymentMethod()
+    public function getPaymentMethodByKey($paymentKey)
     {
         $paymentMethods = $this->paymentMethodRepository->allForPlugin('plenty_novalnet');
-        $this->getLogger(__METHOD__)->error('Novalnet::paymentMethods', $paymentMethods);
+        
         if(!is_null($paymentMethods))
         {
             foreach($paymentMethods as $paymentMethod)
             {
-                if($paymentMethod->paymentKey == 'NOVALNET')
+                if($paymentMethod->paymentKey == $paymentKey)
                 {
                     return $paymentMethod->id;
                 }
             }
         }
         return 'no_paymentmethod_found';
+    }
+    
+    
+    /**
+     * Load the ID of the payment method
+     * Return true for the payment method found
+     *
+     * @return bool
+     */
+    public function isNovalnetPaymentMethod($mop)
+    {
+        $paymentMethods = $this->paymentMethodRepository->allForPlugin('plenty_novalnet');
+        
+        if(!is_null($paymentMethods))
+        {
+            foreach($paymentMethods as $paymentMethod)
+            {
+                if($paymentMethod->id == $mop)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
