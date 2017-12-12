@@ -261,6 +261,7 @@ class CallbackController extends Controller
                             $paymentData['paid_amount'] = (float) ($this->aryCaptureParams['amount'] / 100);
                             $paymentData['tid']         = $this->aryCaptureParams['tid'];
                             $paymentData['order_no']    = $nnTransactionHistory->orderNo;
+                            $paymentData['mop']         = $nnTransactionHistory->mopId;
 
                             $this->paymentHelper->createPlentyPayment($paymentData);
                             $this->paymentHelper->createOrderComments($nnTransactionHistory->orderNo, $callbackComments);
@@ -290,6 +291,7 @@ class CallbackController extends Controller
                 $paymentData['tid']         = $this->aryCaptureParams['tid'];
                 $paymentData['type']        = 'debit';
                 $paymentData['order_no']    = $nnTransactionHistory->orderNo;
+                $paymentData['mop']         = $nnTransactionHistory->mopId;
 
                 $this->paymentHelper->createPlentyPayment($paymentData);
                 $this->paymentHelper->createOrderComments($nnTransactionHistory->orderNo, $callbackComments);
@@ -311,6 +313,7 @@ class CallbackController extends Controller
                         $paymentData['paid_amount'] = (float) ($this->aryCaptureParams['amount']/100);
                         $paymentData['tid']         = $this->aryCaptureParams['tid'];
                         $paymentData['order_no']    = $nnTransactionHistory->orderNo;
+                        $paymentData['mop']         = $nnTransactionHistory->mopId;
                         $orderStatus = (float) $this->config->get('Novalnet.order_completion_status');
 
                         $this->paymentHelper->createPlentyPayment($paymentData);
@@ -411,6 +414,9 @@ class CallbackController extends Controller
             $orderObj->order_paid_amount  = 0;
             $orderObj->orderNo            = $orderDetails->orderNo;
             $orderObj->paymentName        = $orderDetails->paymentName;
+            
+            $mop = $this->paymentHelper->getPaymentMethodByKey(strtolower($orderDetails->paymentName));
+            $orderObj->mopId              = $mop;
 
             $paymentTypeLevel = $this->getPaymentTypeLevel();
 
