@@ -119,6 +119,28 @@ class PaymentHelper
         return 'no_paymentmethod_found';
     }
     
+    /**
+     * Load the ID of the payment method
+     * Return the payment key for the payment method found
+     *
+     * @return string|bool
+     */
+    public function getPaymentKeyByMop($mop)
+    {
+        $paymentMethods = $this->paymentMethodRepository->allForPlugin('plenty_novalnet');
+        
+        if(!is_null($paymentMethods))
+        {
+            foreach($paymentMethods as $paymentMethod)
+            {
+                if($paymentMethod->id == $mop)
+                {
+                    return $paymentMethod->paymentKey;
+                }
+            }
+        }
+        return false;
+    }    
     
     /**
      * Load the ID of the payment method
