@@ -44,12 +44,25 @@ class CreatePaymentMethod
      */
     public function run()
     {
-        if ($this->paymentHelper->getPaymentMethod() == 'no_paymentmethod_found')
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET', 'Novalnet');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_INVOICE', 'Invoice');
+    }
+    
+    
+    /**
+	 * Create payment method with given parameters if it doesn't exist
+	 *
+	 * @param string $paymentKey
+	 * @param string $name
+	 */
+    private function createNovalnetPaymentMethodByPaymentKey($paymentKey, $name)
+	{        
+        if ($this->paymentHelper->getPaymentMethod($paymentKey) == 'no_paymentmethod_found')
         {
             $paymentMethodData = ['pluginKey'  => 'plenty_novalnet',
-                                  'paymentKey' => 'NOVALNET',
-                                  'name'       => 'Novalnet'];
+                                  'paymentKey' => $paymentKey,
+                                  'name'       => $name];
             $this->paymentMethodRepository->createPaymentMethod($paymentMethodData);
-        }
+        }        
     }
 }
