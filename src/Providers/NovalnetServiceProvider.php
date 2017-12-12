@@ -32,6 +32,8 @@ use Novalnet\Services\PaymentService;
 use Novalnet\Services\TransactionService;
 use Plenty\Plugin\Templates\Twig;
 
+use Novalnet\Methods\NovalnetInvoicePaymentMethod;
+
 /**
  * Class NovalnetServiceProvider
  *
