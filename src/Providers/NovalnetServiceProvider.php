@@ -119,6 +119,7 @@ class NovalnetServiceProvider extends ServiceProvider
                     if(isset($requestData['status']) && in_array($requestData['status'], ['90', '100']))
                     {
                         $requestData['order_no'] = $event->getOrderId();
+                        $requestData['mop']      = $event->getMop();
                         $paymentService->sendPostbackCall($requestData);
 
                         $paymentResult = $paymentService->executePayment($requestData);
