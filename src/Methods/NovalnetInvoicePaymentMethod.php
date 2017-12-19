@@ -67,7 +67,8 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
      * @return string
      */
     public function getName():string
-    {        
+    {   
+        return 'Invoice';
         $name = trim($this->configRepository->get('Novalnet.payment_name'));
         if(empty($name))
         {
