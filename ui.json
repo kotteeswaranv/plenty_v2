@@ -1,0 +1,24 @@
+{
+    "defaultEntryPoint" : "index.html",
+    "namespace"         : "Novalnet",
+    "menuEntries"       : [
+                            {
+                                "label": "General Settings",
+                                "menu": "settings/orders/novalnet",
+                                "urlKey": "settings-novalnet-general",
+                                "entryPoint": "../../../../../novalnet/settings/novalnet_general"
+                            },
+                            {
+                                "label": "Credit Card",
+                                "menu": "settings/orders/novalnet",
+                                "urlKey": "settings-novalnet-cc",
+                                "entryPoint": "../../../../../novalnet/settings/novalnet_cc"
+                            },
+                            {
+                                "label": "Invoice",
+                                "menu": "settings/orders/novalnet",
+                                "urlKey": "settings-novalnet-invoice",
+                                "entryPoint": "../../../../../novalnet/settings/novalnet_invoice"
+                            }
+                          ]
+}
