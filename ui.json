@@ -6,19 +6,19 @@
                                 "label": "General Settings",
                                 "menu": "settings/orders/payment/novalnet",
                                 "urlKey": "novalnet-general-settings",
-                                "entryPoint": "../../../../../../novalnet/settings/novalnet_general"
+                                "entryPoint": "../../../../../novalnet/settings/novalnet_general"
                             },
                             {
                                 "label": "Credit Card",
                                 "menu": "settings/orders/payment/novalnet",
                                 "urlKey": "novalnet-cc-settings",
-                                "entryPoint": "../../../../../../novalnet/settings/novalnet_cc"
+                                "entryPoint": "../../../../../novalnet/settings/novalnet_cc"
                             },
                             {
                                 "label": "Invoice",
                                 "menu": "settings/orders/payment/novalnet",
                                 "urlKey": "novalnet-invoice-settings",
-                                "entryPoint": "../../../../../../novalnet/settings/novalnet_invoice"
+                                "entryPoint": "../../../../../novalnet/settings/novalnet_invoice"
                             }
                           ]
 }
