@@ -4,7 +4,7 @@
     "menuEntries"       : [
                             {
                                 "label": "General Settings",
-                                "menu": "settings/orders/novalnet",
+                                "menu": "settings/orders/payment/novalnet",
                                 "urlKey": "settings-novalnet-general",
                                 "entryPoint": "../../../../../novalnet/settings/novalnet_general"
                             },
