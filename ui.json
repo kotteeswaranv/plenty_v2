@@ -10,13 +10,13 @@
                             },
                             {
                                 "label": "Credit Card",
-                                "menu": "settings/orders/novalnet",
+                                "menu": "settings/orders/payment/novalnet",
                                 "urlKey": "settings-novalnet-cc",
                                 "entryPoint": "../../../../../novalnet/settings/novalnet_cc"
                             },
                             {
                                 "label": "Invoice",
-                                "menu": "settings/orders/novalnet",
+                                "menu": "settings/orders/payment/novalnet",
                                 "urlKey": "settings-novalnet-invoice",
                                 "entryPoint": "../../../../../novalnet/settings/novalnet_invoice"
                             }
