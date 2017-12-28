@@ -168,15 +168,34 @@ class NovalnetServiceProvider extends ServiceProvider
                     $this->getLogger(__METHOD__)->error('TEST', $event->getMop());
                     if($paymentHelper->isNovalnetPaymentMethod($event->getMop()))
                     {
-                        $serverRequestData = $paymentService->getRequestParameters($basketRepository->load());
-
-                        $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
-                        $content = $twig->render('Novalnet::NovalnetPaymentRedirectForm', [
+                        $paymentKey = $paymentHelper->getPaymentKeyByMop($event->getMop());
+                        if(in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT', 'NOVALNET_CASHPAYMENT']))
+                        {
+                            $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);                            
+                            $this->getLogger(__METHOD__)->error('TESTREQUEST', $serverRequestData);
+                            $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
+                            $response = $paymentHelper->executeCurl($serverRequestData['data'], 'https://payport.novalnet.de/paygate.jsp');
+                            $this->getLogger(__METHOD__)->error('TESTRES', $response); 
+                            $paymentRequestData = $sessionStorage->getPlugin()->getValue('nnPaymentData');
+                            $sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($paymentRequestData, $response));
+                            $content = '';
+                            $contentType = 'continue';
+                            
+                        } else if (in_array($paymentKey, ['NOVALNET_SEPA', 'NOVALNET_CC']))
+                        {
+                            
+                        } 
+                        else
+                        {
+                            $content = $twig->render('Novalnet::NovalnetPaymentRedirectForm', [
                                                                 'formData'     => $serverRequestData['data'],
                                                                 'nnPaymentUrl' => $serverRequestData['url']
                                    ]);
 
-                        $contentType = 'htmlContent';
+                            $contentType = 'htmlContent';
+                            
+                        }
+                        
                         $event->setValue($content);
                         $event->setType($contentType);
                     }
