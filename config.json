@@ -15,6 +15,12 @@
     },
     {
         "tab"    : "Novalnet Global Configuration",
+        "key"    : "activation_key",
+        "label"  : "Product activation key*",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Novalnet Global Configuration",
         "key"    : "vendor_id",
         "label"  : "Merchant ID*",
         "type"   : "text"
