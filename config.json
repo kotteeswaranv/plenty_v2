@@ -101,8 +101,22 @@
     },
     {
         "tab"    : "Credit Card",
+        "key"    : "cc_payment_active",
+        "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Credit Card",
         "key"    : "cc_3d",
         "label"  : "Enable 3D secure",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Direct Debit SEPA",
+        "key"    : "sepa_payment_active",
+        "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
     },
@@ -111,6 +125,13 @@
         "key"    : "sepa_due_date",
         "label"  : "SEPA Payment duration (in days)",
         "type"   : "text"
+    },
+    {
+        "tab"    : "Invoice",
+        "key"    : "invoice_payment_active",
+        "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
     },
     {
         "tab"    : "Invoice",
@@ -139,6 +160,13 @@
     },
     {
         "tab"    : "Prepayment",
+        "key"    : "prepayment_payment_active",
+        "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Prepayment",
         "key"    : "prepayment_callback_order_status",
         "label"  : "Callback order status",
         "type"   : "text",
@@ -157,6 +185,20 @@
         "default": "all"
     },
     {
+        "tab"    : "Instant Bank Transfer",
+        "key"    : "sofort_payment_active",
+        "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "PayPal",
+        "key"    : "paypal_payment_active",
+        "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
         "tab"    : "PayPal",
         "key"    : "paypal_payment_pending_status",
         "label"  : "Order status for the pending payment",
@@ -164,11 +206,39 @@
         "default": "3"
     },
     {
+        "tab"    : "iDeal",
+        "key"    : "ideal_payment_active",
+        "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "EPS",
+        "key"    : "eps_payment_active",
+        "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Giropay",
+        "key"    : "giropay_payment_active",
+        "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
         "tab"    : "Przelewy24",
         "key"    : "przelewy_payment_pending_status",
         "label"  : "Order status for the pending payment",
         "type"   : "text",
         "default": "3"
+    },
+    {
+        "tab"    : "Barzahlen",
+        "key"    : "cash_payment_active",
+        "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
     },
     {
         "tab"    : "Barzahlen",
