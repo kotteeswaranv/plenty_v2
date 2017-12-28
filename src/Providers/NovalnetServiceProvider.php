@@ -84,6 +84,8 @@ class NovalnetServiceProvider extends ServiceProvider
                           TransactionService $transactionLogData,
                           Twig $twig)
     {
+        
+        $paymentHelper->createMopIfNotExists();
         // Register the Novalnet payment method in the payment method container
         $payContainer->register('plenty_novalnet::NOVALNET', NovalnetPaymentMethod::class,
             [
