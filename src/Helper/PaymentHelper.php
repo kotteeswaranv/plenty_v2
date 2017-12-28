@@ -547,4 +547,44 @@ class PaymentHelper
     {
         return preg_replace('/\s+/', '', $this->config->get("Novalnet.$key"));
     }
+    
+    
+    
+    /**
+    *
+    * Need to REMOVE
+    * TEMP FUNCTION START
+    */
+    
+    public function createMopIfNotExists()
+	{        
+        $this->createTemp('NOVALNET_INVOICE', 'Invoice');
+        $this->createTemp('NOVALNET_PREPAYMENT', 'Prepayment');
+        $this->createTemp('NOVALNET_CC', 'Credit Card');
+        $this->createTemp('NOVALNET_SEPA', 'Direct Debit SEPA');
+        $this->createTemp('NOVALNET_SOFORT', 'Instant Bank Transfer');
+        $this->createTemp('NOVALNET_PAYPAL', 'PayPal');
+        $this->createTemp('NOVALNET_IDEAL', 'iDEAL');
+        $this->createTemp('NOVALNET_EPS', 'eps');
+        $this->createTemp('NOVALNET_GIROPAY', 'giropay');
+        $this->createTemp('NOVALNET_PRZELEWY', 'Przelewy24');
+        $this->createTemp('NOVALNET_CASHPAYMENT', 'Barzahlen');             
+    }
+    
+    public function createTemp($paymentKey,$name)
+    {
+        if ($this->getPaymentMethodByKey($paymentKey) == 'no_paymentmethod_found')
+        {
+            $paymentMethodData = ['pluginKey'  => 'plenty_novalnet',
+                                  'paymentKey' => $paymentKey,
+                                  'name'       => $name];
+            $this->paymentMethodRepository->createPaymentMethod($paymentMethodData);
+        }         
+    }
+    
+    /**
+    *
+    * TEMP FUNCTION END
+    *
+    */
 }
