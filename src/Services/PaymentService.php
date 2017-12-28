@@ -278,7 +278,7 @@ class PaymentService
      *
      * @return array
      */
-    public function getRequestParameters(Basket $basket)
+    public function getRequestParameters(Basket $basket, $paymentKey)
     {
         $billingAddressId = $basket->customerInvoiceAddressId;
         $address = $this->addressRepository->findAddressById($billingAddressId);
@@ -303,11 +303,7 @@ class PaymentService
                 'lang'               => strtoupper($this->session->getLocaleSettings()->language),
                 'amount'             => (sprintf('%0.2f', $basket->basketAmount) * 100),
                 'currency'           => $basket->currency,
-                'remote_ip'          => $this->paymentHelper->getRemoteAddress(),
-                'return_url'         => $this->getReturnPageUrl(),
-                'return_method'      => 'POST',
-                'error_return_url'   => $this->getReturnPageUrl(),
-                'error_return_method'=> 'POST',
+                'remote_ip'          => $this->paymentHelper->getRemoteAddress(),                
                 'implementation'     => 'ENC',
                 'uniqid'             => $this->paymentHelper->getUniqueId(),
                 'system_ip'          => (filter_var($_SERVER['SERVER_ADDR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ? '127.0.0.1' : $_SERVER['SERVER_ADDR']),
@@ -330,21 +326,8 @@ class PaymentService
             $paymentRequestData['company'] = $address->companyName;
 
         if(!empty($address->phone))
-            $paymentRequestData['mobile'] = $address->phone;
-
-        if($this->config->get('Novalnet.cc_3d') == 'true')
-            $paymentRequestData['cc_3d'] = '1';
-
-        $paymentRequestData['sepa_due_date'] = $this->getSepaDueDate();
-
-        $invoiceDueDate = $this->paymentHelper->getNovalnetConfig('invoice_due_date');
-        if(is_numeric($invoiceDueDate))
-            $paymentRequestData['invoice_due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $invoiceDueDate . ' days' ) );
-
-        $cashpaymentDueDate = $this->paymentHelper->getNovalnetConfig('cashpayment_due_date');
-        if(is_numeric($cashpaymentDueDate))
-            $paymentRequestData['cashpayment_due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $cashpaymentDueDate . ' days' ) );
-
+            $paymentRequestData['tel'] = $address->phone;
+        
         $onHoldLimit = $this->paymentHelper->getNovalnetConfig('on_hold');
         if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
             $paymentRequestData['on_hold'] = '1';
@@ -366,6 +349,16 @@ class PaymentService
             $paymentRequestData['input2'] = 'reference2';
             $paymentRequestData['inputval2'] = $txnReference2;
         }
+        
+        if(in_array($paymentKey, ['NOVALNET_SOFORT', 'NOVALNET_PAYPAL', 'NOVALNET_IDEAL', 'NOVALNET_EPS', 'NOVALNET_GIROPAY', 'NOVALNET_PRZELEWY']))
+        {
+            $paymentRequestData['return_url']          = $this->getReturnPageUrl();
+            $paymentRequestData['return_method']       = 'POST';
+            $paymentRequestData['error_return_url']    = $this->getReturnPageUrl();
+            $paymentRequestData['error_return_method'] = 'POST';
+        }
+        
+        $this->getPaymentParam($paymentRequestData, $paymentKey);
 
         $this->encodePaymentData($paymentRequestData);
 
@@ -373,6 +366,35 @@ class PaymentService
             'data' => $paymentRequestData,
             'url'  => NovalnetConstants::PAYGATE_URI
         ];
+    }
+    
+    
+    public function getPaymentParam(&$paymentRequestData, $paymentKey)
+    {
+        if($paymentKey == 'NOVALNET_CC')
+        {
+            if($this->config->get('Novalnet.cc_3d') == 'true')
+                $paymentRequestData['cc_3d'] = '1';
+        } 
+        else if($paymentKey == 'NOVALNET_SEPA')
+        {
+            $paymentRequestData['sepa_due_date'] = $this->getSepaDueDate();            
+        }
+        else if($paymentKey == 'NOVALNET_INVOICE')
+        {
+            $paymentRequestData['key'] = '27';
+            $paymentRequestData['invoice_type'] = 'INVOICE';
+            $paymentRequestData['payment_type'] = 'INVOICE_START';
+            $invoiceDueDate = $this->paymentHelper->getNovalnetConfig('invoice_due_date');
+            if(is_numeric($invoiceDueDate))
+                $paymentRequestData['due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $invoiceDueDate . ' days' ) );
+        }
+        else if($paymentKey == 'NOVALNET_CASHPAYMENT')
+        {
+            $cashpaymentDueDate = $this->paymentHelper->getNovalnetConfig('cashpayment_due_date');
+            if(is_numeric($cashpaymentDueDate))
+                $paymentRequestData['cashpayment_due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $cashpaymentDueDate . ' days' ) );
+        }
     }
 
     /**
@@ -421,8 +443,11 @@ class PaymentService
             $paymentRequestData[$key] = $this->paymentHelper->encodeData($paymentRequestData[$key], $paymentRequestData['uniqid']);
          }
 
-         // Generate hash value
-         $paymentRequestData['hash'] = $this->paymentHelper->generateHash($paymentRequestData);
+        if(!empty($paymentRequestData['return_url']))
+        {
+            // Generate hash value
+            $paymentRequestData['hash'] = $this->paymentHelper->generateHash($paymentRequestData);
+        }
     }
 
     /**
