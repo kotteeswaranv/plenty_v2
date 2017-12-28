@@ -228,6 +228,13 @@
     },
     {
         "tab"    : "Przelewy24",
+        "key"    : "przelewy_payment_active",
+        "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Przelewy24",
         "key"    : "przelewy_payment_pending_status",
         "label"  : "Order status for the pending payment",
         "type"   : "text",
