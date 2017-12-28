@@ -187,6 +187,7 @@ class NovalnetServiceProvider extends ServiceProvider
                         } 
                         else
                         {
+                            $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);                            
                             $content = $twig->render('Novalnet::NovalnetPaymentRedirectForm', [
                                                                 'formData'     => $serverRequestData['data'],
                                                                 'nnPaymentUrl' => $serverRequestData['url']
