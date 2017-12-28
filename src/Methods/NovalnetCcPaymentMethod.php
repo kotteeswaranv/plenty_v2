@@ -20,11 +20,11 @@ use Plenty\Plugin\Application;
 use Novalnet\Helper\PaymentHelper;
 
 /**
- * Class NovalnetPaymentMethod
+ * Class NovalnetCcPaymentMethod
  *
  * @package Novalnet\Methods
  */
-class NovalnetInvoicePaymentMethod extends PaymentMethodService
+class NovalnetCcPaymentMethod extends PaymentMethodService
 {
     /**
      * @var ConfigRepository
@@ -57,7 +57,7 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
      */
     public function isActive():bool
     {
-        return (bool)(($this->configRepository->get('Novalnet.invoice_payment_active') == 'true') && is_numeric($this->paymentHelper->getNovalnetConfig('vendor_id')) && !empty($this->paymentHelper->getNovalnetConfig('auth_code')) && is_numeric($this->paymentHelper->getNovalnetConfig('product_id')) && is_numeric($this->paymentHelper->getNovalnetConfig('tariff_id')) && !empty($this->paymentHelper->getNovalnetConfig('access_key')));
+        return (bool)(($this->configRepository->get('Novalnet.cc_payment_active') == 'true') && is_numeric($this->paymentHelper->getNovalnetConfig('vendor_id')) && !empty($this->paymentHelper->getNovalnetConfig('activation_key'))&& !empty($this->paymentHelper->getNovalnetConfig('auth_code')) && is_numeric($this->paymentHelper->getNovalnetConfig('product_id')) && is_numeric($this->paymentHelper->getNovalnetConfig('tariff_id')) && !empty($this->paymentHelper->getNovalnetConfig('access_key')));
     }
 
     /**
@@ -68,8 +68,8 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
      */
     public function getName():string
     {   
-        return 'Invoice';
-        $name = trim($this->configRepository->get('Novalnet.payment_name'));
+        return 'Credit Card';
+        $name = trim($this->configRepository->get('Novalnet.cc_payment_name'));
         if(empty($name))
         {
             $name = $this->paymentHelper->getTranslatedText('novalnet_frontend_name');
@@ -86,7 +86,7 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
     {
         /** @var Application $app */
         $app = pluginApp(Application::class);
-        return $app->getUrlPath('novalnet') .'/images/invoice.png';
+        return $app->getUrlPath('novalnet') .'/images/cc.png';
     }
 
     /**

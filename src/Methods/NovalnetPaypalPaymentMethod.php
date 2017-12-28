@@ -20,11 +20,11 @@ use Plenty\Plugin\Application;
 use Novalnet\Helper\PaymentHelper;
 
 /**
- * Class NovalnetPaymentMethod
+ * Class NovalnetPaypalPaymentMethod
  *
  * @package Novalnet\Methods
  */
-class NovalnetInvoicePaymentMethod extends PaymentMethodService
+class NovalnetPaypalPaymentMethod extends PaymentMethodService
 {
     /**
      * @var ConfigRepository
@@ -57,7 +57,7 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
      */
     public function isActive():bool
     {
-        return (bool)(($this->configRepository->get('Novalnet.invoice_payment_active') == 'true') && is_numeric($this->paymentHelper->getNovalnetConfig('vendor_id')) && !empty($this->paymentHelper->getNovalnetConfig('auth_code')) && is_numeric($this->paymentHelper->getNovalnetConfig('product_id')) && is_numeric($this->paymentHelper->getNovalnetConfig('tariff_id')) && !empty($this->paymentHelper->getNovalnetConfig('access_key')));
+        return (bool)(($this->configRepository->get('Novalnet.paypal_payment_active') == 'true') && is_numeric($this->paymentHelper->getNovalnetConfig('vendor_id')) && !empty($this->paymentHelper->getNovalnetConfig('auth_code')) && is_numeric($this->paymentHelper->getNovalnetConfig('product_id')) && is_numeric($this->paymentHelper->getNovalnetConfig('tariff_id')) && !empty($this->paymentHelper->getNovalnetConfig('access_key')));
     }
 
     /**
@@ -68,7 +68,7 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
      */
     public function getName():string
     {   
-        return 'Invoice';
+        return 'Paypal';
         $name = trim($this->configRepository->get('Novalnet.payment_name'));
         if(empty($name))
         {
@@ -86,7 +86,7 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
     {
         /** @var Application $app */
         $app = pluginApp(Application::class);
-        return $app->getUrlPath('novalnet') .'/images/invoice.png';
+        return $app->getUrlPath('novalnet') .'/images/paypal.png';
     }
 
     /**

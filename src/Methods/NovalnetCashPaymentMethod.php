@@ -20,11 +20,11 @@ use Plenty\Plugin\Application;
 use Novalnet\Helper\PaymentHelper;
 
 /**
- * Class NovalnetPaymentMethod
+ * Class NovalnetCashPaymentMethod
  *
  * @package Novalnet\Methods
  */
-class NovalnetInvoicePaymentMethod extends PaymentMethodService
+class NovalnetCashPaymentMethod extends PaymentMethodService
 {
     /**
      * @var ConfigRepository
@@ -57,7 +57,7 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
      */
     public function isActive():bool
     {
-        return (bool)(($this->configRepository->get('Novalnet.invoice_payment_active') == 'true') && is_numeric($this->paymentHelper->getNovalnetConfig('vendor_id')) && !empty($this->paymentHelper->getNovalnetConfig('auth_code')) && is_numeric($this->paymentHelper->getNovalnetConfig('product_id')) && is_numeric($this->paymentHelper->getNovalnetConfig('tariff_id')) && !empty($this->paymentHelper->getNovalnetConfig('access_key')));
+        return (bool)(($this->configRepository->get('Novalnet.cash_payment_active') == 'true') && is_numeric($this->paymentHelper->getNovalnetConfig('vendor_id')) && !empty($this->paymentHelper->getNovalnetConfig('auth_code')) && is_numeric($this->paymentHelper->getNovalnetConfig('product_id')) && is_numeric($this->paymentHelper->getNovalnetConfig('tariff_id')) && !empty($this->paymentHelper->getNovalnetConfig('access_key')));
     }
 
     /**
@@ -68,11 +68,11 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
      */
     public function getName():string
     {   
-        return 'Invoice';
-        $name = trim($this->configRepository->get('Novalnet.payment_name'));
+        return 'barzahlen';
+        $name = trim($this->configRepository->get('Novalnet.cash_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('novalnet_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('novalnet_cash_payment_frontend_name');
         }
         return $name;
     }
@@ -86,7 +86,7 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
     {
         /** @var Application $app */
         $app = pluginApp(Application::class);
-        return $app->getUrlPath('novalnet') .'/images/invoice.png';
+        return $app->getUrlPath('novalnet') .'/images/barzahlen.png';
     }
 
     /**
@@ -96,10 +96,11 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
      */
     public function getDescription():string
     {
-        $description = trim($this->configRepository->get('Novalnet.description'));
+		return 'cash_payment_description';
+        $description = trim($this->configRepository->get('Novalnet.cash_payment_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('payment_description');
+            $description = $this->paymentHelper->getTranslatedText('cash_payment_description');
         }
         return $description;
     }
