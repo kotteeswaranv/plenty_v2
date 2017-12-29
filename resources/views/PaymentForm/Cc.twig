@@ -1,5 +1,32 @@
 <script src="{{ plugin_path('Novalnet') }}/js/cc.js"></script>
+    <!-- Credit Card Iframe form -->
+    <!-- Form hidden elements -->    
+    <input type="hidden" id="nn_cc_holder_label_css" value="" />
+    <input type="hidden" id="nn_cc_holder_field_css" value="" />
+    <input type="hidden" id="nn_cc_number_label_css" value="" />
+    <input type="hidden" id="nn_cc_number_field_css" value="" />
+    <input type="hidden" id="nn_cc_date_label_css" value="" />
+    <input type="hidden" id="nn_cc_date_field_css" value="" />
+    <input type="hidden" id="nn_cc_cvc_label_css" value="" />
+    <input type="hidden" id="nn_cc_cvc_field_css" value="" />
+    <input type="hidden" id="nn_cc_standard_style_label" value="" />
+    <input type="hidden" id="nn_cc_standard_style_input" value="" />
+    <input type="hidden" id="nn_cc_standard_style_css" value="" />
+
+    <input type="hidden" id="nn_cc_validate_text" value="" />
+    <input type="hidden" id="nn_cc_holder_label" value="" />
+    <input type="hidden" id="nn_cc_holder_field" value="" />
+    <input type="hidden" id="nn_cc_number_label" value="" />
+    <input type="hidden" id="nn_cc_number_field" value="" />
+    <input type="hidden" id="nn_cc_date_label" value="" />
+    <input type="hidden" id="nn_cc_date_field" value="" />
+    <input type="hidden" id="nn_cc_cvc_label" value="" />
+    <input type="hidden" id="nn_cc_cvc_field" value="" />
+    <input type="hidden" id="nn_cc_cvc_hint" value="" />
+    <!-- Form hidden elements -->
 <form method="post" name="cc_form" action="#">
+	<input type="hidden" id="pan_hash" name="pan_hash"/>
+    	<input type="hidden" id="unique_id" name="unique_id"/>
 	<iframe id="nniframe" src="{{nnCcFormUrl}}" frameborder="0" onload="initIframe()" scrolling="no"></iframe>
 	<button type="button" class="btn btn-primary" id="novalnet_form_btn" onclick="getHash()">
 		{{ trans("Novalnet::PaymentMethod.submit_button_text") }}
