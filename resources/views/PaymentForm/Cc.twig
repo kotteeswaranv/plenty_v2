@@ -1,7 +1,7 @@
 <script src="{{ plugin_path('Novalnet') }}/js/cc.js"></script>
-<form method="post" name="cc_form" action="">
+<form method="post" name="cc_form" action="#">
 	<iframe id="nniframe" src="{{nnCcFormUrl}}" frameborder="0" onload="initIframe()" scrolling="no"></iframe>
-	<button type="submit" class="btn btn-primary" id="novalnet_form_btn">
+	<button type="button" class="btn btn-primary" id="novalnet_form_btn" onclick="getHash()">
 		{{ trans("Novalnet::PaymentMethod.submit_button_text") }}
 	</button>
 	<a href="/checkout">
