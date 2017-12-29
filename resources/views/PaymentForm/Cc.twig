@@ -1,0 +1,16 @@
+{% extends getPartial('page-design') %}
+{% import "Ceres::PageDesign.Macros.LayoutContainer" as LayoutContainer %}
+
+{% block PartialHead %}
+    <title>{{ trans("Ceres::Template.orderCheckout") }} | {{ config("Ceres.header.company_name") }}</title>
+{% endblock %}
+
+{% block PageBody %}
+<script src="{{ plugin_path('Novalnet') }}/js/cc.js"></script>
+    <div class="page-content checkout container-max">
+    	<div>
+	    	<iframe src="https://secure.novalnet.de/cc?signature=bjdpYmM3b2I1dHxkb1UzSEpWb3ltN01RNDRxb25ib2JsamJsbm1kbGkwcHxxSkVIM2dOYmVXSmZJSGFofHxmN2NwbjdwYyYxMjcuMC4wLjEmMTI3LjAuMC4x&ln=de" frameborder="0" width="100%" height="700px"></iframe>
+		</div>
+    </div>
+
+{% endblock %}
