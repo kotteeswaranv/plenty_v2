@@ -183,7 +183,12 @@ class NovalnetServiceProvider extends ServiceProvider
                             
                         } else if (in_array($paymentKey, ['NOVALNET_SEPA', 'NOVALNET_CC']))
                         {
-                            
+                            $content = $twig->render('Novalnet::PaymentForm.Cc', [
+                                                                'formData'     => '',
+                                                                'nnPaymentUrl' => ''
+                                   ]);
+
+                            $contentType = 'htmlContent';
                         } 
                         else
                         {
