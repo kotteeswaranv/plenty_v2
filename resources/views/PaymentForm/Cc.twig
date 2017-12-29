@@ -1,6 +1,6 @@
 <script src="{{ plugin_path('Novalnet') }}/js/cc.js"></script>
 <form method="post" name="cc_form" action="">
-	    	<iframe src="https://secure.novalnet.de/cc?signature=bjdpYmM3b2I1dHxkb1UzSEpWb3ltN01RNDRxb25ib2JsamJsbm1kbGkwcHxxSkVIM2dOYmVXSmZJSGFofHxmN2NwbjdwYyYxMjcuMC4wLjEmMTI3LjAuMC4x&ln=de" frameborder="0" width="100%" height="700px"></iframe>
+	    	<iframe src="https://secure.novalnet.de/cc?signature=bjdpYmM3b2I1dHxkb1UzSEpWb3ltN01RNDRxb25ib2JsamJsbm1kbGkwcHxxSkVIM2dOYmVXSmZJSGFofHxmN2NwbjdwYyYxMjcuMC4wLjEmMTI3LjAuMC4x&ln=de" frameborder="0" width="100%" height="700px" onload="initIframe()"></iframe>
 		<button type="submit" class="btn btn-primary" id="novalnet_form_btn">
         {{ trans("Novalnet::PaymentMethod.submit_button_text") }}
     </button>
