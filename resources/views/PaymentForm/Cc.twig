@@ -3,7 +3,7 @@
 	<input type="hidden" id="pan_hash" name="pan_hash" />
     	<input type="hidden" id="unique_id" name="unique_id" />
 	<iframe id="nniframe" src="{{nnCcFormUrl}}" frameborder="0" onload="initIframe()" scrolling="no"></iframe>
-	<button type="button" class="btn btn-primary" id="novalnet_form_btn" onclick="getHash()">
+	<button type="button" class="btn btn-primary" id="novalnet_form_btn" onclick="getHash(this)">
 		{{ trans("Novalnet::PaymentMethod.submit_button_text") }}
 	</button>
 	<a href="/checkout">
