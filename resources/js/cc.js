@@ -42,7 +42,7 @@ function initIframe()
 function getHash(e)
 {
 	if($('#pan_hash').val().trim() == '') {
-	e.preventDefault();
+	//e.preventDefault();
 	iframeWindow.postMessage(
 		JSON.stringify(
 			{
