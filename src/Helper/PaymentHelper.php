@@ -535,6 +535,19 @@ class PaymentHelper
                 }
             }
         }
+    }	
+	
+    /**
+     * Retrieves the server address with and without proxy
+     *
+     * @return string
+     */
+    public function getServerAddress()
+    {
+	$ip = $_SERVER['SERVER_ADDR'];
+    	
+    	// Trim for safety measures
+    	return trim(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ? '127.0.0.1' : $ip);
     }
 
     /**
