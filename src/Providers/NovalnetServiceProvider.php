@@ -182,10 +182,11 @@ class NovalnetServiceProvider extends ServiceProvider
                             $contentType = 'continue';
                             
                         } else if (in_array($paymentKey, ['NOVALNET_SEPA', 'NOVALNET_CC']))
-                        {
+                        {                              
+                            $encodedKey = base64_encode(trim($paymentHelper->getNovalnetConfig('activation_key')) . '&' . $paymentHelper->getRemoteAddress() . '&' . $paymentHelper->getRemoteAddress());
+                            $nnIframeSource = 'https://secure.novalnet.de/cc?signature=' . $encodedKey . '&ln=' . $sessionStorage->getLocaleSettings()->language;
                             $content = $twig->render('Novalnet::PaymentForm.Cc', [
-                                                                'formData'     => '',
-                                                                'nnPaymentUrl' => ''
+                                                                'nnPaymentUrl' => $nnIframeSource
                                    ]);
 
                             $contentType = 'htmlContent';
