@@ -83,6 +83,7 @@ class PaymentController extends Controller
         $this->paymentHelper   = $paymentHelper;
         $this->sessionStorage  = $sessionStorage;
         $this->basketRepository          = $basketRepository;
+        $this->paymentService  = $paymentService;
     }
 
     /**
@@ -132,7 +133,7 @@ class PaymentController extends Controller
         $requestData = $this->request->all();
         $responseData = $this->response;
         $paymentKey = $this->paymentHelper->getPaymentKeyByMop($requestData['mop']);
-        $serverRequestData = $paymentService->getRequestParameters($this->basketRepository->load(), $requestData['paymentKey']);
+        $serverRequestData = $this->paymentService->getRequestParameters($this->basketRepository->load(), $requestData['paymentKey']);
         //$paymentService
         $this->getLogger(__METHOD__)->error('NN:processPayment', $requestData);
         $this->getLogger(__METHOD__)->error('NN:processPayment', $responseData);
