@@ -284,6 +284,7 @@ class PaymentService
         $address = $this->addressRepository->findAddressById($billingAddressId);
         $account = pluginApp(AccountService::class);
         $customerId = $account->getAccountContactId();
+        $url = NovalnetConstants::PAYGATE_URI;
 
         $paymentRequestData = [
                 'vendor'             => $this->paymentHelper->getNovalnetConfig('vendor_id'),
@@ -350,21 +351,21 @@ class PaymentService
             $paymentRequestData['inputval2'] = $txnReference2;
         }
         
-        if(in_array($paymentKey, ['NOVALNET_SOFORT', 'NOVALNET_PAYPAL', 'NOVALNET_IDEAL', 'NOVALNET_EPS', 'NOVALNET_GIROPAY', 'NOVALNET_PRZELEWY']))
+        $this->getPaymentParam($paymentRequestData, $paymentKey);
+        
+        if(in_array($paymentKey, ['NOVALNET_SOFORT', 'NOVALNET_PAYPAL', 'NOVALNET_IDEAL', 'NOVALNET_EPS', 'NOVALNET_GIROPAY', 'NOVALNET_PRZELEWY']) || !empty($paymentRequestData['cc_3d']))
         {
             $paymentRequestData['return_url']          = $this->getReturnPageUrl();
             $paymentRequestData['return_method']       = 'POST';
             $paymentRequestData['error_return_url']    = $this->getReturnPageUrl();
             $paymentRequestData['error_return_method'] = 'POST';
-        }
-        
-        $this->getPaymentParam($paymentRequestData, $paymentKey);
+        }                 
 
         $this->encodePaymentData($paymentRequestData);
 
         return [
             'data' => $paymentRequestData,
-            'url'  => NovalnetConstants::PAYGATE_URI
+            'url'  => $url
         ];
     }
     
@@ -375,6 +376,10 @@ class PaymentService
         {
             if($this->config->get('Novalnet.cc_3d') == 'true')
                 $paymentRequestData['cc_3d'] = '1';
+             
+            $paymentRequestData['key'] = '6';
+            $paymentRequestData['payment_type'] = 'CREDIT_CARD';
+            
         } 
         else if($paymentKey == 'NOVALNET_SEPA')
         {
