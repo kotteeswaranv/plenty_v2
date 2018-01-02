@@ -80,7 +80,7 @@ window.addEventListener(
                 $('#unique_id').val(data['unique_id']);
                 //~ $('#uniqeid').val(data['unique_id']);
                 //~ alert('success');
-                $('#cc_form_button').click();
+                $('#cc_form').submit();
             }
         }
 
