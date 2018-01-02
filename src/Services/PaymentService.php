@@ -284,8 +284,7 @@ class PaymentService
         $address = $this->addressRepository->findAddressById($billingAddressId);
         $account = pluginApp(AccountService::class);
         $customerId = $account->getAccountContactId();
-        $url = NovalnetConstants::PAYGATE_URI;
-
+       
         $paymentRequestData = [
                 'vendor'             => $this->paymentHelper->getNovalnetConfig('vendor_id'),
                 'auth_code'          => $this->paymentHelper->getNovalnetConfig('auth_code'),
@@ -355,7 +354,9 @@ class PaymentService
         $this->getPaymentParam($paymentRequestData, $paymentKey);                       
         
         $this->encodePaymentData($paymentRequestData);
-
+        $url = $paymentRequestData['url'];
+        unset($paymentRequestData['url']);
+        
         return [
             'data' => $paymentRequestData,
             'url'  => $url
