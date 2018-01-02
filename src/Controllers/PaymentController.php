@@ -115,7 +115,7 @@ class PaymentController extends Controller
     public function processPayment()
     {
         $requestData = $this->request->all();
-        $responseData = $this->response->all();
+        $responseData = $this->response;
         $this->getLogger(__METHOD__)->error('NN:processPayment', $requestData);
         $this->getLogger(__METHOD__)->error('NN:processPayment', $responseData);
         return $this->response->redirectTo('checkout');
