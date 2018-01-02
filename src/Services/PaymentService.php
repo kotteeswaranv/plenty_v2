@@ -471,4 +471,14 @@ class PaymentService
     {
         return $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/paymentResponse';
     }
+    
+    /**
+    *
+    *
+    *
+    */
+    private function getProcessPaymentUrl()
+    {
+        return $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/processPayment';
+    }
 }
