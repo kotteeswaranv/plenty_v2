@@ -106,4 +106,19 @@ class PaymentController extends Controller
             return $this->response->redirectTo('checkout');
         }
     }
+    
+    
+    /**
+     * Process the Form payment
+     *
+     */
+    public function processPayment()
+    {
+        $requestData = $this->request->all();
+        $responseData = $this->response->all();
+        $this->getLogger(__METHOD__)->error('NN:processPayment', $requestData);
+        $this->getLogger(__METHOD__)->error('NN:processPayment', $responseData);
+        return $this->response->redirectTo('checkout');
+    }
+    
 }
