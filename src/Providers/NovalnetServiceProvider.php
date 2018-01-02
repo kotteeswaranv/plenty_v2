@@ -188,7 +188,8 @@ class NovalnetServiceProvider extends ServiceProvider
                             $nnIframeSource = 'https://secure.novalnet.de/cc?signature=' . $encodedKey . '&ln=' . $sessionStorage->getLocaleSettings()->language;
                             $content = $twig->render('Novalnet::PaymentForm.Cc', [
                                                                 'nnCcFormUrl' => $nnIframeSource,
-                                                                'nnPaymentProcessUrl' => $paymentProcessUrl
+                                                                'nnPaymentProcessUrl' => $paymentProcessUrl,
+                                                                'paymentMopKey'     =>  $paymentKey
                                    ]);
 
                             $contentType = 'htmlContent';
