@@ -20,6 +20,8 @@ use Plenty\Plugin\Http\Response;
 use Plenty\Modules\Frontend\Session\Storage\Contracts\FrontendSessionStorageFactoryContract;
 use Novalnet\Helper\PaymentHelper;
 use Plenty\Plugin\Log\Loggable;
+use Plenty\Modules\Basket\Contracts\BasketRepositoryContract;
+use Novalnet\Services\PaymentService;
 
 /**
  * Class PaymentController
@@ -49,6 +51,16 @@ class PaymentController extends Controller
      * @var SessionStorageService
      */
     private $sessionStorage;
+    
+    /**
+     * @var basket
+     */
+    private $basketRepository;
+    
+    /**
+     * @var PaymentHelper
+     */
+    private $paymentService;
 
     /**
      * PaymentController constructor.
@@ -61,13 +73,16 @@ class PaymentController extends Controller
     public function __construct(  Request $request,
                                   Response $response,
                                   PaymentHelper $paymentHelper,
-                                  FrontendSessionStorageFactoryContract $sessionStorage
+                                  FrontendSessionStorageFactoryContract $sessionStorage,
+                                  BasketRepositoryContract $basketRepository,
+                                  PaymentService $paymentService
                                 )
     {
         $this->request         = $request;
         $this->response        = $response;
         $this->paymentHelper   = $paymentHelper;
         $this->sessionStorage  = $sessionStorage;
+        $this->basketRepository          = $basketRepository;
     }
 
     /**
@@ -116,8 +131,12 @@ class PaymentController extends Controller
     {
         $requestData = $this->request->all();
         $responseData = $this->response;
+        $paymentKey = $this->paymentHelper->getPaymentKeyByMop($requestData['mop']);
+        $serverRequestData = $paymentService->getRequestParameters($this->basketRepository->load(), $paymentKey);
+        //$paymentService
         $this->getLogger(__METHOD__)->error('NN:processPayment', $requestData);
         $this->getLogger(__METHOD__)->error('NN:processPayment', $responseData);
+        $this->getLogger(__METHOD__)->error('NN:processPayments', $serverRequestData);
         return $this->response->redirectTo('checkout');
     }
     
