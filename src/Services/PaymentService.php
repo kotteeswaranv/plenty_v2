@@ -351,16 +351,9 @@ class PaymentService
             $paymentRequestData['inputval2'] = $txnReference2;
         }
         
-        $this->getPaymentParam($paymentRequestData, $paymentKey);
+        $paymentRequestData['url'] = $this->getpaymentUrl($paymentKey);
+        $this->getPaymentParam($paymentRequestData, $paymentKey);                       
         
-        if(in_array($paymentKey, ['NOVALNET_SOFORT', 'NOVALNET_PAYPAL', 'NOVALNET_IDEAL', 'NOVALNET_EPS', 'NOVALNET_GIROPAY', 'NOVALNET_PRZELEWY']) || !empty($paymentRequestData['cc_3d']))
-        {
-            $paymentRequestData['return_url']          = $this->getReturnPageUrl();
-            $paymentRequestData['return_method']       = 'POST';
-            $paymentRequestData['error_return_url']    = $this->getReturnPageUrl();
-            $paymentRequestData['error_return_method'] = 'POST';
-        }                 
-
         $this->encodePaymentData($paymentRequestData);
 
         return [
@@ -374,8 +367,10 @@ class PaymentService
     {
         if($paymentKey == 'NOVALNET_CC')
         {
-            if($this->config->get('Novalnet.cc_3d') == 'true')
+            if($this->config->get('Novalnet.cc_3d') == 'true') {
                 $paymentRequestData['cc_3d'] = '1';
+                $paymentRequestData['url'] = NovalnetConstants::CC3D_PAYMENT_URL;
+            }
              
             $paymentRequestData['key'] = '6';
             $paymentRequestData['payment_type'] = 'CREDIT_CARD';
@@ -400,6 +395,15 @@ class PaymentService
             if(is_numeric($cashpaymentDueDate))
                 $paymentRequestData['cashpayment_due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $cashpaymentDueDate . ' days' ) );
         }
+        
+        
+        if(in_array($paymentKey, ['NOVALNET_SOFORT', 'NOVALNET_PAYPAL', 'NOVALNET_IDEAL', 'NOVALNET_EPS', 'NOVALNET_GIROPAY', 'NOVALNET_PRZELEWY']) || !empty($paymentRequestData['cc_3d']))
+        {
+            $paymentRequestData['return_url']          = $this->getReturnPageUrl();
+            $paymentRequestData['return_method']       = 'POST';
+            $paymentRequestData['error_return_url']    = $this->getReturnPageUrl();
+            $paymentRequestData['error_return_method'] = 'POST';
+        }  
     }
 
     /**
@@ -485,5 +489,31 @@ class PaymentService
     public function getProcessPaymentUrl()
     {
         return $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/processPayment';
+    }
+    
+    /**
+    *
+    *
+    *
+    */
+    public function getpaymentUrl($paymentKey)
+    {
+        $payment = [
+            'NOVALNET_INVOICE'=>NovalnetConstants::PAYPORT_URI,
+            'NOVALNET_PREPAYMENT'=>NovalnetConstants::PAYPORT_URI,
+            'NOVALNET_CC'=>NovalnetConstants::PAYPORT_URI,
+            'NOVALNET_SEPA'=>NovalnetConstants::PAYPORT_URI,
+            'NOVALNET_CASHPAYMENT'=>NovalnetConstants::PAYPORT_URI,
+            'NOVALNET_PAYPAL'=>NovalnetConstants::PAYPAL_PAYMENT_URL,
+            'NOVALNET_IDEAL'=>NovalnetConstants::IDEAL_PAYMENT_URL,
+            'NOVALNET_EPS'=>NovalnetConstants::EPS_PAYMENT_URL,
+            'NOVALNET_GIROPAY'=>NovalnetConstants::GIROPAY_PAYMENT_URL,
+            'NOVALNET_PRZELEWY'=>NovalnetConstants::PRZELEWY_PAYMENT_URL,
+            'NOVALNET_SOFORT'=>NovalnetConstants::SOFORT_PAYMENT_URL,        
+        ];
+        
+        return $payment[$paymentKey];
+       // $paymentRequestData['url']
+        
     }
 }
