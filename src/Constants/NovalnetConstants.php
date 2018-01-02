@@ -11,6 +11,7 @@ class NovalnetConstants
     const PLUGIN_VERSION = '7.0.0-NN(1.0.0)';
     const PAYPORT_URI    = 'https://payport.novalnet.de/paygate.jsp';
     const PAYGATE_URI    = 'https://paygate.novalnet.de/paygate.jsp';
+    const CC3D_PAYMENT_URL = 'https://payport.novalnet.de/pci_payport';
     const EPS_PAYMENT_URL = 'https://payport.novalnet.de/giropay';
     const GIROPAY_PAYMENT_URL = 'https://payport.novalnet.de/giropay';
     const IDEAL_PAYMENT_URL = 'https://payport.novalnet.de/online_transfer_payport';
