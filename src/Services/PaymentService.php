@@ -477,7 +477,7 @@ class PaymentService
     *
     *
     */
-    private function getProcessPaymentUrl()
+    public function getProcessPaymentUrl()
     {
         return $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/processPayment';
     }
