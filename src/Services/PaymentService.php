@@ -390,8 +390,16 @@ class PaymentService
             if(is_numeric($invoiceDueDate))
                 $paymentRequestData['due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $invoiceDueDate . ' days' ) );
         }
+        else if($paymentKey == 'NOVALNET_PREPAYMENT')
+        {
+            $paymentRequestData['key'] = '27';
+            $paymentRequestData['invoice_type'] = 'PREPAYMENT';
+            $paymentRequestData['payment_type'] = 'INVOICE_START';
+        }
         else if($paymentKey == 'NOVALNET_CASHPAYMENT')
         {
+            $paymentRequestData['key'] = '59';
+            $paymentRequestData['payment_type'] = 'CASHPAYMENT';
             $cashpaymentDueDate = $this->paymentHelper->getNovalnetConfig('cashpayment_due_date');
             if(is_numeric($cashpaymentDueDate))
                 $paymentRequestData['cashpayment_due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $cashpaymentDueDate . ' days' ) );
