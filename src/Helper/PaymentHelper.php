@@ -572,8 +572,8 @@ class PaymentHelper
 	{
 		$data = [];
 		$elem = explode($delimeter, $string);
-		$elems = array_filter($elm);
-		foreach($elems as $ele){
+		$elems = array_filter($elem);
+		foreach($elems as $elm){
     		$items = explode("=", $elm);
     		$data[$items[0]] = $items[1];
 		}	
