@@ -560,6 +560,28 @@ class PaymentHelper
     {
         return preg_replace('/\s+/', '', $this->config->get("Novalnet.$key"));
     }
+	
+	/**
+	* Get merchant configuration parameters by trimming the whitespace
+	*
+	* @param string $string
+	* @param string $delimeter
+	* @return array
+	*/
+	public function convertStringToArray($string, $delimeter='&')
+	{
+		$data = [];
+		$elem = explode($delimeter, $string);
+		$elems = array_filter($elm);
+		foreach($elems as $ele){
+    		$items = explode("=", $elm);
+    		$data[$items[0]] = $items[1];
+		}	
+		
+		return $data;
+	}
+	
+
     
     
     
