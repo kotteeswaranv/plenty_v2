@@ -374,7 +374,7 @@ class PaymentService
             }
              
             $paymentRequestData['key'] = '6';
-            $paymentRequestData['payment_type'] = 'CREDIT_CARD';
+            $paymentRequestData['payment_type'] = 'CREDITCARD';
             
         } 
         else if($paymentKey == 'NOVALNET_SEPA')
