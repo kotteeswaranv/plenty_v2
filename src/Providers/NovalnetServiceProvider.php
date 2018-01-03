@@ -176,7 +176,7 @@ class NovalnetServiceProvider extends ServiceProvider
                             $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
                             $response = $paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
                             $this->getLogger(__METHOD__)->error('TESTRES', $response); 
-                            $sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($paymentRequestData['data'], $response));
+                            $sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $response));
                             $content = '';
                             $contentType = 'continue';
                             
