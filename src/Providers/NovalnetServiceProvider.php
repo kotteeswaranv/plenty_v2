@@ -217,16 +217,19 @@ class NovalnetServiceProvider extends ServiceProvider
             {
                 if($paymentHelper->isNovalnetPaymentMethod($event->getMop()))
                 {
+                    $this->getLogger(__METHOD__)->error('nncheck', $event->getMop());
                     $requestData = $sessionStorage->getPlugin()->getValue('nnPaymentData');
+                    $this->getLogger(__METHOD__)->error('nncheck', $requestData);
                     $sessionStorage->getPlugin()->setValue('nnPaymentData',null);
                     if(isset($requestData['status']) && in_array($requestData['status'], ['90', '100']))
                     {
+                        $this->getLogger(__METHOD__)->error('nncheck', $requestData);
                         $requestData['order_no'] = $event->getOrderId();
                         $requestData['mop']      = $event->getMop();
                         $paymentService->sendPostbackCall($requestData);
 
                         $paymentResult = $paymentService->executePayment($requestData);
-                        
+                        $this->getLogger(__METHOD__)->error('nncheck', $paymentResult);
                         $isPrepayment = (bool)($requestData['payment_id'] == '27' && $requestData['invoice_type'] == 'PREPAYMENT');
 
                         $transactionData = [
@@ -241,9 +244,12 @@ class NovalnetServiceProvider extends ServiceProvider
 
                         if($requestData['payment_id'] == '27' || $requestData['payment_id'] == '59' || (in_array($requestData['tid_status'], ['85','86','90'])))
                             $transactionData['callback_amount'] = 0;
-
+                        
+                        $this->getLogger(__METHOD__)->error('nncheck', $paymentResult);
                         $transactionLogData->saveTransaction($transactionData);
+                        $this->getLogger(__METHOD__)->error('nncheck', $paymentResult);
                     } else {
+                        $this->getLogger(__METHOD__)->error('nncheck', 'eooro');
                         $paymentResult['type'] = 'error';
                         $paymentResult['value'] = $paymentHelper->getTranslatedText('payment_not_success');
                     }
