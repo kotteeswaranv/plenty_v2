@@ -157,8 +157,16 @@ class PaymentController extends Controller
                 $responseData['amount']    = $this->paymentHelper->decodeData($responseData['amount'], $responseData['uniqid']) / 100;
             }
 
-            $paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
-            $this->sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($paymentRequestData, $responseData));
+            if(isset($serverRequestData['data']['pan_hash']))
+            {
+                unset($serverRequestData['data']['pan_hash']);
+            }
+            elseif(isset($serverRequestData['data']['sepa_hash']))
+            {
+                unset($serverRequestData['data']['pan_hash']);
+            }
+            
+            $this->sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
 
             // Redirect to the success page.
             return $this->response->redirectTo('place-order');
