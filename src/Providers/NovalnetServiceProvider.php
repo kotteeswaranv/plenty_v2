@@ -174,10 +174,9 @@ class NovalnetServiceProvider extends ServiceProvider
                             $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);                            
                             $this->getLogger(__METHOD__)->error('TESTREQUEST', $serverRequestData);
                             $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
-                            $response = $paymentHelper->executeCurl($serverRequestData['data'], 'https://payport.novalnet.de/paygate.jsp');
+                            $response = $paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
                             $this->getLogger(__METHOD__)->error('TESTRES', $response); 
-                            $paymentRequestData = $sessionStorage->getPlugin()->getValue('nnPaymentData');
-                            $sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($paymentRequestData, $response));
+                            $sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($paymentRequestData['data'], $response));
                             $content = '';
                             $contentType = 'continue';
                             
