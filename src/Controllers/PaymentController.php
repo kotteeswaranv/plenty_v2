@@ -133,8 +133,8 @@ class PaymentController extends Controller
         $requestData = $this->request->all();
         if(!empty($requestData['paymentKey']) && in_array($requestData['paymentKey'], ['NOVALNET_CC', 'NOVALNET_SEPA']) && (!empty($requestData['pan_hash']) || !empty($requestData['sepa_hash'])))
         $serverRequestData = $this->paymentService->getRequestParameters($this->basketRepository->load(), $requestData['paymentKey']);
-        $serverRequestData['pan_hash'] = $requestData['pan_hash'];
-        $serverRequestData['unique_id'] = $requestData['unique_id'];
+        $serverRequestData['data']['pan_hash'] = $requestData['pan_hash'];
+        $serverRequestData['data']['unique_id'] = $requestData['unique_id'];
         //$paymentService
         $this->getLogger(__METHOD__)->error('NN:processPayment', $requestData);
         $this->getLogger(__METHOD__)->error('NN:processPayment', $responseData);
