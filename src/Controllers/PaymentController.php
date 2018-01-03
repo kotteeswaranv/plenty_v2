@@ -136,10 +136,10 @@ class PaymentController extends Controller
         $serverRequestData['data']['pan_hash'] = $requestData['pan_hash'];
         $serverRequestData['data']['unique_id'] = $requestData['unique_id'];
         $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
-        $response = $this->paymentHelper->convertStringToArray($response->response, '&');
-        $this->getLogger(__METHOD__)->error('NN:processPayment', $requestData);
-        $this->getLogger(__METHOD__)->error('NN:processPayments', $serverRequestData);
-        $this->getLogger(__METHOD__)->error('NN:processPaymentss', $response);
+        $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
+        $this->getLogger(__METHOD__)->error('NN:processPayment', $serverRequestData);
+        $this->getLogger(__METHOD__)->error('NN:processPayments', $response);
+        $this->getLogger(__METHOD__)->error('NN:processPaymentss', $responseData);
         return $this->response->redirectTo('checkout');
     }
     
