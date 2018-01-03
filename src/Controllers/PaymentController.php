@@ -137,10 +137,34 @@ class PaymentController extends Controller
         $serverRequestData['data']['unique_id'] = $requestData['unique_id'];
         $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
         $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
-        $this->getLogger(__METHOD__)->error('NN:processPayment', $serverRequestData);
-        $this->getLogger(__METHOD__)->error('NN:processPayments', $response);
-        $this->getLogger(__METHOD__)->error('NN:processPaymentss', $responseData);
-        return $this->response->redirectTo('checkout');
+        
+        $isPaymentSuccess = isset($responseData['status']) && in_array($responseData['status'], ['90','100']);
+
+        $notifications = json_decode($this->sessionStorage->getPlugin()->getValue('notifications'));
+        array_push($notifications,[
+                'message' => $this->paymentHelper->getNovalnetStatusText($responseData),
+                'type'    => $isPaymentSuccess ? 'success' : 'error',
+                'code'    => 0
+            ]);
+        $this->sessionStorage->getPlugin()->setValue('notifications', json_encode($notifications));
+
+        if($isPaymentSuccess)
+        {
+            if(!preg_match('/^[0-9]/', $responseData['test_mode']))
+            {
+                $responseData['test_mode'] = $this->paymentHelper->decodeData($responseData['test_mode'], $responseData['uniqid']);
+                $responseData['amount']    = $this->paymentHelper->decodeData($responseData['amount'], $responseData['uniqid']) / 100;
+            }
+
+            $paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
+            $this->sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($paymentRequestData, $responseData));
+
+            // Redirect to the success page.
+            return $this->response->redirectTo('place-order');
+        } else {
+            // Redirects to the cancellation page.
+            return $this->response->redirectTo('checkout');
+        }
     }
     
 }
