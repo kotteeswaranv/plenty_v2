@@ -183,15 +183,25 @@ class NovalnetServiceProvider extends ServiceProvider
                             
                         } else if (in_array($paymentKey, ['NOVALNET_SEPA', 'NOVALNET_CC']))
                         {   
-                            $paymentProcessUrl = $paymentService->getProcessPaymentUrl();
-                            $encodedKey = base64_encode(trim($paymentHelper->getNovalnetConfig('activation_key')) . '&' . $paymentHelper->getRemoteAddress() . '&' . $paymentHelper->getServerAddress());
-                            $nnIframeSource = 'https://secure.novalnet.de/cc?signature=' . $encodedKey . '&ln=' . $sessionStorage->getLocaleSettings()->language;
-                            $content = $twig->render('Novalnet::PaymentForm.Cc', [
-                                                                'nnCcFormUrl' => $nnIframeSource,
-                                                                'nnPaymentProcessUrl' => $paymentProcessUrl,
-                                                                'paymentMopKey'     =>  $paymentKey
-                                   ]);
-
+                            if($paymentKey == 'NOVALNET_SEPA'){
+                                //$paymentProcessUrl = $paymentService->getProcessPaymentUrl();
+                                $paymentProcessUrl = '';
+                                $content = $twig->render('Novalnet::PaymentForm.Sepa', [
+                                                                    'nnPaymentProcessUrl' => $paymentProcessUrl,
+                                                                    'paymentMopKey'     =>  $paymentKey
+                                       ]);
+                            }
+                            else 
+                            {
+                                $paymentProcessUrl = $paymentService->getProcessPaymentUrl();
+                                $encodedKey = base64_encode(trim($paymentHelper->getNovalnetConfig('activation_key')) . '&' . $paymentHelper->getRemoteAddress() . '&' . $paymentHelper->getServerAddress());
+                                $nnIframeSource = 'https://secure.novalnet.de/cc?signature=' . $encodedKey . '&ln=' . $sessionStorage->getLocaleSettings()->language;
+                                $content = $twig->render('Novalnet::PaymentForm.Cc', [
+                                                                    'nnCcFormUrl' => $nnIframeSource,
+                                                                    'nnPaymentProcessUrl' => $paymentProcessUrl,
+                                                                    'paymentMopKey'     =>  $paymentKey
+                                       ]);
+                            }
                             $contentType = 'htmlContent';
                         } 
                         else
