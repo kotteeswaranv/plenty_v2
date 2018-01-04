@@ -600,17 +600,19 @@ class PaymentHelper
 	{
 		$ln = 'de';
 		$list = $this->countryRepository->getActiveCountriesList();
-		$country = [];
+		$country = [][];
+		$i = 0;
 		foreach($list as $data)
 		{
-			$country['code'] = $data->isoCode2;
+			$country[$i]['code'] = $data->isoCode2;
 			foreach($data->names as $countryLang)
 			{
 				if($countryLang->language == $ln)
 				{
-					$country['name'] = $countryLang->name;
+					$country[$i]['name'] = $countryLang->name;
 				}
-			}			
+			}
+			$i++;
 		}
 		return $country;
 	}
