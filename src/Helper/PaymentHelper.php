@@ -600,7 +600,7 @@ class PaymentHelper
 	{
 		$ln = 'de';
 		$list = $this->countryRepository->getActiveCountriesList();
-		$country = [][];
+		$country = [];
 		$i = 0;
 		foreach($list as $data)
 		{
