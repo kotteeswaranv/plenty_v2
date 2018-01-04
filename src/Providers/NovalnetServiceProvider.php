@@ -186,19 +186,6 @@ class NovalnetServiceProvider extends ServiceProvider
                             if($paymentKey == 'NOVALNET_SEPA'){
                                 //$paymentProcessUrl = $paymentService->getProcessPaymentUrl();
                                 
-	<input type="hidden" id="paymentKey" name="paymentKey" value="NOVALNET_SEPA">
-	<input type="hidden" id="nn_sepa_hash" name="nn_sepa_hash">
-<input type="hidden" id="nn_vendor" value="">
-<input type="hidden" id="nn_auth_code" value="">
-<input type="hidden" id="nn_sepa_uniqueid" name="nn_sepa_uniqueid" value="">
-<input type="hidden" id="nn_sepa_merchant_valid_message" value="">
-<input type="hidden" id="nn_sepa_valid_message" value="">
-<input type="hidden" id="nn_sepa_confirm_iban_bic_msg" value="">
-<input type="hidden" id="nn_sepa_countryerror_msg" value="">
-<input type="hidden" id="nn_sepa_ibanbic_confirm_id">
-<input type="hidden" id="sepa_bic_gen">
-<input type="hidden" id="sepa_iban_gen">
-<input type="hidden" id="url_country" value="">
                                 $paymentProcessUrl = '';
 				$nnDetails = [];
 				    $nnDetails['vendor'] = $paymentHelper->getNovalnetConfig('vendor_id');
