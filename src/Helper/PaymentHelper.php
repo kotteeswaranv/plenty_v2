@@ -596,7 +596,7 @@ class PaymentHelper
 	*
 	* @return array
 	*/
-	public function convertStringToArray()
+	public function getCountryList()
 	{
 		$list = $this->countryRepository->getActiveCountriesList();
 		return $list;
