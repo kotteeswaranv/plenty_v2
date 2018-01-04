@@ -187,17 +187,18 @@ class NovalnetServiceProvider extends ServiceProvider
                                 //$paymentProcessUrl = $paymentService->getProcessPaymentUrl();
                                 
                                 $paymentProcessUrl = '';
-						$nnDetails = [];
-						$nnDetails['vendor'] = $paymentHelper->getNovalnetConfig('vendor_id');
-						$nnDetails['authcode'] = $paymentHelper->getNovalnetConfig('auth_code');
-						$nnDetails['sepauniqueid'] = uniqid();
-						$nnDetails['sepaautorefill'] = '1';
-						$nnDetails['sepaiphash'] = '1';
-						$nnDetails['sepavendormsg'] = $paymentHelper->getTranslatedText('sepavendormsg');
-						$nnDetails['sepacardmsg'] = $paymentHelper->getTranslatedText('sepacardmsg');
-						$nnDetails['sepaacceptmandate'] = $paymentHelper->getTranslatedText('sepaacceptmandate');
-						$nnDetails['sepacountryerror'] = $paymentHelper->getTranslatedText('sepacountryerror');
-						$nnCountryList = $paymentHelper->getCountryList();
+				$nnDetails = [];
+				$nnDetails['vendor'] = $paymentHelper->getNovalnetConfig('vendor_id');
+				$nnDetails['authcode'] = $paymentHelper->getNovalnetConfig('auth_code');
+				$nnDetails['sepauniqueid'] = uniqid();
+				$nnDetails['sepaautorefill'] = '1';
+				$nnDetails['sepaiphash'] = '1';
+				$nnDetails['sepavendormsg'] = $paymentHelper->getTranslatedText('sepavendormsg');
+				$nnDetails['sepacardmsg'] = $paymentHelper->getTranslatedText('sepacardmsg');
+				$nnDetails['sepaacceptmandate'] = $paymentHelper->getTranslatedText('sepaacceptmandate');
+				$nnDetails['sepacountryerror'] = $paymentHelper->getTranslatedText('sepacountryerror');
+				$nnCountryList = $paymentHelper->getCountryList();
+				$this->getLogger(__METHOD__)->error('nncheckcountries', $nnCountryList);
 					    //nnSepaHiddenValue
 				    //$paymentHelper->getNovalnetConfig('activation_key')
                                 $content = $twig->render('Novalnet::PaymentForm.Sepa', [
