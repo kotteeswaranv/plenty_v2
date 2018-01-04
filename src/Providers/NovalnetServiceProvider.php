@@ -194,7 +194,7 @@ class NovalnetServiceProvider extends ServiceProvider
 					    $nnDetails['sepaautorefill'] = '1';
 					    $nnDetails['sepaiphash'] = '1';
 					    $nnDetails['sepavendormsg'] = $paymentHelper->getTranslatedText('sepavendormsg');
-					    $nnDetails['sepacardmsg'] = $paymentHelper->getTranslatedText('sepacardmsg')
+					    $nnDetails['sepacardmsg'] = $paymentHelper->getTranslatedText('sepacardmsg');
 					    $nnDetails['sepaacceptmandate'] = $paymentHelper->getTranslatedText('sepaacceptmandate');
 					    $nnDetails['sepacountryerror'] = $paymentHelper->getTranslatedText('sepacountryerror');
 					    //nnSepaHiddenValue
