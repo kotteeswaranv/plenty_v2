@@ -599,7 +599,7 @@ class PaymentHelper
 	public function getCountryList()
 	{
 		$ln = 'de';
-		$list = $this->countryRepository->getActiveCountryNameMap($ln);
+		$list = $this->countryRepository->getActiveCountriesList();
 		$country = [];
 		foreach($list as $data)
 		{
