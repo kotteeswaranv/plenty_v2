@@ -200,6 +200,8 @@ class NovalnetServiceProvider extends ServiceProvider
 <input type="hidden" id="sepa_iban_gen">
 <input type="hidden" id="url_country" value="">
                                 $paymentProcessUrl = '';
+				$nnDetails = [];
+				    //$paymentHelper->getNovalnetConfig('activation_key')
                                 $content = $twig->render('Novalnet::PaymentForm.Sepa', [
                                                                     'nnPaymentProcessUrl' => $paymentProcessUrl,
                                                                     'paymentMopKey'     =>  $paymentKey
