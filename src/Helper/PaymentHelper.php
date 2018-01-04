@@ -26,6 +26,8 @@ use Plenty\Plugin\Translation\Translator;
 use Plenty\Plugin\ConfigRepository;
 use \Plenty\Modules\Authorization\Services\AuthHelper;
 use Plenty\Modules\Comment\Contracts\CommentRepositoryContract;
+use Plenty\Modules\Order\Shipping\Countries\Contracts\CountryRepositoryContract;
+
 
 /**
  * Class PaymentHelper
@@ -71,6 +73,12 @@ class PaymentHelper
     * @var $configRepository
     */
     public $config;
+	
+    /**
+    *
+    * @var $countryRepository
+    */
+	private $countryRepository;
 
     /**
      * Constructor.
@@ -86,7 +94,8 @@ class PaymentHelper
                                 OrderRepositoryContract $orderRepository,
                                 PaymentOrderRelationRepositoryContract $paymentOrderRelationRepository,
                                 CommentRepositoryContract $orderComment,
-                                ConfigRepository $configRepository)
+                                ConfigRepository $configRepository,
+							    CountryRepositoryContract $countryRepository)
     {
         $this->paymentMethodRepository        = $paymentMethodRepository;
         $this->paymentRepository              = $paymentRepository;
@@ -94,6 +103,7 @@ class PaymentHelper
         $this->paymentOrderRelationRepository = $paymentOrderRelationRepository;
         $this->orderComment                   = $orderComment;
         $this->config                         = $configRepository;
+		$this->countryRepository			  = $countryRepository;
     }
 
     /**
@@ -579,6 +589,17 @@ class PaymentHelper
 		}	
 		
 		return $data;
+	}
+	
+	/**
+	* Get the List of countries
+	*
+	* @return array
+	*/
+	public function convertStringToArray()
+	{
+		$list = $this->countryRepository->getActiveCountriesList();
+		return $list;
 	}
 	
 
