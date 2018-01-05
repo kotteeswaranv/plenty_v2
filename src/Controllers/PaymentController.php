@@ -136,12 +136,13 @@ class PaymentController extends Controller
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
         if($requestData['paymentKey'] == 'NOVALNET_CC') {
             $serverRequestData['data']['pan_hash'] = $requestData['nn_pan_hash'];
+            $serverRequestData['data']['unique_id'] = $requestData['unique_id'];
         }
         else
         {
             $serverRequestData['data']['sepa_hash'] = $requestData['nn_sepa_hash'];
-        }
-        $serverRequestData['data']['unique_id'] = $requestData['unique_id'];        
+            $serverRequestData['data']['sepa_unique_id'] = $requestData['unique_id'];
+        }                
         $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
         $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
         
