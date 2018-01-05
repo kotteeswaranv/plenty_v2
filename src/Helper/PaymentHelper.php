@@ -612,7 +612,7 @@ class PaymentHelper
 					$country[$i]['name'] = $countryLang->name;
 				}
 			}
-			$i++;
+			$i = $i + 1;
 		}
 		return $country;
 	}
