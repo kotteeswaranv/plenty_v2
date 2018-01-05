@@ -197,7 +197,7 @@ class NovalnetServiceProvider extends ServiceProvider
 				$nnDetails['sepacardmsg'] = $paymentHelper->getTranslatedText('sepacardmsg');
 				$nnDetails['sepaacceptmandate'] = $paymentHelper->getTranslatedText('sepaacceptmandate');
 				$nnDetails['sepacountryerror'] = $paymentHelper->getTranslatedText('sepacountryerror');
-				$nnCountryList = $paymentHelper->getCountryList();
+				$nnCountryList = $paymentHelper->getCountryList($sessionStorage->getLocaleSettings()->language);
 				$this->getLogger(__METHOD__)->error('nncheckcountries', $nnCountryList);
 					    //nnSepaHiddenValue
 				    //$paymentHelper->getNovalnetConfig('activation_key')
