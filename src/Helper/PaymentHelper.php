@@ -596,9 +596,14 @@ class PaymentHelper
 	*
 	* @return array
 	*/
-	public function getCountryList()
+	public function getCountryList($ln)
 	{
-		$ln = 'de';
+		$lang = 'de';
+		if($ln != 'de')
+		{
+			$lang = 'en';
+		}
+		
 		$list = $this->countryRepository->getActiveCountriesList();
 		$country = [];
 		$i = 0;
