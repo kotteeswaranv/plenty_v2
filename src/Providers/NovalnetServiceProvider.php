@@ -203,7 +203,7 @@ class NovalnetServiceProvider extends ServiceProvider
 				    //$paymentHelper->getNovalnetConfig('activation_key')
                                 $content = $twig->render('Novalnet::PaymentForm.Sepa', [
                                                                     'nnPaymentProcessUrl' => $paymentProcessUrl,
-                                                                    'paymentMopKey'     =>  $paymentKey,
+                                                                    'paymentMopKey'     =>  $paymentKey,										
 								    								'nnSepaHiddenValue' => $nnDetails,
 																	'nnCountry' =>$nnCountryList
                                        ]);
