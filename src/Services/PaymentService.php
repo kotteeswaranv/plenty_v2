@@ -380,6 +380,7 @@ class PaymentService
         else if($paymentKey == 'NOVALNET_SEPA')
         {
             $paymentRequestData['sepa_due_date'] = $this->getSepaDueDate();            
+            $paymentRequestData['iban_bic_confirmed'] = '1'; 
         }
         else if($paymentKey == 'NOVALNET_INVOICE')
         {
