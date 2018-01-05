@@ -76,10 +76,8 @@ window.addEventListener(
             if (data['error_message'] != undefined) {
                 alert($('<textarea />').html(data['error_message']).text());
             } else {
-				$('#pan_hash').val(data['hash']);
+		$('#nn_pan_hash').val(data['hash']);
                 $('#unique_id').val(data['unique_id']);
-                //~ $('#uniqeid').val(data['unique_id']);
-                //~ alert('success');
                 $('#cc_form').submit();
             }
         }
