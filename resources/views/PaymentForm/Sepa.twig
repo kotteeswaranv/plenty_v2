@@ -26,7 +26,10 @@
 	<div class="bank_country-section">
         <div class="label"><label for="sepa_country">{{trans("Novalnet::PaymentMethod.sepa_bank_country_label")}}</label></div>
         <div class="content" id='sepa_country_content' >
-        <select id="sepa_country" name="sepa_country" placeholder="- select -" title="Bank Country">           
+        <select id="sepa_country" name="sepa_country" placeholder="- select -" title="Bank Country">
+			{% for key, name in nnCountry %}
+				<option value="{{key}}">{{name}}</option>
+    		{% endfor %}
         </select>
         </div>
     </div>
