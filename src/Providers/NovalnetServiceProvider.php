@@ -184,9 +184,7 @@ class NovalnetServiceProvider extends ServiceProvider
                         } else if (in_array($paymentKey, ['NOVALNET_SEPA', 'NOVALNET_CC']))
                         {   
                             if($paymentKey == 'NOVALNET_SEPA'){
-                                //$paymentProcessUrl = $paymentService->getProcessPaymentUrl();
-                                
-                                $paymentProcessUrl = '';
+                                $paymentProcessUrl = $paymentService->getProcessPaymentUrl();
 				$nnDetails = [];
 				$nnDetails['vendor'] = $paymentHelper->getNovalnetConfig('vendor_id');
 				$nnDetails['authcode'] = $paymentHelper->getNovalnetConfig('auth_code');
