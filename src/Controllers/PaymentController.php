@@ -141,7 +141,7 @@ class PaymentController extends Controller
         else
         {
             $serverRequestData['data']['sepa_hash'] = $requestData['nn_sepa_hash'];
-            $serverRequestData['data']['sepa_unique_id'] = $requestData['unique_id'];
+            $serverRequestData['data']['sepa_unique_id'] = $requestData['nn_sepa_uniqueid'];
         } 
         $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
         //$response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
