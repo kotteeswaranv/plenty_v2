@@ -1,6 +1,6 @@
 <script src="{{ plugin_path('Novalnet') }}/js/cc.js"></script>
 <form method="post" id="cc_form" name="cc_form" action="{{nnPaymentProcessUrl}}">
-	<input type="hidden" id="pan_hash" name="nn_pan_hash" />
+	<input type="hidden" id="nn_pan_hash" name="nn_pan_hash" />
     	<input type="hidden" id="unique_id" name="unique_id" />
 	<input type="hidden" id="paymentKey" name="paymentKey" value="{{paymentMopKey}}" />
 	<iframe id="nniframe" src="{{nnCcFormUrl}}" frameborder="0" onload="initIframe()" scrolling="no"></iframe>
