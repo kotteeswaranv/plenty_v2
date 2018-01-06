@@ -145,7 +145,7 @@ class PaymentController extends Controller
         } 
         $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
         //$response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
-        $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
+       // $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
         
         $isPaymentSuccess = isset($responseData['status']) && in_array($responseData['status'], ['90','100']);
 
