@@ -142,8 +142,9 @@ class PaymentController extends Controller
         {
             $serverRequestData['data']['sepa_hash'] = $requestData['nn_sepa_hash'];
             $serverRequestData['data']['sepa_unique_id'] = $requestData['unique_id'];
-        }                
-        $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
+        } 
+        $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
+        //$response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
         $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
         
         $isPaymentSuccess = isset($responseData['status']) && in_array($responseData['status'], ['90','100']);
