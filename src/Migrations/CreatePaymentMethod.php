@@ -44,7 +44,6 @@ class CreatePaymentMethod
      */
     public function run()
     {
-        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET', 'Novalnet');
         $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_INVOICE', 'Invoice');
         $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_PREPAYMENT', 'Prepayment');
         $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_CC', 'Credit Card');
