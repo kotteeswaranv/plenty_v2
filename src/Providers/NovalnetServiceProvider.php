@@ -171,12 +171,10 @@ class NovalnetServiceProvider extends ServiceProvider
                         $paymentKey = $paymentHelper->getPaymentKeyByMop($event->getMop());
                         if(in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT', 'NOVALNET_CASHPAYMENT']))
                         {
-                            $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);                            
-                            $this->getLogger(__METHOD__)->error('TESTREQUEST', $serverRequestData);
+                            $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey); 
                             $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
                             $response = $paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
                             $responseData = $paymentHelper->convertStringToArray($response['response'], '&');
-                            $this->getLogger(__METHOD__)->error('TESTRES', $response); 
                             $sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
                             $content = '';
                             $contentType = 'continue';
@@ -197,8 +195,6 @@ class NovalnetServiceProvider extends ServiceProvider
 				$nnDetails['sepacountryerror'] = $paymentHelper->getTranslatedText('sepacountryerror');
 				$nnCountryList = $paymentHelper->getCountryList($sessionStorage->getLocaleSettings()->language);
 				$this->getLogger(__METHOD__)->error('nncheckcountries', $nnCountryList);
-					    //nnSepaHiddenValue
-				    //$paymentHelper->getNovalnetConfig('activation_key')
                                 $content = $twig->render('Novalnet::PaymentForm.Sepa', [
                                                                     'nnPaymentProcessUrl' => $paymentProcessUrl,
                                                                     'paymentMopKey'     =>  $paymentKey,										
@@ -222,6 +218,7 @@ class NovalnetServiceProvider extends ServiceProvider
                         else
                         {
                             $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);                            
+							$sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
                             $content = $twig->render('Novalnet::NovalnetPaymentRedirectForm', [
                                                                 'formData'     => $serverRequestData['data'],
                                                                 'nnPaymentUrl' => $serverRequestData['url']
