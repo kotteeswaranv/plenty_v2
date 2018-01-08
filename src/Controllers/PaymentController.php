@@ -22,6 +22,7 @@ use Novalnet\Helper\PaymentHelper;
 use Plenty\Plugin\Log\Loggable;
 use Plenty\Modules\Basket\Contracts\BasketRepositoryContract;
 use Novalnet\Services\PaymentService;
+use Plenty\Plugin\Templates\Twig;
 
 /**
  * Class PaymentController
@@ -61,6 +62,11 @@ class PaymentController extends Controller
      * @var PaymentHelper
      */
     private $paymentService;
+    
+    /**
+     * @var Twig
+     */
+    private $twig;
 
     /**
      * PaymentController constructor.
@@ -75,7 +81,8 @@ class PaymentController extends Controller
                                   PaymentHelper $paymentHelper,
                                   FrontendSessionStorageFactoryContract $sessionStorage,
                                   BasketRepositoryContract $basketRepository,
-                                  PaymentService $paymentService
+                                  PaymentService $paymentService,
+                                  Twig $twig
                                 )
     {
         $this->request         = $request;
@@ -84,6 +91,7 @@ class PaymentController extends Controller
         $this->sessionStorage  = $sessionStorage;
         $this->basketRepository          = $basketRepository;
         $this->paymentService  = $paymentService;
+        $this->twig            = $twig;
     }
 
     /**
@@ -137,6 +145,13 @@ class PaymentController extends Controller
         if($requestData['paymentKey'] == 'NOVALNET_CC') {
             $serverRequestData['data']['pan_hash'] = $requestData['nn_pan_hash'];
             $serverRequestData['data']['unique_id'] = $requestData['unique_id'];
+            if(!empty($serverRequestData['data']['cc_3d']))
+            {
+                 return $twig->render('Novalnet::NovalnetPaymentRedirectForm', [
+                                                                'formData'     => $serverRequestData['data'],
+                                                                'nnPaymentUrl' => $serverRequestData['url']
+                                   ]);
+            }
         }
         else
         {
