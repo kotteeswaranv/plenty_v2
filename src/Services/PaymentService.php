@@ -329,10 +329,6 @@ class PaymentService
 
         if(!empty($address->phone))
             $paymentRequestData['tel'] = $address->phone;
-        
-        $onHoldLimit = $this->paymentHelper->getNovalnetConfig('on_hold');
-        if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
-            $paymentRequestData['on_hold'] = '1';
 
         $referrerId = $this->paymentHelper->getNovalnetConfig('referrer_id');
         if(is_numeric($referrerId))
@@ -370,6 +366,10 @@ class PaymentService
     {
         if($paymentKey == 'NOVALNET_CC')
         {
+            $onHoldLimit = $this->paymentHelper->getNovalnetConfig('cc_on_hold');
+            if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
+                $paymentRequestData['on_hold'] = '1';
+            
             if($this->config->get('Novalnet.cc_3d') == 'true') {
                 $paymentRequestData['cc_3d'] = '1';
                 $paymentRequestData['url'] = NovalnetConstants::CC3D_PAYMENT_URL;
@@ -377,11 +377,19 @@ class PaymentService
         } 
         else if($paymentKey == 'NOVALNET_SEPA')
         {
+            $onHoldLimit = $this->paymentHelper->getNovalnetConfig('sepa_on_hold');
+            if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
+                $paymentRequestData['on_hold'] = '1';
+            
             $paymentRequestData['sepa_due_date'] = $this->getSepaDueDate();            
             $paymentRequestData['iban_bic_confirmed'] = '1'; 
         }
         else if($paymentKey == 'NOVALNET_INVOICE')
         {
+            $onHoldLimit = $this->paymentHelper->getNovalnetConfig('invoice_on_hold');
+            if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
+                $paymentRequestData['on_hold'] = '1';
+            
             $paymentRequestData['invoice_type'] = 'INVOICE';
             $invoiceDueDate = $this->paymentHelper->getNovalnetConfig('invoice_due_date');
             if(is_numeric($invoiceDueDate))
@@ -396,6 +404,12 @@ class PaymentService
             $cashpaymentDueDate = $this->paymentHelper->getNovalnetConfig('cashpayment_due_date');
             if(is_numeric($cashpaymentDueDate))
                 $paymentRequestData['cashpayment_due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $cashpaymentDueDate . ' days' ) );
+        }
+        else if($paymentKey == 'NOVALNET_PAYPAL')
+        {
+            $onHoldLimit = $this->paymentHelper->getNovalnetConfig('paypal_on_hold');
+            if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
+                $paymentRequestData['on_hold'] = '1';   
         }
         
         
