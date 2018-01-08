@@ -144,8 +144,8 @@ class PaymentController extends Controller
             $serverRequestData['data']['sepa_unique_id'] = $requestData['nn_sepa_uniqueid'];
         } 
         $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
-        //$response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
-       // $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
+        $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
+        $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
         $response = [];
         $responseData = [];
         
