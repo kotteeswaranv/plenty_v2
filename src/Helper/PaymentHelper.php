@@ -577,11 +577,13 @@ class PaymentHelper
      * @param string $key
      * @return mixed
      */
-    public function getPaymentStatusByConfig($key, $string)
+    public function getPaymentStatusByConfig($mop, $string)
     {
-		//$name = $this->getPaymentNameByResponse($key);
+    	$name = $this->getPaymentKeyByMop($mop);
+		$key = str_replace("novalnet_", "", strtolower($name));
+		$statusString = 'Novalnet.' . $key . $string;
 		
-       // return preg_replace('/\s+/', '', $this->config->get("Novalnet.$key"));
+        return preg_replace('/\s+/', '', $this->config->get($statusString));
     }
 	
 	/**
