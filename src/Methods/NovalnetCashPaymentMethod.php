@@ -37,7 +37,7 @@ class NovalnetCashPaymentMethod extends PaymentMethodService
     private $paymentHelper;
 
     /**
-     * NovalnetPaymentMethod constructor.
+     * NovalnetCashPaymentMethod constructor.
      *
      * @param ConfigRepository $configRepository
      * @param PaymentHelper $paymentHelper
