@@ -310,7 +310,9 @@ class PaymentService
                 'system_url'         => $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl,
                 'system_name'        => 'PlentyMarket',
                 'system_version'     => NovalnetConstants::PLUGIN_VERSION,
-                'notify_url'         => $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/callback'
+                'notify_url'         => $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/callback',
+                'key'                => $this->getkeyByPaymentKey($paymentKey),
+                'payment_type'       => $this->getTypeByPaymentKey($paymentKey)
         ];
 
         if(!empty($address->houseNumber))
@@ -371,11 +373,7 @@ class PaymentService
             if($this->config->get('Novalnet.cc_3d') == 'true') {
                 $paymentRequestData['cc_3d'] = '1';
                 $paymentRequestData['url'] = NovalnetConstants::CC3D_PAYMENT_URL;
-            }
-             
-            $paymentRequestData['key'] = '6';
-            $paymentRequestData['payment_type'] = 'CREDITCARD';
-            
+            }    
         } 
         else if($paymentKey == 'NOVALNET_SEPA')
         {
@@ -384,23 +382,17 @@ class PaymentService
         }
         else if($paymentKey == 'NOVALNET_INVOICE')
         {
-            $paymentRequestData['key'] = '27';
             $paymentRequestData['invoice_type'] = 'INVOICE';
-            $paymentRequestData['payment_type'] = 'INVOICE_START';
             $invoiceDueDate = $this->paymentHelper->getNovalnetConfig('invoice_due_date');
             if(is_numeric($invoiceDueDate))
                 $paymentRequestData['due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $invoiceDueDate . ' days' ) );
         }
         else if($paymentKey == 'NOVALNET_PREPAYMENT')
         {
-            $paymentRequestData['key'] = '27';
             $paymentRequestData['invoice_type'] = 'PREPAYMENT';
-            $paymentRequestData['payment_type'] = 'INVOICE_START';
         }
         else if($paymentKey == 'NOVALNET_CASHPAYMENT')
         {
-            $paymentRequestData['key'] = '59';
-            $paymentRequestData['payment_type'] = 'CASHPAYMENT';
             $cashpaymentDueDate = $this->paymentHelper->getNovalnetConfig('cashpayment_due_date');
             if(is_numeric($cashpaymentDueDate))
                 $paymentRequestData['cashpayment_due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $cashpaymentDueDate . ' days' ) );
@@ -527,7 +519,7 @@ class PaymentService
         
     }
     
-        /**
+   /**
     *
     *
     *
@@ -546,6 +538,32 @@ class PaymentService
             'NOVALNET_GIROPAY'=>'69',
             'NOVALNET_PRZELEWY'=>'78',
             'NOVALNET_SOFORT'=>'33',        
+        ];
+        
+        return $payment[$paymentKey];
+       // $paymentRequestData['url']
+        
+    }
+    
+    /**
+    *
+    *
+    *
+    */
+    public function getTypeByPaymentKey($paymentKey)
+    {
+        $payment = [
+            'NOVALNET_INVOICE'=>'INVOICE_START',
+            'NOVALNET_PREPAYMENT'=>'INVOICE_START',
+            'NOVALNET_CC'=>'CREDITCARD',
+            'NOVALNET_SEPA'=>'DIRECT_DEBIT_SEPA',
+            'NOVALNET_CASHPAYMENT'=>'CASHPAYMENT',
+            'NOVALNET_PAYPAL'=>'PAYPAL',
+            'NOVALNET_IDEAL'=>'IDEAL',
+            'NOVALNET_EPS'=>'EPS',
+            'NOVALNET_GIROPAY'=>'GIROPAY',
+            'NOVALNET_PRZELEWY'=>'PRZELEWY24',
+            'NOVALNET_SOFORT'=>'ONLINE_TRANSFER',        
         ];
         
         return $payment[$paymentKey];
