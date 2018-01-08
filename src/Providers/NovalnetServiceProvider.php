@@ -27,7 +27,6 @@ use Plenty\Modules\Payment\Method\Contracts\PaymentMethodRepositoryContract;
 use Plenty\Modules\Frontend\Session\Storage\Contracts\FrontendSessionStorageFactoryContract;
 use Plenty\Plugin\Log\Loggable;
 use Novalnet\Helper\PaymentHelper;
-use Novalnet\Methods\NovalnetPaymentMethod;
 use Novalnet\Services\PaymentService;
 use Novalnet\Services\TransactionService;
 use Plenty\Plugin\Templates\Twig;
@@ -86,13 +85,7 @@ class NovalnetServiceProvider extends ServiceProvider
     {
         
         $paymentHelper->createMopIfNotExists();
-        // Register the Novalnet payment method in the payment method container
-        $payContainer->register('plenty_novalnet::NOVALNET', NovalnetPaymentMethod::class,
-            [
-                AfterBasketChanged::class,
-                AfterBasketItemAdd::class,
-                AfterBasketCreate::class
-            ]);
+        // Register the Novalnet payment methods in the payment method container
         $payContainer->register('plenty_novalnet::NOVALNET_INVOICE', NovalnetInvoicePaymentMethod::class,
             [
                 AfterBasketChanged::class,
