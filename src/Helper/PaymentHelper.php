@@ -579,7 +579,7 @@ class PaymentHelper
      */
     public function getPaymentStatusByConfig($mop, $string)
     {
-    	$name = $this->getPaymentKeyByMop($mop);
+    	$name = (String) $this->getPaymentKeyByMop($mop);
 		$key = str_replace("novalnet_", "", strtolower($name));
 		$statusString = 'Novalnet.' . $key . $string;
 		
