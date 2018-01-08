@@ -63,13 +63,6 @@
     },    
     {
         "tab"    : "Novalnet Global Configuration",
-        "key"    : "order_completion_status",
-        "label"  : "Order completion status",
-        "type"   : "text",
-        "default": "7.1"
-    },
-    {
-        "tab"    : "Novalnet Global Configuration",
         "key"    : "order_cancel_status",
         "label"  : "Cancellation order status",
         "type"   : "text",
@@ -112,6 +105,13 @@
         "key"    : "cc_on_hold",
         "label"  : "Set a limit for on-hold transaction (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)",
         "type"   : "text"
+    },    
+    {
+        "tab"    : "Credit Card",
+        "key"    : "cc_order_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "Direct Debit SEPA",
@@ -131,6 +131,13 @@
         "key"    : "sepa_on_hold",
         "label"  : "Set a limit for on-hold transaction (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)",
         "type"   : "text"
+    },    
+    {
+        "tab"    : "Direct Debit SEPA",
+        "key"    : "sepa_order_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "Invoice",
@@ -150,6 +157,13 @@
         "key"    : "invoice_on_hold",
         "label"  : "Set a limit for on-hold transaction (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)",
         "type"   : "text"
+    },    
+    {
+        "tab"    : "Invoice",
+        "key"    : "invoiceorder_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "Invoice",
@@ -176,6 +190,13 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
+    },    
+    {
+        "tab"    : "Prepayment",
+        "key"    : "prepayment_order_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "Prepayment",
@@ -202,6 +223,13 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
+    },    
+    {
+        "tab"    : "Instant Bank Transfer",
+        "key"    : "sofort_order_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "PayPal",
@@ -222,6 +250,13 @@
         "label"  : "Order status for the pending payment",
         "type"   : "text",
         "default": "3"
+    },    
+    {
+        "tab"    : "PayPal",
+        "key"    : "paypal_order_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "iDeal",
@@ -229,6 +264,13 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
+    },    
+    {
+        "tab"    : "iDeal",
+        "key"    : "ideal_order_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "EPS",
@@ -236,6 +278,13 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
+    },    
+    {
+        "tab"    : "EPS",
+        "key"    : "eps_order_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "Giropay",
@@ -243,6 +292,13 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
+    },    
+    {
+        "tab"    : "Giropay",
+        "key"    : "giropay_order_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "Przelewy24",
@@ -257,6 +313,13 @@
         "label"  : "Order status for the pending payment",
         "type"   : "text",
         "default": "3"
+    },    
+    {
+        "tab"    : "Przelewy24",
+        "key"    : "przelewy_order_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "Barzahlen",
@@ -270,6 +333,13 @@
         "key"    : "cashpayment_due_date",
         "label"  : "Slip expiry date (in days)",
         "type"   : "text"
+    },    
+    {
+        "tab"    : "Barzahlen",
+        "key"    : "cashpayment_order_completion_status",
+        "label"  : "Order completion status",
+        "type"   : "text",
+        "default": "7.1"
     },
     {
         "tab"    : "Barzahlen",
