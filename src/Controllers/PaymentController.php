@@ -101,6 +101,8 @@ class PaymentController extends Controller
     public function paymentResponse()
     {
         $requestData = $this->request->all();
+        
+        $requestData['payment_id'] = (!empty($requestData['payment_id'])) ? $requestData['payment_id'] : $requestData['key'];
 
         $isPaymentSuccess = isset($requestData['status']) && in_array($requestData['status'], ['90','100']);
 
@@ -163,7 +165,7 @@ class PaymentController extends Controller
         $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
         $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
         $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
-        
+        $responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
         $isPaymentSuccess = isset($responseData['status']) && in_array($responseData['status'], ['90','100']);
 
         $notifications = json_decode($this->sessionStorage->getPlugin()->getValue('notifications'));
