@@ -147,7 +147,8 @@ class PaymentController extends Controller
             $serverRequestData['data']['unique_id'] = $requestData['unique_id'];
             if(!empty($serverRequestData['data']['cc_3d']))
             {
-                 return $twig->render('Novalnet::NovalnetPaymentRedirectForm', [
+                $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
+                 return $this->twig->render('Novalnet::NovalnetPaymentRedirectForm', [
                                                                 'formData'     => $serverRequestData['data'],
                                                                 'nnPaymentUrl' => $serverRequestData['url']
                                    ]);
