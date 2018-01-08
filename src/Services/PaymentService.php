@@ -399,7 +399,7 @@ class PaymentService
         }
         
         
-        if(in_array($paymentKey, ['NOVALNET_SOFORT', 'NOVALNET_PAYPAL', 'NOVALNET_IDEAL', 'NOVALNET_EPS', 'NOVALNET_GIROPAY', 'NOVALNET_PRZELEWY']) || !empty($paymentRequestData['cc_3d']))
+        if(in_array($paymentKey, ['NOVALNET_SOFORT', 'NOVALNET_PAYPAL', 'NOVALNET_IDEAL', 'NOVALNET_EPS', 'NOVALNET_GIROPAY', 'NOVALNET_PRZELEWY']) || ($paymentKey == 'NOVALNET_CC' && !empty($paymentRequestData['cc_3d'])))
         {
             $paymentRequestData['return_url']          = $this->getReturnPageUrl();
             $paymentRequestData['return_method']       = 'POST';
