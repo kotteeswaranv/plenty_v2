@@ -571,6 +571,19 @@ class PaymentHelper
         return preg_replace('/\s+/', '', $this->config->get("Novalnet.$key"));
     }
 	
+    /**
+     * Get merchant configuration parameters by trimming the whitespace
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getPaymentStatusByConfig($key, $string)
+    {
+		//$name = $this->getPaymentNameByResponse($key);
+		
+       // return preg_replace('/\s+/', '', $this->config->get("Novalnet.$key"));
+    }
+	
 	/**
 	* Get merchant configuration parameters by trimming the whitespace
 	*
@@ -584,10 +597,10 @@ class PaymentHelper
 		$elem = explode($delimeter, $string);
 		$elems = array_filter($elem);
 		foreach($elems as $elm){
-    		$items = explode("=", $elm);
-    		$data[$items[0]] = $items[1];
+		$items = explode("=", $elm);
+		$data[$items[0]] = $items[1];
 		}	
-		
+
 		return $data;
 	}
 	
