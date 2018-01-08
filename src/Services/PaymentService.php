@@ -121,12 +121,12 @@ class PaymentService
             }
             elseif(in_array($requestData['payment_id'], ['27','59']))
             {                
-                $requestData['order_status'] = trim($this->paymentHelper->getPaymentStatusByConfig($requestData['mop'], 'order_completion_status'));
+                $requestData['order_status'] = trim($this->paymentHelper->getPaymentStatusByConfig($requestData['mop'], '_order_completion_status'));
                 $requestData['paid_amount'] = 0;
             }
             else
             {
-                $requestData['order_status'] = trim($this->paymentHelper->getPaymentStatusByConfig($requestData['mop'], 'order_completion_status'));
+                $requestData['order_status'] = trim($this->paymentHelper->getPaymentStatusByConfig($requestData['mop'], '_order_completion_status'));
                 $requestData['paid_amount'] = $requestData['amount'];
             }
 
