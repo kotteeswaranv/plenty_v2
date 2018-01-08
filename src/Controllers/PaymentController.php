@@ -147,8 +147,6 @@ class PaymentController extends Controller
         $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
         $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
         $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
-        $response = [];
-        $responseData = [];
         
         $isPaymentSuccess = isset($responseData['status']) && in_array($responseData['status'], ['90','100']);
 
@@ -176,7 +174,6 @@ class PaymentController extends Controller
             {
                 unset($serverRequestData['data']['pan_hash']);
             }
-            
             $this->sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
 
             // Redirect to the success page.
