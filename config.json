@@ -60,13 +60,7 @@
         "key"    : "description",
         "label"  : "Payment description",
         "type"   : "text"
-    },
-    {
-        "tab"    : "Novalnet Global Configuration",
-        "key"    : "on_hold",
-        "label"  : "Set a limit for on-hold transaction (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)",
-        "type"   : "text"
-    },
+    },    
     {
         "tab"    : "Novalnet Global Configuration",
         "key"    : "order_completion_status",
@@ -114,6 +108,12 @@
         "default": false
     },
     {
+        "tab"    : "Credit Card",
+        "key"    : "cc_on_hold",
+        "label"  : "Set a limit for on-hold transaction (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)",
+        "type"   : "text"
+    },
+    {
         "tab"    : "Direct Debit SEPA",
         "key"    : "sepa_payment_active",
         "label"  : "Enable payment method",
@@ -127,6 +127,12 @@
         "type"   : "text"
     },
     {
+        "tab"    : "Direct Debit SEPA",
+        "key"    : "sepa_on_hold",
+        "label"  : "Set a limit for on-hold transaction (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)",
+        "type"   : "text"
+    },
+    {
         "tab"    : "Invoice",
         "key"    : "invoice_payment_active",
         "label"  : "Enable payment method",
@@ -137,6 +143,12 @@
         "tab"    : "Invoice",
         "key"    : "invoice_due_date",
         "label"  : "Payment due date (in days)",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Invoice",
+        "key"    : "invoice_on_hold",
+        "label"  : "Set a limit for on-hold transaction (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)",
         "type"   : "text"
     },
     {
@@ -197,6 +209,12 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
+    },
+    {
+        "tab"    : "PayPal",
+        "key"    : "paypal_on_hold",
+        "label"  : "Set a limit for on-hold transaction (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)",
+        "type"   : "text"
     },
     {
         "tab"    : "PayPal",
