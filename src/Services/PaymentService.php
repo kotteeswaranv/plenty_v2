@@ -526,4 +526,30 @@ class PaymentService
        // $paymentRequestData['url']
         
     }
+    
+        /**
+    *
+    *
+    *
+    */
+    public function getkeyByPaymentKey($paymentKey)
+    {
+        $payment = [
+            'NOVALNET_INVOICE'=>'27',
+            'NOVALNET_PREPAYMENT'=>'27',
+            'NOVALNET_CC'=>'6',
+            'NOVALNET_SEPA'=>'37',
+            'NOVALNET_CASHPAYMENT'=>'59',
+            'NOVALNET_PAYPAL'=>'34',
+            'NOVALNET_IDEAL'=>'49',
+            'NOVALNET_EPS'=>'50',
+            'NOVALNET_GIROPAY'=>'69',
+            'NOVALNET_PRZELEWY'=>'78',
+            'NOVALNET_SOFORT'=>'33',        
+        ];
+        
+        return $payment[$paymentKey];
+       // $paymentRequestData['url']
+        
+    }
 }
