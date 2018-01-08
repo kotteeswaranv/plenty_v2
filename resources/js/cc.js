@@ -41,7 +41,7 @@ function initIframe()
 
 function getHash(e)
 {
-	if($('#pan_hash').val().trim() == '') {
+	if($('#nn_pan_hash').val().trim() == '') {
 	//e.preventDefault();
 	iframeWindow.postMessage(
 		JSON.stringify(
