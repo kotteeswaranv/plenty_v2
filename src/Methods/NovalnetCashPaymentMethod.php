@@ -71,7 +71,7 @@ class NovalnetCashPaymentMethod extends PaymentMethodService
         $name = trim($this->configRepository->get('Novalnet.cashpayment_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('cashpayment_payment_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('cashpayment_name');
         }
         return $name;
     }
