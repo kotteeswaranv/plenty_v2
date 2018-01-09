@@ -179,43 +179,6 @@ function sent_xdomainreq_sepa(qryString, ptype, from_iban){
 
             document.getElementById('nn_sepa_hash').value = data.sepa_hash;
           break;
-        case 'nnsepa_refil':
-            $('#nn_sepa_hash_generated').val(1);
-            $('#loading-img').hide();
-            var hash_string = data.hash_string;
-            var acc_hold = hash_string.match('account_holder=(.*)&bank_code');
-            var holder='';
-            if(acc_hold != null && acc_hold[1] != undefined) holder = acc_hold[1];
-            var params = data.hash_string.split("&");
-            $('#nnsepa_mandate_ref').html( data.mandate_ref );
-            $( '#nnsepa_owner' ).val( $( '#nnsepa_holder_name').val() );
-            $.each( params, function( i, keyVal ){
-            temp = keyVal.split('=');
-            document.getElementById('sepa_cardholder').value = holder;
-            switch (temp[0]){
-              case 'bank_account' :
-                    $('#sepa_iban').val( temp[1] );
-                break
-              case 'bank_code' :
-                    $('#sepa_bic').val( temp[1] );
-                break
-              case 'bank_country' :
-                    $('#sepa_country').val( temp[1]);
-                break;
-              case 'iban' :
-                    $('#sepa_iban').val( temp[1] );
-                break;
-              case 'bic' :
-                    if(temp[1] != '123456') {
-                       $('#sepa_bic').val( temp[1] );
-                    }
-                break;
-            }
-          });
-          if($( '#frm_iban').html() != ''){
-            $('#nnsepa_iban_div').show();
-            $('#nnsepa_bic_div').show();
-          }
       }
     }
 
