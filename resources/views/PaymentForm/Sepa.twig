@@ -15,44 +15,72 @@
 <input type='hidden' id='sepa_bic_gen'>
 <input type='hidden' id='sepa_iban_gen'>
 	
-	<div class="account_holder-section">
-        <div class="label"><label for="sepa_cardholder">{{trans("Novalnet::PaymentMethod.sepa_account_holder_label")}}</label></div>
-        <div class="content">
-            <input type="text" id="sepa_cardholder" name="sepa_cardholder" onkeypress="return ibanbic_validate(event, 'sepa_cardholder')">
-        </div>
-    </div>
-	<div class="bank_country-section">
-        <div class="label"><label for="sepa_country">{{trans("Novalnet::PaymentMethod.sepa_bank_country_label")}}</label></div>
-        <div class="content" id='sepa_country_content' >
-        <select id="sepa_country" name="sepa_country" placeholder="- select -" title="Bank Country">
-			{% for country in nnCountry %}
-					<option value="{{country.code}}">{{country.name}}</option>
-    		{% endfor %}
-        </select>
-        </div>
-    </div>
-    <div class="sepa_iban-section">
-        <div class="label"><label for="sepa_iban">{{trans("Novalnet::PaymentMethod.sepa_iban_label")}}</label></div>
-        <div class="content">
-            <input type="text" id="sepa_iban" autocomplete="off" onkeypress="return ibanbic_validate(event, 'iban')">
-            <span id="novalnet_sepa_iban_span"></span>
-        </div>
-    </div>
-    <div class="sepa_bic-section">
-        <div class="label"><label for="sepa_bic">{{trans("Novalnet::PaymentMethod.sepa_bic_label")}}</label></div>
-        <div class="content">
-            <input type="text" id="sepa_bic" autocomplete="off" onkeypress="return ibanbic_validate(event, 'bic')">
+<div class="row">
+	<div class="form-group">
+		<div class="label-group">
+			<label for="sepa_cardholder" id="sepa_cardholder">{{trans("Novalnet::PaymentMethod.sepa_account_holder_label")}}</label>
+		</div>
+		<div class="input-group">
+			<div class="input" id="sepa_holder_fld">
+				<input type="text" id="sepa_cardholder" name="sepa_cardholder" onkeypress="return ibanbic_validate(event, 'sepa_cardholder')">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="form-group">
+		<div class="label-group">
+			<label for="sepa_country" id="sepa_country_fld">{{trans("Novalnet::PaymentMethod.sepa_account_holder_label")}}</label>
+		</div>
+		<div class="input-group">
+			<div class="input">
+				<select id="sepa_country" name="sepa_country" placeholder="- select -" title="Bank Country">
+					{% for country in nnCountry %}
+							<option value="{{country.code}}">{{country.name}}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="form-group">
+		<div class="label-group">
+			<label for="sepa_iban">{{trans("Novalnet::PaymentMethod.sepa_iban_label")}}</label>
+		</div>
+		<div class="input-group">
+			<div class="input" id="sepa_iban_fld">
+				<input type="text" id="sepa_iban" autocomplete="off" onkeypress="return ibanbic_validate(event, 'iban')">
+				<span id="novalnet_sepa_iban_span"></span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="form-group">
+		<div class="label-group">
+			<label for="sepa_bic">{{trans("Novalnet::PaymentMethod.sepa_bic_label")}}</label>
+		</div>
+		<div class="input-group">
+			<div class="input" id="sepa_bic_fld">
+				<input type="text" id="sepa_bic" autocomplete="off" onkeypress="return ibanbic_validate(event, 'bic')">
             <span id="novalnet_sepa_bic_span"></span>
-        </div>
-    </div>
-    <div class="novalnet_sepa_confirm_id-section">
-        <div class="label"></div>
-        <div class="content">
-            <input type="checkbox" id="novalnet_sepa_confirm_id" autocomplete="off" align='left'>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="form-group">
+		<div class="label-group">
+		</div>
+		<div class="input-group">
+			<div class="input" id="sepa_confirm_fld">
+				<input type="checkbox" id="novalnet_sepa_confirm_id" autocomplete="off" align='left'>
             <label for="novalnet_sepa_confirm_id">{{trans("Novalnet::PaymentMethod.sepa_bic_label")}}</label>
-        </div>
-        <div class="clear"></div>
-    </div>   
+			</div>
+		</div>
+	</div>
+</div>
 	
 	
 	<button type="submit" class="btn btn-primary" id="novalnet_form_btn" onclick="">
