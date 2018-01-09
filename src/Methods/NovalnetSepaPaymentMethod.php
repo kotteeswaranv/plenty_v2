@@ -68,7 +68,6 @@ class NovalnetSepaPaymentMethod extends PaymentMethodService
      */
     public function getName():string
     {   
-        return 'Direct Debit SEPA';
         $name = trim($this->configRepository->get('Novalnet.sepa_payment_name'));
         if(empty($name))
         {
