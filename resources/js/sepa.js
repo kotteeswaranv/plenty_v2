@@ -5,9 +5,11 @@
 */
 var $ = jQuery.noConflict();
 $( function() {
-    sepa_refill_cal();
-    var formname = $('#sepa_cardholder').closest('form').attr('name');
-    $("form[name="+formname+"]").submit(function(evt) {
+	$('#novalnet_sepa_confirm_id').attr('checked',false);
+        $('#nn_sepa_panhash').attr('value','');
+        $('#sepa_bic').attr('value','');
+        $('#sepa_iban').attr('value','');
+    $("form[name=sepa_form]").submit(function(evt) {
         if ($("#novalnet_sepa_confirm_id").length > 0 && $("#novalnet_sepa_confirm_id").is(":checked") == false) {
             evt.preventDefault();
             alert($("#nn_sepa_confirm_iban_bic_msg").val());
@@ -246,25 +248,6 @@ function normalizeDate(input) {
       + (parts[1] < 10 ? '0' : '') + Number(parts[1]) + '.'
       + parseInt(parts[0]);
   }
-}
-function sepa_refill_cal() {
-    if ($('#nn_sepa_input_panhash').val() == undefined) {  return false;}
-    if ($('#nn_sepa_autorefill').val() == '1') {
-        var vendor_id = $('#nn_vendor').val();
-        var vendor_authcode = $('#nn_auth_code').val();
-        var refillpanhash = $('#nn_sepa_input_panhash').val();
-        var refilluniq = $('#nn_sepa_uniqueid').val();
-        var refill_params = "vendor_id="+vendor_id+"&vendor_authcode="+vendor_authcode+"&unique_id="+refilluniq+"&sepa_data_approved=1&mandate_data_req=1&sepa_hash="+refillpanhash;
-        if (refillpanhash != '' && refillpanhash !=undefined && refilluniq != '' && refilluniq !=undefined) {
-            sent_xdomainreq_sepa( refill_params , 'nnsepa_refil' , null);
-        }
-    }else{
-        $('#novalnet_sepa_confirm_id').attr('checked',false);
-        $('#nn_sepa_panhash').attr('value','');
-        $('#sepa_bic').attr('value','');
-        $('#sepa_iban').attr('value','');
-    }
-
 }
 
 function keyLock(evt) {
