@@ -158,7 +158,7 @@ class PaymentService
         $comments  = '</br>' . $this->paymentHelper->getDisplayPaymentMethodName($requestData);
         $comments .= '</br>' . $this->paymentHelper->getTranslatedText('nn_tid') . $requestData['tid'];
 
-        $paymentKey = strtolower($this->paymentHelper->getPaymentKeyByMop($requestData['mop']));
+        $paymentKey = strtolower((string) $this->paymentHelper->getPaymentKeyByMop($requestData['mop']));
         $testModeKey = 'Novalnet.' . $paymentKey . '_test_mode';
         if(!empty($requestData['test_mode']) || ($this->config->get($testModeKey) == 'true'))
             $comments .= '</br>' . $this->paymentHelper->getTranslatedText('test_order');
