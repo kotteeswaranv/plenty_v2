@@ -158,7 +158,9 @@ class PaymentService
         $comments  = '</br>' . $this->paymentHelper->getDisplayPaymentMethodName($requestData);
         $comments .= '</br>' . $this->paymentHelper->getTranslatedText('nn_tid') . $requestData['tid'];
 
-        if(!empty($requestData['test_mode']) || ($this->config->get('Novalnet.test_mode') == 'true'))
+        $paymentKey = strtolower($this->paymentHelper->getPaymentKeyByMop($requestData['mop']));
+        $testModeKey = 'Novalnet.' . $paymentKey . '_test_mode';
+        if(!empty($requestData['test_mode']) || ($this->config->get($testModeKey) == 'true'))
             $comments .= '</br>' . $this->paymentHelper->getTranslatedText('test_order');
 
         if(in_array($requestData['payment_id'], ['40','41']))
@@ -284,13 +286,15 @@ class PaymentService
         $address = $this->addressRepository->findAddressById($billingAddressId);
         $account = pluginApp(AccountService::class);
         $customerId = $account->getAccountContactId();
+        $paymentKeyLower = strtolower($paymentKey);
+        $testModeKey = 'Novalnet.' . $paymentKeyLower . '_test_mode';
        
         $paymentRequestData = [
                 'vendor'             => $this->paymentHelper->getNovalnetConfig('vendor_id'),
                 'auth_code'          => $this->paymentHelper->getNovalnetConfig('auth_code'),
                 'product'            => $this->paymentHelper->getNovalnetConfig('product_id'),
                 'tariff'             => $this->paymentHelper->getNovalnetConfig('tariff_id'),
-                'test_mode'          => (int)($this->config->get('Novalnet.test_mode') == 'true'),
+                'test_mode'          => (int)($this->config->get($testModeKey) == 'true'),
                 'first_name'         => $address->firstName,
                 'last_name'          => $address->lastName,
                 'email'              => $address->email,
