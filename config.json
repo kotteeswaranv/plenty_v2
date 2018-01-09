@@ -152,6 +152,18 @@
         "default": "7.1"
     },
     {
+        "tab"    : "Direct Debit SEPA",
+        "key"    : "novalnet_sepa_reference1",
+        "label"  : "Transaction reference 1",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Direct Debit SEPA",
+        "key"    : "novalnet_sepa_reference2",
+        "label"  : "Transaction reference 2",
+        "type"   : "text"
+    },
+    {
         "tab"    : "Invoice",
         "key"    : "invoice_payment_active",
         "label"  : "Enable payment method",
@@ -216,6 +228,18 @@
         "default": "all"
     },
     {
+        "tab"    : "Invoice",
+        "key"    : "novalnet_invoice_reference1",
+        "label"  : "Transaction reference 1",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Invoice",
+        "key"    : "novalnet_invoice_reference2",
+        "label"  : "Transaction reference 2",
+        "type"   : "text"
+    },
+    {
         "tab"    : "Prepayment",
         "key"    : "prepayment_payment_active",
         "label"  : "Enable payment method",
@@ -268,6 +292,18 @@
         "default": "all"
     },
     {
+        "tab"    : "Prepayment",
+        "key"    : "novalnet_prepayment_reference1",
+        "label"  : "Transaction reference 1",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Prepayment",
+        "key"    : "novalnet_prepayment_reference2",
+        "label"  : "Transaction reference 2",
+        "type"   : "text"
+    },
+    {
         "tab"    : "Instant Bank Transfer",
         "key"    : "sofort_payment_active",
         "label"  : "Enable payment method",
@@ -299,6 +335,18 @@
         "label"  : "Order completion status",
         "type"   : "text",
         "default": "7.1"
+    },
+    {
+        "tab"    : "Instant Bank Transfer",
+        "key"    : "novalnet_sofort_reference1",
+        "label"  : "Transaction reference 1",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Instant Bank Transfer",
+        "key"    : "novalnet_sofort_reference2",
+        "label"  : "Transaction reference 2",
+        "type"   : "text"
     },
     {
         "tab"    : "PayPal",
@@ -347,6 +395,18 @@
         "default": "7.1"
     },
     {
+        "tab"    : "PayPal",
+        "key"    : "novalnet_paypal_reference1",
+        "label"  : "Transaction reference 1",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "PayPal",
+        "key"    : "novalnet_paypal_reference2",
+        "label"  : "Transaction reference 2",
+        "type"   : "text"
+    },
+    {
         "tab"    : "iDeal",
         "key"    : "ideal_payment_active",
         "label"  : "Enable payment method",
@@ -378,6 +438,18 @@
         "label"  : "Order completion status",
         "type"   : "text",
         "default": "7.1"
+    },
+    {
+        "tab"    : "iDeal",
+        "key"    : "novalnet_ideal_reference1",
+        "label"  : "Transaction reference 1",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "iDeal",
+        "key"    : "novalnet_ideal_reference2",
+        "label"  : "Transaction reference 2",
+        "type"   : "text"
     },
     {
         "tab"    : "EPS",
@@ -413,6 +485,18 @@
         "default": "7.1"
     },
     {
+        "tab"    : "EPS",
+        "key"    : "novalnet_eps_reference1",
+        "label"  : "Transaction reference 1",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "EPS",
+        "key"    : "novalnet_eps_reference2",
+        "label"  : "Transaction reference 2",
+        "type"   : "text"
+    },
+    {
         "tab"    : "Giropay",
         "key"    : "giropay_payment_active",
         "label"  : "Enable payment method",
@@ -444,6 +528,18 @@
         "label"  : "Order completion status",
         "type"   : "text",
         "default": "7.1"
+    },
+    {
+        "tab"    : "Giropay",
+        "key"    : "novalnet_giropay_reference1",
+        "label"  : "Transaction reference 1",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Giropay",
+        "key"    : "novalnet_giropay_reference2",
+        "label"  : "Transaction reference 2",
+        "type"   : "text"
     },
     {
         "tab"    : "Przelewy24",
@@ -484,6 +580,18 @@
         "label"  : "Order completion status",
         "type"   : "text",
         "default": "7.1"
+    },
+    {
+        "tab"    : "Przelewy24",
+        "key"    : "novalnet_przelewy_reference1",
+        "label"  : "Transaction reference 1",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Przelewy24",
+        "key"    : "novalnet_przelewy_reference2",
+        "label"  : "Transaction reference 2",
+        "type"   : "text"
     },
     {
         "tab"    : "Barzahlen",
@@ -530,6 +638,18 @@
         "label"  : "Callback order status",
         "type"   : "text",
         "default": "9.5"
+    },
+    {
+        "tab"    : "Barzahlen",
+        "key"    : "novalnet_cashpayment_reference1",
+        "label"  : "Transaction reference 1",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Barzahlen",
+        "key"    : "novalnet_cashpayment_reference2",
+        "label"  : "Transaction reference 2",
+        "type"   : "text"
     },
     {
         "tab"    : "Merchant script management",
