@@ -7,25 +7,6 @@ function initIframe()
     var request = {
         callBack: 'createElements',
         customStyle: {
-			labelStyle : 'color:#001122;font-size:12px',
-			inputStyle : 'border-color:blue',
-			card_holder : {
-			labelStyle : 'color:#001122;font-size:12px',
-			inputStyle : 'border-color:blue',
-			},
-			card_number : {
-			labelStyle : 'color:#001122;font-size:12px',
-			inputStyle : 'border-color:blue',
-			},
-			expiry_date : {
-			labelStyle : 'color:#001122;font-size:12px',
-			inputStyle : 'border-color:blue',
-			},
-			cvc : {
-			labelStyle : 'color:#001122;font-size:12px',
-			inputStyle : 'border-color:blue',
-			},
-			styleText : 'body{background-color:#DDDDDD}div{float:left}.label-group{float:right}'
 		}
     };
 
