@@ -7,7 +7,26 @@ function initIframe()
     var request = {
         callBack: 'createElements',
         customStyle: {
-		}
+            labelStyle: $('#nn_cc_standard_style_label').val(),
+            inputStyle: $('#nn_cc_standard_style_input').val(),
+            styleText: $('#nn_cc_standard_style_css').val(),
+            card_holder: {
+                labelStyle: $('#nn_cc_holder_label_css').val(),
+                inputStyle: $('#nn_cc_holder_field_css').val(),
+            },
+            card_number: {
+                labelStyle: $('#nn_cc_number_label_css').val(),
+                inputStyle: $('#nn_cc_number_field_css').val(),
+            },
+            expiry_date: {
+                labelStyle: $('#nn_cc_date_label_css').val(),
+                inputStyle: $('#nn_cc_date_field_css').val(),
+            },
+            cvc: {
+                labelStyle: $('#nn_cc_cvc_label_css').val(),
+                inputStyle: $('#nn_cc_cvc_field_css').val(),
+            }
+        }
     };
 
     var iframe = $('#nniframe')[0];
