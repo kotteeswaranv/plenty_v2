@@ -68,7 +68,6 @@ class NovalnetPrzelewyPaymentMethod extends PaymentMethodService
      */
     public function getName():string
     {   
-        return 'Przelewy';
         $name = trim($this->configRepository->get('Novalnet.przelewy_payment_name'));
         if(empty($name))
         {
