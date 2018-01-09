@@ -71,7 +71,7 @@ class NovalnetPrepaymentPaymentMethod extends PaymentMethodService
         $name = trim($this->configRepository->get('Novalnet.prepayment_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('prepayment_payment_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('prepayment_name');
         }
         return $name;
     }
@@ -98,7 +98,7 @@ class NovalnetPrepaymentPaymentMethod extends PaymentMethodService
         $description = trim($this->configRepository->get('Novalnet.prepayment_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('prepayment_payment_description');
+            $description = $this->paymentHelper->getTranslatedText('invoice_prepayment_payment_description');
         }
         return $description;
     }
