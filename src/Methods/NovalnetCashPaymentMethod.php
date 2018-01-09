@@ -57,7 +57,7 @@ class NovalnetCashPaymentMethod extends PaymentMethodService
      */
     public function isActive():bool
     {
-        return (bool)(($this->configRepository->get('Novalnet.cash_payment_active') == 'true') && is_numeric($this->paymentHelper->getNovalnetConfig('vendor_id')) && !empty($this->paymentHelper->getNovalnetConfig('auth_code')) && is_numeric($this->paymentHelper->getNovalnetConfig('product_id')) && is_numeric($this->paymentHelper->getNovalnetConfig('tariff_id')) && !empty($this->paymentHelper->getNovalnetConfig('access_key')));
+        return (bool)(($this->configRepository->get('Novalnet.cashpayment_payment_active') == 'true') && is_numeric($this->paymentHelper->getNovalnetConfig('vendor_id')) && !empty($this->paymentHelper->getNovalnetConfig('auth_code')) && is_numeric($this->paymentHelper->getNovalnetConfig('product_id')) && is_numeric($this->paymentHelper->getNovalnetConfig('tariff_id')) && !empty($this->paymentHelper->getNovalnetConfig('access_key')));
     }
 
     /**
@@ -68,8 +68,7 @@ class NovalnetCashPaymentMethod extends PaymentMethodService
      */
     public function getName():string
     {   
-        return 'barzahlen';
-        $name = trim($this->configRepository->get('Novalnet.cash_payment_name'));
+        $name = trim($this->configRepository->get('Novalnet.cashpayment_payment_name'));
         if(empty($name))
         {
             $name = $this->paymentHelper->getTranslatedText('novalnet_cash_payment_frontend_name');
@@ -95,9 +94,8 @@ class NovalnetCashPaymentMethod extends PaymentMethodService
      * @return string
      */
     public function getDescription():string
-    {
-		return 'cash_payment_description';
-        $description = trim($this->configRepository->get('Novalnet.cash_payment_description'));
+    {		
+        $description = trim($this->configRepository->get('Novalnet.cashpayment_payment_description'));
         if(empty($description))
         {
             $description = $this->paymentHelper->getTranslatedText('cash_payment_description');
