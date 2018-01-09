@@ -338,14 +338,16 @@ class PaymentService
         if(is_numeric($referrerId))
             $paymentRequestData['referrer_id'] = $referrerId;
 
-        $txnReference1 = strip_tags($this->paymentHelper->getNovalnetConfig('reference1'));
+        $reference1 = $paymentKeyLower . '_reference1';
+        $txnReference1 = strip_tags($this->paymentHelper->getNovalnetConfig($reference1));
         if(!empty($txnReference1))
         {
             $paymentRequestData['input1'] = 'reference1';
             $paymentRequestData['inputval1'] = $txnReference1;
         }
-
-        $txnReference2 = strip_tags($this->paymentHelper->getNovalnetConfig('reference2'));
+        
+        $reference2 = $paymentKeyLower . '_reference2';
+        $txnReference2 = strip_tags($this->paymentHelper->getNovalnetConfig($reference2));
         if(!empty($txnReference2))
         {
             $paymentRequestData['input2'] = 'reference2';
