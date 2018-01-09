@@ -1,13 +1,6 @@
 [
     {
         "tab"    : "Novalnet Global Configuration",
-        "key"    : "test_mode",
-        "label"  : "Enable test mode",
-        "type"   : "checkbox",
-        "default": false
-    },
-    {
-        "tab"    : "Novalnet Global Configuration",
         "key"    : "activation_key",
         "label"  : "Product activation key*",
         "type"   : "text"
