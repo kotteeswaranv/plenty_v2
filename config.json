@@ -1,13 +1,6 @@
 [
     {
         "tab"    : "Novalnet Global Configuration",
-        "key"    : "payment_active",
-        "label"  : "Enable payment method",
-        "type"   : "checkbox",
-        "default": false
-    },
-    {
-        "tab"    : "Novalnet Global Configuration",
         "key"    : "test_mode",
         "label"  : "Enable test mode",
         "type"   : "checkbox",
@@ -83,6 +76,13 @@
     },
     {
         "tab"    : "Credit Card",
+        "key"    : "novalnet_cc_test_mode",
+        "label"  : "Enable test mode",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Credit Card",
         "key"    : "cc_payment_name",
         "label"  : "Payment name",
         "type"   : "text"
@@ -122,6 +122,13 @@
     },
     {
         "tab"    : "Direct Debit SEPA",
+        "key"    : "novalnet_sepa_test_mode",
+        "label"  : "Enable test mode",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Direct Debit SEPA",
         "key"    : "sepa_payment_name",
         "label"  : "Payment name",
         "type"   : "text"
@@ -155,6 +162,13 @@
         "tab"    : "Invoice",
         "key"    : "invoice_payment_active",
         "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Invoice",
+        "key"    : "novalnet_invoice_test_mode",
+        "label"  : "Enable test mode",
         "type"   : "checkbox",
         "default": false
     },
@@ -217,6 +231,13 @@
     },
     {
         "tab"    : "Prepayment",
+        "key"    : "novalnet_prepayment_test_mode",
+        "label"  : "Enable test mode",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Prepayment",
         "key"    : "prepayment_payment_name",
         "label"  : "Payment name",
         "type"   : "text"
@@ -262,6 +283,13 @@
     },
     {
         "tab"    : "Instant Bank Transfer",
+        "key"    : "novalnet_sofort_test_mode",
+        "label"  : "Enable test mode",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Instant Bank Transfer",
         "key"    : "sofort_payment_name",
         "label"  : "Payment name",
         "type"   : "text"
@@ -283,6 +311,13 @@
         "tab"    : "PayPal",
         "key"    : "paypal_payment_active",
         "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "PayPal",
+        "key"    : "novalnet_paypal_test_mode",
+        "label"  : "Enable test mode",
         "type"   : "checkbox",
         "default": false
     },
@@ -327,6 +362,13 @@
     },
     {
         "tab"    : "iDeal",
+        "key"    : "novalnet_ideal_test_mode",
+        "label"  : "Enable test mode",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "iDeal",
         "key"    : "ideal_payment_name",
         "label"  : "Payment name",
         "type"   : "text"
@@ -348,6 +390,13 @@
         "tab"    : "EPS",
         "key"    : "eps_payment_active",
         "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "EPS",
+        "key"    : "novalnet_eps_test_mode",
+        "label"  : "Enable test mode",
         "type"   : "checkbox",
         "default": false
     },
@@ -379,6 +428,13 @@
     },
     {
         "tab"    : "Giropay",
+        "key"    : "novalnet_giropay_test_mode",
+        "label"  : "Enable test mode",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Giropay",
         "key"    : "giropay_payment_name",
         "label"  : "Payment name",
         "type"   : "text"
@@ -400,6 +456,13 @@
         "tab"    : "Przelewy24",
         "key"    : "przelewy_payment_active",
         "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Przelewy24",
+        "key"    : "novalnet_przelewy_test_mode",
+        "label"  : "Enable test mode",
         "type"   : "checkbox",
         "default": false
     },
@@ -433,6 +496,13 @@
         "tab"    : "Barzahlen",
         "key"    : "cashpayment_payment_active",
         "label"  : "Enable payment method",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Barzahlen",
+        "key"    : "novalnet_cashpayment_test_mode",
+        "label"  : "Enable test mode",
         "type"   : "checkbox",
         "default": false
     },
