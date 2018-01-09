@@ -72,7 +72,7 @@ class NovalnetSepaPaymentMethod extends PaymentMethodService
         $name = trim($this->configRepository->get('Novalnet.sepa_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('sepa_payment_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('sepa_name');
         }
         return $name;
     }
