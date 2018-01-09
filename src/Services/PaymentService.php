@@ -588,4 +588,26 @@ class PaymentService
        // $paymentRequestData['url']
         
     }
+    
+    /**
+    *
+    *
+    *
+    */
+    public function getCcDesignConfig()
+    {
+        $design = [];
+        $design['holder_label_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_holder_label_css');
+        $design['holder_field_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_holder_field_css');
+        $design['number_label_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_number_label_css');
+        $design['number_field_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_number_field_css');
+        $design['date_label_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_date_label_css');
+        $design['date_field_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_date_field_css');
+        $design['cvc_label_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_cvc_label_css');
+        $design['cvc_field_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_cvc_field_css');
+        $design['standard_style_label'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_standard_style_label');
+        $design['standard_style_input'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_standard_style_field');
+        $design['standard_style_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_standard_style_css');
+        return $design;
+    }
 }
