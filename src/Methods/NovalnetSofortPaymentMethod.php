@@ -68,7 +68,6 @@ class NovalnetSofortPaymentMethod extends PaymentMethodService
      */
     public function getName():string
     {   
-        return 'Instant Bank Transfer';
         $name = trim($this->configRepository->get('Novalnet.sofort_payment_name'));
         if(empty($name))
         {
