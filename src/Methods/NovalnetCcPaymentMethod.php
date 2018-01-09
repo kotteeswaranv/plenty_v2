@@ -71,7 +71,7 @@ class NovalnetCcPaymentMethod extends PaymentMethodService
         $name = trim($this->configRepository->get('Novalnet.cc_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('cc_payment_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('cc_name');
         }
         return $name;
     }
@@ -98,7 +98,10 @@ class NovalnetCcPaymentMethod extends PaymentMethodService
         $description = trim($this->configRepository->get('Novalnet.cc_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('cc_payment_description');
+            if($this->configRepository->get('Novalnet.cc_3d') == 'true')
+                $description = $this->paymentHelper->getTranslatedText('cc_payment_description');
+            else
+                $description = $this->paymentHelper->getTranslatedText('redirectional_payment_description');
         }
         return $description;
     }
