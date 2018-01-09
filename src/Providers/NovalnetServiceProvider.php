@@ -201,10 +201,12 @@ class NovalnetServiceProvider extends ServiceProvider
                                 $paymentProcessUrl = $paymentService->getProcessPaymentUrl();
                                 $encodedKey = base64_encode(trim($paymentHelper->getNovalnetConfig('activation_key')) . '&' . $paymentHelper->getRemoteAddress() . '&' . $paymentHelper->getServerAddress());
                                 $nnIframeSource = 'https://secure.novalnet.de/cc?signature=' . $encodedKey . '&ln=' . $sessionStorage->getLocaleSettings()->language;
+				$nnFormDesign = $paymentService->getCcDesignConfig();
                                 $content = $twig->render('Novalnet::PaymentForm.Cc', [
                                                                     'nnCcFormUrl' => $nnIframeSource,
                                                                     'nnPaymentProcessUrl' => $paymentProcessUrl,
-                                                                    'paymentMopKey'     =>  $paymentKey
+                                                                    'paymentMopKey'     =>  $paymentKey,
+								    'nnFormDesign'	=>  $nnFormDesign
                                        ]);
                             }
                             $contentType = 'htmlContent';
