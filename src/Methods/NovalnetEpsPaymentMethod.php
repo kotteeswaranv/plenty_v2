@@ -71,7 +71,7 @@ class NovalnetEpsPaymentMethod extends PaymentMethodService
         $name = trim($this->configRepository->get('Novalnet.eps_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('eps_payment_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('eps_name');
         }
         return $name;
     }
@@ -98,7 +98,7 @@ class NovalnetEpsPaymentMethod extends PaymentMethodService
         $description = trim($this->configRepository->get('Novalnet.eps_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('eps_payment_description');
+            $description = $this->paymentHelper->getTranslatedText('redirectional_payment_description');
         }
         return $description;
     }
