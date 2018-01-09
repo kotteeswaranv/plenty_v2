@@ -286,7 +286,7 @@ class PaymentService
         $address = $this->addressRepository->findAddressById($billingAddressId);
         $account = pluginApp(AccountService::class);
         $customerId = $account->getAccountContactId();
-        $paymentKeyLower = strtolower($paymentKey);
+        $paymentKeyLower = strtolower((string) $paymentKey);
         $testModeKey = 'Novalnet.' . $paymentKeyLower . '_test_mode';
        
         $paymentRequestData = [
