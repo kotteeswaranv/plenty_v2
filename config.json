@@ -109,67 +109,67 @@
     {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_holder_label_css",
-        "label"  : "Card holder name Label,
+        "label"  : "Card holder name - Label",
         "type"   : "text"
     },
     {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_holder_field_css",
-        "label"  : "Card holder name Input field,
+        "label"  : "Card holder name - Input field",
         "type"   : "text"
     },
     {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_number_label_css",
-        "label"  : "Card number Label,
+        "label"  : "Card number - Label",
         "type"   : "text"
     },
     {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_number_field_css",
-        "label"  : "Card number Input field,
+        "label"  : "Card number - Input field",
         "type"   : "text"
     },
     {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_date_label_css",
-        "label"  : "Expiry date Label,
+        "label"  : "Expiry date - Label",
         "type"   : "text"
     },
     {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_date_field_css",
-        "label"  : "Expiry date Input field,
+        "label"  : "Expiry date - Input field",
         "type"   : "text"
     },
     {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_cvc_label_css",
-        "label"  : "CVC/CVV/CID Label,
+        "label"  : "CVC/CVV/CID - Label",
         "type"   : "text"
     },
     {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_cvc_field_css",
-        "label"  : "CVC/CVV/CID Input field,
+        "label"  : "CVC/CVV/CID - Input field",
         "type"   : "text"
     },
         {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_standard_style_label",
-        "label"  : "Standard Label,
+        "label"  : "Standard - Label",
         "type"   : "text"
     },
     {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_standard_style_field",
-        "label"  : "Standard Input field,
+        "label"  : "Standard - Input field",
         "type"   : "text"
     },
     {
         "tab"    : "Credit Card",
         "key"    : "novalnet_cc_standard_style_css",
-        "label"  : "Standard CSS,
+        "label"  : "Standard - CSS",
         "type"   : "text",
         "default": "body{color: #555;font-family: Verdana,Arial,sans-serif;font-size:12px;line-height: 1.5;}.label-group{width:152px !important;float:unset !important;}.row{float:unset !important;}"
     },
