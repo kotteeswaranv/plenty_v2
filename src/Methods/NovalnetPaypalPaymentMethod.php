@@ -68,11 +68,10 @@ class NovalnetPaypalPaymentMethod extends PaymentMethodService
      */
     public function getName():string
     {   
-        return 'Paypal';
-        $name = trim($this->configRepository->get('Novalnet.payment_name'));
+        $name = trim($this->configRepository->get('Novalnet.paypal_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('novalnet_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('paypal_payment_frontend_name');
         }
         return $name;
     }
@@ -96,10 +95,10 @@ class NovalnetPaypalPaymentMethod extends PaymentMethodService
      */
     public function getDescription():string
     {
-        $description = trim($this->configRepository->get('Novalnet.description'));
+        $description = trim($this->configRepository->get('Novalnet.paypal_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('payment_description');
+            $description = $this->paymentHelper->getTranslatedText('paypal_payment_description');
         }
         return $description;
     }
