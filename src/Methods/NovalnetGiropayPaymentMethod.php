@@ -68,11 +68,10 @@ class NovalnetGiropayPaymentMethod extends PaymentMethodService
      */
     public function getName():string
     {   
-        return 'Giropay';
-        $name = trim($this->configRepository->get('Novalnet.payment_name'));
+        $name = trim($this->configRepository->get('Novalnet.giropay_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('novalnet_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('giropay_payment_frontend_name');
         }
         return $name;
     }
@@ -96,10 +95,10 @@ class NovalnetGiropayPaymentMethod extends PaymentMethodService
      */
     public function getDescription():string
     {
-        $description = trim($this->configRepository->get('Novalnet.description'));
+        $description = trim($this->configRepository->get('Novalnet.giropay_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('payment_description');
+            $description = $this->paymentHelper->getTranslatedText('giropay_payment_description');
         }
         return $description;
     }
