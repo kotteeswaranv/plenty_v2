@@ -69,10 +69,10 @@ class NovalnetPrzelewyPaymentMethod extends PaymentMethodService
     public function getName():string
     {   
         return 'Przelewy';
-        $name = trim($this->configRepository->get('Novalnet.payment_name'));
+        $name = trim($this->configRepository->get('Novalnet.przelewy_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('novalnet_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('przelewy_payment_frontend_name');
         }
         return $name;
     }
@@ -96,10 +96,10 @@ class NovalnetPrzelewyPaymentMethod extends PaymentMethodService
      */
     public function getDescription():string
     {
-        $description = trim($this->configRepository->get('Novalnet.description'));
+        $description = trim($this->configRepository->get('Novalnet.przelewy_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('payment_description');
+            $description = $this->paymentHelper->getTranslatedText('przelewy_payment_description');
         }
         return $description;
     }
