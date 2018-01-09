@@ -69,10 +69,10 @@ class NovalnetSofortPaymentMethod extends PaymentMethodService
     public function getName():string
     {   
         return 'Instant Bank Transfer';
-        $name = trim($this->configRepository->get('Novalnet.sepa_payment_name'));
+        $name = trim($this->configRepository->get('Novalnet.sofort_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('sepa_payment_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('sofort_payment_frontend_name');
         }
         return $name;
     }
@@ -96,10 +96,10 @@ class NovalnetSofortPaymentMethod extends PaymentMethodService
      */
     public function getDescription():string
     {
-        $description = trim($this->configRepository->get('Novalnet.sepa_description'));
+        $description = trim($this->configRepository->get('Novalnet.sofort_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('sepa_payment_description');
+            $description = $this->paymentHelper->getTranslatedText('sofort_payment_description');
         }
         return $description;
     }
