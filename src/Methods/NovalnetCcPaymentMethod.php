@@ -99,9 +99,9 @@ class NovalnetCcPaymentMethod extends PaymentMethodService
         if(empty($description))
         {
             if($this->configRepository->get('Novalnet.cc_3d') == 'true')
-                $description = $this->paymentHelper->getTranslatedText('cc_payment_description');
-            else
                 $description = $this->paymentHelper->getTranslatedText('redirectional_payment_description');
+            else
+                $description = $this->paymentHelper->getTranslatedText('cc_payment_description');
         }
         return $description;
     }
