@@ -71,7 +71,7 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
         $name = trim($this->configRepository->get('Novalnet.invoice_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('invoice_payment_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('invoice_name');
         }
         return $name;
     }
@@ -98,7 +98,7 @@ class NovalnetInvoicePaymentMethod extends PaymentMethodService
         $description = trim($this->configRepository->get('Novalnet.invoice_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('invoice_payment_description');
+            $description = $this->paymentHelper->getTranslatedText('invoice_prepayment_payment_description');
         }
         return $description;
     }
