@@ -68,11 +68,10 @@ class NovalnetCcPaymentMethod extends PaymentMethodService
      */
     public function getName():string
     {   
-        return 'Credit Card';
         $name = trim($this->configRepository->get('Novalnet.cc_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('novalnet_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('cc_payment_frontend_name');
         }
         return $name;
     }
@@ -96,10 +95,10 @@ class NovalnetCcPaymentMethod extends PaymentMethodService
      */
     public function getDescription():string
     {
-        $description = trim($this->configRepository->get('Novalnet.description'));
+        $description = trim($this->configRepository->get('Novalnet.cc_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('payment_description');
+            $description = $this->paymentHelper->getTranslatedText('cc_payment_description');
         }
         return $description;
     }
