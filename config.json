@@ -48,19 +48,7 @@
         "key"    : "access_key",
         "label"  : "Payment access key*",
         "type"   : "text"
-    },
-    {
-        "tab"    : "Novalnet Global Configuration",
-        "key"    : "payment_name",
-        "label"  : "Payment name",
-        "type"   : "text"
-    },
-    {
-        "tab"    : "Novalnet Global Configuration",
-        "key"    : "description",
-        "label"  : "Payment description",
-        "type"   : "text"
-    },    
+    },        
     {
         "tab"    : "Novalnet Global Configuration",
         "key"    : "order_cancel_status",
@@ -95,6 +83,18 @@
     },
     {
         "tab"    : "Credit Card",
+        "key"    : "cc_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Credit Card",
+        "key"    : "cc_description",
+        "label"  : "Payment description",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Credit Card",
         "key"    : "cc_3d",
         "label"  : "Enable 3D secure",
         "type"   : "checkbox",
@@ -122,6 +122,18 @@
     },
     {
         "tab"    : "Direct Debit SEPA",
+        "key"    : "sepa_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Direct Debit SEPA",
+        "key"    : "sepa_description",
+        "label"  : "Payment description",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Direct Debit SEPA",
         "key"    : "sepa_due_date",
         "label"  : "SEPA Payment duration (in days)",
         "type"   : "text"
@@ -145,6 +157,18 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
+    },
+    {
+        "tab"    : "Invoice",
+        "key"    : "invoice_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Invoice",
+        "key"    : "invoice_description",
+        "label"  : "Payment description",
+        "type"   : "text"
     },
     {
         "tab"    : "Invoice",
@@ -190,7 +214,19 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
-    },    
+    },
+    {
+        "tab"    : "Prepayment",
+        "key"    : "prepayment_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Prepayment",
+        "key"    : "prepayment_description",
+        "label"  : "Payment description",
+        "type"   : "text"
+    },
     {
         "tab"    : "Prepayment",
         "key"    : "prepayment_order_completion_status",
@@ -223,7 +259,19 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
-    },    
+    },
+    {
+        "tab"    : "Instant Bank Transfer",
+        "key"    : "sofort_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Instant Bank Transfer",
+        "key"    : "sofort_description",
+        "label"  : "Payment description",
+        "type"   : "text"
+    },
     {
         "tab"    : "Instant Bank Transfer",
         "key"    : "sofort_order_completion_status",
@@ -237,6 +285,18 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
+    },
+    {
+        "tab"    : "PayPal",
+        "key"    : "paypal_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "PayPal",
+        "key"    : "paypal_description",
+        "label"  : "Payment description",
+        "type"   : "text"
     },
     {
         "tab"    : "PayPal",
@@ -264,7 +324,19 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
-    },    
+    },
+    {
+        "tab"    : "iDeal",
+        "key"    : "ideal_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "iDeal",
+        "key"    : "ideal_description",
+        "label"  : "Payment description",
+        "type"   : "text"
+    },
     {
         "tab"    : "iDeal",
         "key"    : "ideal_order_completion_status",
@@ -278,7 +350,19 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
-    },    
+    },
+    {
+        "tab"    : "EPS",
+        "key"    : "eps_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "EPS",
+        "key"    : "eps_description",
+        "label"  : "Payment description",
+        "type"   : "text"
+    },
     {
         "tab"    : "EPS",
         "key"    : "eps_order_completion_status",
@@ -292,7 +376,19 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
-    },    
+    },
+    {
+        "tab"    : "Giropay",
+        "key"    : "giropay_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Giropay",
+        "key"    : "giropay_description",
+        "label"  : "Payment description",
+        "type"   : "text"
+    },
     {
         "tab"    : "Giropay",
         "key"    : "giropay_order_completion_status",
@@ -306,6 +402,18 @@
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
+    },
+    {
+        "tab"    : "Przelewy24",
+        "key"    : "przelewy_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Przelewy24",
+        "key"    : "przelewy_description",
+        "label"  : "Payment description",
+        "type"   : "text"
     },
     {
         "tab"    : "Przelewy24",
@@ -323,10 +431,22 @@
     },
     {
         "tab"    : "Barzahlen",
-        "key"    : "cash_payment_active",
+        "key"    : "cashpayment_payment_active",
         "label"  : "Enable payment method",
         "type"   : "checkbox",
         "default": false
+    },
+    {
+        "tab"    : "Barzahlen",
+        "key"    : "cashpayment_payment_name",
+        "label"  : "Payment name",
+        "type"   : "text"
+    },
+    {
+        "tab"    : "Barzahlen",
+        "key"    : "cashpayment_description",
+        "label"  : "Payment description",
+        "type"   : "text"
     },
     {
         "tab"    : "Barzahlen",
