@@ -611,74 +611,76 @@ class PaymentService
         return $design;
     }
     
-    
-     public function getGuaranteeStatus(Basket $basket, $paymentKey)
+    /**
+    *
+    *
+    *
+    */
+    public function getGuaranteeStatus(Basket $basket, $paymentKey)
     {
-        // Get payment name in caps
+        // Get payment name in lowercase
         $paymentKeyLow = strtolower($paymentKey);
-        // novalnet_sepa_payment_guarantee_active
-       // novalnet_sepa_guarantee_min_amount
-       // novalnet_sepa_guarantee_max_amount
-        //    novalnet_sepa_payment_guarantee_force_active
          
-
-        $guarantee_payment = $this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_active');
-        if ($guarantee_payment == 'true') {
+        $guaranteePayment = $this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_active');
+        if ($guaranteePayment == 'true') {
             // Get guarantee minimum and maximum amount value
-            $minimum_amount = $this->paymentHelper->getNovalnetConfig('novalnet_sepa_guarantee_min_amount');
-            $minimum_amount = ($minimum_amount != '' && preg_match("/[0-9]+/", $minimum_amount) && $minimum_amount >= '2000')  ? $minimum_amount : '2000';
-            $maximum_amount = $this->paymentHelper->getNovalnetConfig('novalnet_sepa_guarantee_max_amount');
-            $maximum_amount = ($maximum_amount != '' && preg_match("/[0-9]+/", $maximum_amount) && $maximum_amount <= '500000')  ? $maximum_amount : '2000';
-
+            $minimumAmount = $this->paymentHelper->getNovalnetConfig('novalnet_sepa_guarantee_min_amount');
+            $minimumAmount = ($minimumAmount != '' && preg_match("/[0-9]+/", $minimumAmount) && $minimumAmount >= '2000')  ? $minimumAmount : '2000';
+            $maximumAmount = $this->paymentHelper->getNovalnetConfig('novalnet_sepa_guarantee_max_amount');
+            $maximumAmount = ($maximumAmount != '' && preg_match("/[0-9]+/", $maximumAmount) && $maximumAmount <= '500000')  ? $maximumAmount : '2000';
+            
+            $amount            = (sprintf('%0.2f', $basket->basketAmount) * 100);
             
             $billingAddressId = $basket->customerInvoiceAddressId;
+            $billingAddress = $this->addressRepository->findAddressById($billingAddressId);
+            $customerBillingIsoCode = strtoupper($this->countryRepository->findIsoCode($billingAddress->countryId, 'iso_code_2'));
+            
             $shippingAddressId = $basket->customerShippingAddressId;
             
-            $billingAddress = $this->addressRepository->findAddressById($billingAddressId);
-            $shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
-            
-            // Get order details
-            $customer_billing_iso_code = strtoupper($this->countryRepository->findIsoCode($billingAddress->countryId, 'iso_code_2'));
-            $customer_shipping_iso_code = strtoupper($this->countryRepository->findIsoCode($shippingAddress->countryId, 'iso_code_2'));
-            $amount            = (sprintf('%0.2f', $basket->basketAmount) * 100);
-
-            // Delivery address
-            $delivery_address = array(
-                                 'street_address' => $billingAddress->street,
-                                 'city'           => $billingAddress->town,
-                                 'postcode'       => $billingAddress->postalCode,
-                                 'country'        => $customer_billing_iso_code,
-                                );
-
-            // Billing address
-            $billing_address = array(
-                                 'street_address' => $shippingAddress->street,
-                                 'city'           => $shippingAddress->town,
-                                 'postcode'       => $shippingAddress->postalCode,
-                                 'country'        => $customer_shipping_iso_code,
-                                );
-
+            $addressValidation = false;
+            if(!empty($shippingAddressId))
+            {
+				$shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
+				$customerShippingIsoCode = strtoupper($this->countryRepository->findIsoCode($shippingAddress->countryId, 'iso_code_2'));            
+						   
+				// Delivery address
+				$deliveryAddress = array(
+									 'street_address' => $billingAddress->street,
+									 'city'           => $billingAddress->town,
+									 'postcode'       => $billingAddress->postalCode,
+									 'country'        => $customerBillingIsoCode,
+									);
+				// Billing address
+				$billingAddress = array(
+									 'street_address' => $shippingAddress->street,
+									 'city'           => $shippingAddress->town,
+									 'postcode'       => $shippingAddress->postalCode,
+									 'country'        => $customerShippingIsoCode,
+									);
+                                
+             }
+             else
+             {
+				 $addressValidation = true;
+			 }                   
             // Check guarantee payment
-            if ((((int) $amount >= (int) $minimum_amount && (int) $amount <= (int) $maximum_amount) && in_array(
-                $customer_billing_iso_code,
+            if ((((int) $amount >= (int) $minimumAmount && (int) $amount <= (int) $maximumAmount) && in_array(
+                $customerBillingIsoCode,
                 [
                  'DE',
                  'AT',
                  'CH',
                 ]
-            ) && $basket->currency == 'EUR' && $delivery_address === $billing_address)
+            ) && $basket->currency == 'EUR' && ($addressValidation || ($deliveryAddress === $billingAddress)))
             ) {
-                $processing_type = 'guarantee';
+                $processingType = 'guarantee';
             } elseif ($this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_force_active') == 'true') {
-                $processing_type = 'normal';
+                $processingType = 'normal';
             } else {
-                $processing_type = 'error';
+                $processingType = 'error';
             }
-
-            return $processing_type;
+            return $processingType;
         }//end if
-
         return 'normal';
-
     }
 }
