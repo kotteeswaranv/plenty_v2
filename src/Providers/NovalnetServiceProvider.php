@@ -163,6 +163,7 @@ class NovalnetServiceProvider extends ServiceProvider
                     $this->getLogger(__METHOD__)->error('TEST', $event->getMop());
                     if($paymentHelper->isNovalnetPaymentMethod($event->getMop()))
                     {
+		       $this->getLogger(__METHOD__)->error('GURANTEESTATUS', $paymentService->getGuaranteeStatus($basketRepository->load(), $paymentKey));
                         $paymentKey = $paymentHelper->getPaymentKeyByMop($event->getMop());
                         if(in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT', 'NOVALNET_CASHPAYMENT']))
                         {
