@@ -662,7 +662,16 @@ class PaymentService
              else
              {
 				 $addressValidation = true;
-			 }                   
+			 } 
+		
+		$this->getLogger(__METHOD__)->error('Gurcheck1', $amount);
+		$this->getLogger(__METHOD__)->error('Gurcheck2', $minimumAmount);
+		$this->getLogger(__METHOD__)->error('Gurcheck3', $maximumAmount);
+		$this->getLogger(__METHOD__)->error('Gurcheck4', $customerBillingIsoCode);
+		$this->getLogger(__METHOD__)->error('Gurcheck5', $basket->currency);
+		$this->getLogger(__METHOD__)->error('Gurcheck6', $addressValidation);
+		$this->getLogger(__METHOD__)->error('Gurcheck7', $deliveryAddress);
+		$this->getLogger(__METHOD__)->error('Gurcheck8', $billingAddress);
             // Check guarantee payment
             if ((((int) $amount >= (int) $minimumAmount && (int) $amount <= (int) $maximumAmount) && in_array(
                 $customerBillingIsoCode,
