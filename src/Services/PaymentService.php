@@ -636,11 +636,11 @@ class PaymentService
             $customerBillingIsoCode = strtoupper($this->countryRepository->findIsoCode($billingAddress->countryId, 'iso_code_2'));
             
             $shippingAddressId = $basket->customerShippingAddressId;
-            
+            $shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
             $addressValidation = false;
             if(!empty($shippingAddressId))
             {
-				$shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
+				
 				$customerShippingIsoCode = strtoupper($this->countryRepository->findIsoCode($shippingAddress->countryId, 'iso_code_2'));            
 						   
 				// Delivery address
