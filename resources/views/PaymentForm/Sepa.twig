@@ -52,7 +52,15 @@
             <label for="novalnet_sepa_confirm_id">{{trans("Novalnet::PaymentMethod.sepa_bic_label")}}</label>
         </div>
         <div class="clear"></div>
-    </div>  
+    </div> 
+    
+    <div class="novalnet_sepa_dob-section">
+        <div class="label"><label for="sepa_bic">{{trans("Novalnet::PaymentMethod.birthdate_label")}}</label></div>
+        <div class="content">
+            <input type="date" name="nn_sepa_birthday" id="'nn_sepa_birthday' value="{{nnSepaHiddenValue}}">
+        </div>
+        <div class="clear"></div>
+    </div> 
 	
 	
 	<button type="submit" class="btn btn-primary" id="novalnet_form_btn" onclick="">
