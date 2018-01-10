@@ -610,4 +610,75 @@ class PaymentService
         $design['standard_style_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_standard_style_css');
         return $design;
     }
+    
+    
+     public function getGuaranteeStatus(Basket $basket, $paymentKey)
+    {
+        // Get payment name in caps
+        $paymentKeyLow = strtolower($paymentKey);
+        // novalnet_sepa_payment_guarantee_active
+       // novalnet_sepa_guarantee_min_amount
+       // novalnet_sepa_guarantee_max_amount
+        //    novalnet_sepa_payment_guarantee_force_active
+         
+
+        $guarantee_payment = $this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_active');
+        if ($guarantee_payment == 'true') {
+            // Get guarantee minimum and maximum amount value
+            $minimum_amount = $this->paymentHelper->getNovalnetConfig('novalnet_sepa_guarantee_min_amount');
+            $minimum_amount = ($minimum_amount != '' && preg_match("/[0-9]+/", $minimum_amount) && $minimum_amount >= '2000')  ? $minimum_amount : '2000';
+            $maximum_amount = $this->paymentHelper->getNovalnetConfig('novalnet_sepa_guarantee_max_amount');
+            $maximum_amount = ($maximum_amount != '' && preg_match("/[0-9]+/", $maximum_amount) && $maximum_amount <= '500000')  ? $maximum_amount : '2000';
+
+            
+            $billingAddressId = $basket->customerInvoiceAddressId;
+            $shippingAddressId = $basket->customerShippingAddressId;
+            
+            $billingAddress = $this->addressRepository->findAddressById($billingAddressId);
+            $shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
+            
+            // Get order details
+            $customer_billing_iso_code = strtoupper($this->countryRepository->findIsoCode($billingAddress->countryId, 'iso_code_2'));
+            $customer_shipping_iso_code = strtoupper($this->countryRepository->findIsoCode($shippingAddress->countryId, 'iso_code_2'));
+            $amount            = (sprintf('%0.2f', $basket->basketAmount) * 100);
+
+            // Delivery address
+            $delivery_address = array(
+                                 'street_address' => $billingAddress->street,
+                                 'city'           => $billingAddress->town,
+                                 'postcode'       => $billingAddress->postalCode,
+                                 'country'        => $customer_billing_iso_code,
+                                );
+
+            // Billing address
+            $billing_address = array(
+                                 'street_address' => $shippingAddress->street,
+                                 'city'           => $shippingAddress->town,
+                                 'postcode'       => $shippingAddress->postalCode,
+                                 'country'        => $customer_shipping_iso_code,
+                                );
+
+            // Check guarantee payment
+            if ((((int) $amount >= (int) $minimum_amount && (int) $amount <= (int) $maximum_amount) && in_array(
+                $customer_billing_iso_code,
+                [
+                 'DE',
+                 'AT',
+                 'CH',
+                ]
+            ) && $basket->currency == 'EUR' && $delivery_address === $billing_address)
+            ) {
+                $processing_type = 'guarantee';
+            } elseif ($this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_force_active') == 'true') {
+                $processing_type = 'normal';
+            } else {
+                $processing_type = 'error';
+            }
+
+            return $processing_type;
+        }//end if
+
+        return 'normal';
+
+    }
 }
