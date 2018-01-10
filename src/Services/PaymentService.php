@@ -619,7 +619,7 @@ class PaymentService
     public function getGuaranteeStatus(Basket $basket, $paymentKey)
     {
         // Get payment name in lowercase
-        $paymentKeyLow = strtolower($paymentKey);
+        $paymentKeyLow = strtolower((string) $paymentKey);
          
         $guaranteePayment = $this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_active');
         if ($guaranteePayment == 'true') {
