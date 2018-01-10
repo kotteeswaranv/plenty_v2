@@ -231,6 +231,34 @@
         "type"   : "text"
     },
     {
+        "tab"    : "Direct Debit SEPA",
+        "key"    : "sepa_payment_guarantee_active",
+        "label"  : "Enable payment guarantee",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
+        "tab"    : "Direct Debit SEPA",
+        "key"    : "sepa_guarantee_min_amount",
+        "label"  : "Minimum order amount (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)",
+        "type"   : "text",
+        "default": "2000"
+    },
+    {
+        "tab"    : "Direct Debit SEPA",
+        "key"    : "sepa_guarantee_max_amount",
+        "label"  : "Maximum order amount (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)",
+        "type"   : "text",
+        "default": "500000"
+    },
+    {
+        "tab"    : "Direct Debit SEPA",
+        "key"    : "sepa_payment_guarantee_force_active",
+        "label"  : "Force Non-Guarantee payment",
+        "type"   : "checkbox",
+        "default": false
+    },
+    {
         "tab"    : "Invoice",
         "key"    : "invoice_payment_active",
         "label"  : "Enable payment method",
