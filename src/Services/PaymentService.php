@@ -646,14 +646,14 @@ class PaymentService
 						   
 				// Delivery address
 				$deliveryAddress = array(
-									 'street_address' => $billingAddress->street,
+									 'street_address' => (($billingAddress->street) ? $billingAddress->street : $billingAddress->address1),
 									 'city'           => $billingAddress->town,
 									 'postcode'       => $billingAddress->postalCode,
 									 'country'        => $customerBillingIsoCode,
 									);
 				// Billing address
 				$billingAddress = array(
-									 'street_address' => $shippingAddress->street,
+									 'street_address' => (($shippingAddress->street) ? $shippingAddress->street : $shippingAddress->address1),
 									 'city'           => $shippingAddress->town,
 									 'postcode'       => $shippingAddress->postalCode,
 									 'country'        => $customerShippingIsoCode,
