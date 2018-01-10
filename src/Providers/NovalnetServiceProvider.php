@@ -189,13 +189,16 @@ class NovalnetServiceProvider extends ServiceProvider
 				$nnDetails['sepaacceptmandate'] = $paymentHelper->getTranslatedText('sepaacceptmandate');
 				$nnDetails['sepacountryerror'] = $paymentHelper->getTranslatedText('sepacountryerror');
 				$nnCountryList = $paymentHelper->getCountryList($sessionStorage->getLocaleSettings()->language);
+				$guaranteeStatus = getGuaranteeStatus($basketRepository->load(), $paymentKey);    
 				$this->getLogger(__METHOD__)->error('nncheckcountries', $nnCountryList);
                                 $content = $twig->render('Novalnet::PaymentForm.Sepa', [
                                                                     'nnPaymentProcessUrl' => $paymentProcessUrl,
                                                                     'paymentMopKey'     =>  $paymentKey,
 								    'nnSepaHiddenValue' => $nnDetails,
+								    'nnGuaranteeStatus' => $guaranteeStatus,
 																	'nnCountry' =>$nnCountryList
                                        ]);
+				$contentType = 'htmlContent';
                             }
                             else 
                             {
@@ -209,8 +212,9 @@ class NovalnetServiceProvider extends ServiceProvider
                                                                     'paymentMopKey'     =>  $paymentKey,
 								    'nnFormDesign'	=>  $nnFormDesign
                                        ]);
+				$contentType = 'htmlContent';
                             }
-                            $contentType = 'htmlContent';
+                            
                         } 
                         else
                         {
