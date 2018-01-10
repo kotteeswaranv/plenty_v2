@@ -625,9 +625,9 @@ class PaymentService
         if ($guaranteePayment == 'true') {
             // Get guarantee minimum and maximum amount value
             $minimumAmount = $this->paymentHelper->getNovalnetConfig('novalnet_sepa_guarantee_min_amount');
-            $minimumAmount = (preg_match("/[0-9]+/", $minimumAmount) && $minimumAmount >= '2000' && $minimumAmount < '500000')  ? $minimumAmount : '2000';
+            $minimumAmount = ($minimumAmount >= '2000' && $minimumAmount < '500000')  ? $minimumAmount : '2000';
             $maximumAmount = $this->paymentHelper->getNovalnetConfig('novalnet_sepa_guarantee_max_amount');
-            $maximumAmount = (preg_match("/[0-9]+/", $maximumAmount) && $maximumAmount <= '500000' && $maximumAmount > '2000')  ? $maximumAmount : '500000';
+            $maximumAmount = ($maximumAmount <= '500000' && $maximumAmount > '2000')  ? $maximumAmount : '500000';
             
             $amount            = (sprintf('%0.2f', $basket->basketAmount) * 100);
             
