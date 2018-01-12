@@ -13,9 +13,7 @@ $( function() {
         if ($("#novalnet_sepa_confirm_id").length > 0 && $("#novalnet_sepa_confirm_id").is(":checked") == false) {
             evt.preventDefault();
             alert($("#nn_sepa_confirm_iban_bic_msg").val());
-       }
-	    
-       if (($("#nn_sepa_birthday")) && (($("#nn_sepa_birthday").val() == 'undefine') || ($("#nn_sepa_birthday").val() == ''))) {
+       } else if (($("#nn_sepa_birthday")) && (($("#nn_sepa_birthday").val() == 'undefine') || ($("#nn_sepa_birthday").val() == ''))) {
 	  evt.preventDefault();    
 	  alert($("#nn_sepa_valid_dob_msg").val());
        }
