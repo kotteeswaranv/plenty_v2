@@ -212,10 +212,10 @@ class NovalnetServiceProvider extends ServiceProvider
 				$nnDetails['vendor'] = $paymentHelper->getNovalnetConfig('vendor_id');
 				$nnDetails['authcode'] = $paymentHelper->getNovalnetConfig('auth_code');
 				$nnDetails['sepauniqueid'] = uniqid();
-				$nnDetails['sepavendormsg'] = $paymentHelper->getTranslatedText('sepavendormsg');
-				$nnDetails['sepacardmsg'] = $paymentHelper->getTranslatedText('sepacardmsg');
-				$nnDetails['sepaacceptmandate'] = $paymentHelper->getTranslatedText('sepaacceptmandate');
-				$nnDetails['sepacountryerror'] = $paymentHelper->getTranslatedText('sepacountryerror');
+				$nnDetails['sepavendormsg'] = $paymentHelper->getTranslatedText('sepa_vendormsg');
+				$nnDetails['sepacardmsg'] = $paymentHelper->getTranslatedText('sepa_cardmsg');
+				$nnDetails['sepaacceptmandate'] = $paymentHelper->getTranslatedText('sepa_acceptmandate');
+				$nnDetails['sepacountryerror'] = $paymentHelper->getTranslatedText('sepa_countryerror');
 				$nnCountryList = $paymentHelper->getCountryList($sessionStorage->getLocaleSettings()->language);
 				$guaranteeStatus = $paymentService->getGuaranteeStatus($basketRepository->load(), $paymentKey);    
 				if($guaranteeStatus == 'error')
