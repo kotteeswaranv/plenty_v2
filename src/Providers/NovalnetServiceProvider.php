@@ -167,14 +167,41 @@ class NovalnetServiceProvider extends ServiceProvider
 		       $this->getLogger(__METHOD__)->error('GURANTEESTATUS', $paymentService->getGuaranteeStatus($basketRepository->load(), $paymentKey));                       
                         if(in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT', 'NOVALNET_CASHPAYMENT']))
                         {
-                            $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey); 
-                            $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
-                            $response = $paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
-                            $responseData = $paymentHelper->convertStringToArray($response['response'], '&');
-			    $responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
-                            $sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
-                            $content = '';
-                            $contentType = 'continue';
+							$processDirect = true;                          
+			    
+							if($paymentKey == 'NOVALNET_INVOICE')
+							{
+								$guaranteeStatus = $paymentService->getGuaranteeStatus($basketRepository->load(), $paymentKey);
+								if($guaranteeStatus == 'error')
+								{
+									$processDirect = false;
+									$contentType = 'errorCode';
+									//$content = 'Die Zahlung kann nicht verarbeitet werden, weil die grundlegenden Anforderungen nicht erfüllt wurden.';
+									$content = 'The payment cannot be processed, because the basic requirements haven`t been met.';
+								}
+								else if($guaranteeStatus == 'guarantee')
+								{
+									$processDirect = false;
+									$paymentProcessUrl = $paymentService->getProcessPaymentUrl();
+									$content = $twig->render('Novalnet::PaymentForm.Invoice', [
+														'nnPaymentProcessUrl' => $paymentProcessUrl,
+														'paymentMopKey'     =>  $paymentKey,
+														'nnDobValue' => ''
+									]);
+									$contentType = 'htmlContent';
+								 }
+							}
+							if($processDirect == true)
+							{
+								$serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);
+								$sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
+								$response = $paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
+								$responseData = $paymentHelper->convertStringToArray($response['response'], '&');
+								$responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
+								$sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
+								$content = '';
+								$contentType = 'continue';
+							}
                             
                         } else if (in_array($paymentKey, ['NOVALNET_SEPA', 'NOVALNET_CC']))
                         {   
