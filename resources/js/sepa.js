@@ -12,16 +12,12 @@ $( function() {
     $("form[name=sepa_form]").submit(function(evt) {
         if ($("#novalnet_sepa_confirm_id").length > 0 && $("#novalnet_sepa_confirm_id").is(":checked") == false) {
             evt.preventDefault();
-	    alert("TEST");
-		console.log($("#nn_sepa_birthday").val().split('-'));
-	    alert($("#nn_sepa_birthday").val().split('-'));
             alert($("#nn_sepa_confirm_iban_bic_msg").val());
        }
 	    
-       if (($("#nn_sepa_birthday")) && (($("#nn_sepa_birthday").val() == undefine) || ($("#nn_sepa_birthday").val() == ''))) {
+       if (($("#nn_sepa_birthday")) && (($("#nn_sepa_birthday").val() == 'undefine') || ($("#nn_sepa_birthday").val() == ''))) {
 	  evt.preventDefault();    
-	  //alert($("#nn_sepa_valid_dob_msg").val());
-	  alert("Please enter valid databirth");
+	  alert($("#nn_sepa_valid_dob_msg").val());
        }
     });
     $("#novalnet_sepa_confirm_id").click(function() {
