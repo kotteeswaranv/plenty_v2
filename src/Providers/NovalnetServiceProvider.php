@@ -191,7 +191,7 @@ class NovalnetServiceProvider extends ServiceProvider
 									$contentType = 'htmlContent';
 								 }
 							}
-							if($processDirect == true)
+							if($processDirect)
 							{
 								$serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);
 								$sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
