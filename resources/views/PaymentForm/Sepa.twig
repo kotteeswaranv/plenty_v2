@@ -1,9 +1,7 @@
 <script src="{{ plugin_path('Novalnet') }}/js/sepa.js"></script>
 <form method="post" id="sepa_form" name="sepa_form" action="{{nnPaymentProcessUrl}}">
-<input type="hidden" id="sepa_hash" name="sepa_hash" />
-    <input type="hidden" id="unique_id" name="unique_id" />
-	<input type="hidden" id="paymentKey" name="paymentKey" value="{{paymentMopKey}}" />
-	<input type='hidden' id='nn_sepa_hash' name='nn_sepa_hash'>
+<input type="hidden" id="paymentKey" name="paymentKey" value="{{paymentMopKey}}" />
+<input type='hidden' id='nn_sepa_hash' name='nn_sepa_hash'>
 <input type='hidden' id='nn_vendor' value='{{nnSepaHiddenValue["vendor"]}}'>
 <input type='hidden' id='nn_auth_code' value='{{nnSepaHiddenValue["authcode"]}}'>
 <input type='hidden' id='nn_sepa_uniqueid' name='nn_sepa_uniqueid' value='{{nnSepaHiddenValue["sepauniqueid"]}}'>
