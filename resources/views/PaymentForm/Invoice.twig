@@ -1,0 +1,20 @@
+<form method="post" id="invoice_form" name="invoice_form" action="{{nnPaymentProcessUrl}}">
+	<input type="hidden" id="paymentKey" name="paymentKey" value="{{paymentMopKey}}" />
+
+  <div class="novalnet_sepa_dob-section">
+		<div class="label">
+      <label for="sepa_bic">{{trans("Novalnet::PaymentMethod.birthdate_label")}}</label>
+    </div>
+		<div class="content">
+		    <input type="date" name="nn_sepa_birthday" id="'nn_sepa_birthday' value="{{nnDobValue}}">
+		</div>
+  </div>   	
+	<button type="submit" class="btn btn-primary" id="novalnet_form_btn" onclick="">
+		{{ trans("Novalnet::PaymentMethod.submit_button_text") }}
+	</button>
+	<a href="/checkout">
+		<button type="button" class="btn btn-primary">
+			{{ trans("Novalnet::PaymentMethod.cancel_button_text") }}
+		</button>
+	</a>
+</form>
