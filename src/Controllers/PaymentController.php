@@ -195,6 +195,42 @@ class PaymentController extends Controller
                 }
             }
         } 
+        else if($requestData['paymentKey'] == 'NOVALNET_INVOICE')
+        {
+            $guranteeStatus = $this->paymentService->getGuaranteeStatus($this->basketRepository->load(), $requestData['paymentKey']);
+            if('guarantee' == $guranteeStatus)
+            {
+                if(empty($requestData['nn_invoice_birthday']))
+                {
+                    $notifications = json_decode($this->sessionStorage->getPlugin()->getValue('notifications'));
+                    array_push($notifications,[
+                        'message' => 'GUARANTEE_DOB_EMPTY_ERROR',
+                        'type'    => 'error',
+                        'code'    => ''
+                     ]);
+                    $this->sessionStorage->getPlugin()->setValue('notifications', json_encode($notifications));
+                    return $this->response->redirectTo('checkout');
+                 //GUARANTEE_DOB_EMPTY_ERROR   
+                } 
+                else if(time() < strtotime('+18 years', strtotime($requestData['nn_invoice_birthday'])))
+                {
+                    $notifications = json_decode($this->sessionStorage->getPlugin()->getValue('notifications'));
+                    array_push($notifications,[
+                        'message' => 'NOVALNET_INVALID_BIRTHDATE',
+                        'type'    => 'error',
+                        'code'    => ''
+                     ]);
+                    $this->sessionStorage->getPlugin()->setValue('notifications', json_encode($notifications));
+                    return $this->response->redirectTo('checkout');
+                }
+                else
+                {
+                    $serverRequestData['data']['payment_type'] = 'GUARANTEED_INVOICE';
+                    $serverRequestData['data']['key']          = '41';
+                    $serverRequestData['data']['birth_date']   = $requestData['nn_invoice_birthday'];                    
+                }
+            }
+        }
         $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
         $this->getLogger(__METHOD__)->error('RequestData', $requestData);
         $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
