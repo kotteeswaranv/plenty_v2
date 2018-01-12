@@ -162,8 +162,40 @@ class PaymentController extends Controller
             $serverRequestData['data']['sepa_unique_id'] = $requestData['nn_sepa_uniqueid'];
             $serverRequestData['data']['bank_account_holder'] = $requestData['sepa_cardholder'];
             $guranteeStatus = $this->paymentService->getGuaranteeStatus($this->basketRepository->load(), $requestData['paymentKey']);
+            if('guarantee' == $guranteeStatus)
+            {
+                if(empty($requestData['nn_sepa_birthday']))
+                {
+                    $notifications = json_decode($this->sessionStorage->getPlugin()->getValue('notifications'));
+                    array_push($notifications,[
+                        'message' => 'GUARANTEE_DOB_EMPTY_ERROR',
+                        'type'    => 'error',
+                        'code'    => ''
+                     ]);
+                    $this->sessionStorage->getPlugin()->setValue('notifications', json_encode($notifications));
+                    return $this->response->redirectTo('checkout');
+                 //GUARANTEE_DOB_EMPTY_ERROR   
+                } 
+                else if(time() < strtotime('+18 years', strtotime($requestData['nn_sepa_birthday'])))
+                {
+                    $notifications = json_decode($this->sessionStorage->getPlugin()->getValue('notifications'));
+                    array_push($notifications,[
+                        'message' => 'NOVALNET_INVALID_BIRTHDATE',
+                        'type'    => 'error',
+                        'code'    => ''
+                     ]);
+                    $this->sessionStorage->getPlugin()->setValue('notifications', json_encode($notifications));
+                }
+                else
+                {
+                    $serverRequestData['data']['payment_type'] = 'GUARANTEED_DIRECT_DEBIT_SEPA';
+                    $serverRequestData['data']['key']          = '40';
+                    $serverRequestData['data']['birth_date']   = $requestData['nn_sepa_birthday'];                    
+                }
+            }
             $this->getLogger(__METHOD__)->error('guranteeStatus', $guranteeStatus);
             //nn_sepa_birthday
+            //
         } 
         $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
         $this->getLogger(__METHOD__)->error('RequestData', $requestData);
