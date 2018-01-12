@@ -18,7 +18,7 @@ $( function() {
             alert($("#nn_sepa_confirm_iban_bic_msg").val());
        }
 	    
-       if (($("#nn_sepa_birthday")) && (($("#nn_sepa_birthday").val().split('-') == undefine) || ($("#nn_sepa_birthday").val().split('-') == ''))) {
+       if (($("#nn_sepa_birthday")) && (($("#nn_sepa_birthday").val() == undefine) || ($("#nn_sepa_birthday").val() == ''))) {
 	  evt.preventDefault();    
 	  //alert($("#nn_sepa_valid_dob_msg").val());
 	  alert("Please enter valid databirth");
