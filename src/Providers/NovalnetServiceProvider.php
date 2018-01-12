@@ -181,6 +181,7 @@ class NovalnetServiceProvider extends ServiceProvider
                             if($paymentKey == 'NOVALNET_SEPA'){
                                 $paymentProcessUrl = $paymentService->getProcessPaymentUrl();
 				$nnDetails = [];
+			        $contentType = 'htmlContent';
 				$nnDetails['vendor'] = $paymentHelper->getNovalnetConfig('vendor_id');
 				$nnDetails['authcode'] = $paymentHelper->getNovalnetConfig('auth_code');
 				$nnDetails['sepauniqueid'] = uniqid();
@@ -190,15 +191,22 @@ class NovalnetServiceProvider extends ServiceProvider
 				$nnDetails['sepacountryerror'] = $paymentHelper->getTranslatedText('sepacountryerror');
 				$nnCountryList = $paymentHelper->getCountryList($sessionStorage->getLocaleSettings()->language);
 				$guaranteeStatus = $paymentService->getGuaranteeStatus($basketRepository->load(), $paymentKey);    
-				$this->getLogger(__METHOD__)->error('nncheckcountries', $nnCountryList);
-                                $content = $twig->render('Novalnet::PaymentForm.Sepa', [
+				if($guaranteeStatus == 'error')
+				{
+				    $contentType = 'errorCode';
+				    //$content = 'Die Zahlung kann nicht verarbeitet werden, weil die grundlegenden Anforderungen nicht erfüllt wurden.';
+				    $content = 'The payment cannot be processed, because the basic requirements haven`t been met.';
+				}
+			        else
+			        {
+				    $content = $twig->render('Novalnet::PaymentForm.Sepa', [
                                                                     'nnPaymentProcessUrl' => $paymentProcessUrl,
                                                                     'paymentMopKey'     =>  $paymentKey,
 								    'nnSepaHiddenValue' => $nnDetails,
 								    'nnGuaranteeStatus' => $guaranteeStatus,
 																	'nnCountry' =>$nnCountryList
-                                       ]);
-				$contentType = 'htmlContent';
+                                     ]);
+			        }
                             }
                             else 
                             {
