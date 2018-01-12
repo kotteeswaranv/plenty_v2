@@ -185,6 +185,7 @@ class PaymentController extends Controller
                         'code'    => ''
                      ]);
                     $this->sessionStorage->getPlugin()->setValue('notifications', json_encode($notifications));
+                    return $this->response->redirectTo('checkout');
                 }
                 else
                 {
@@ -193,9 +194,6 @@ class PaymentController extends Controller
                     $serverRequestData['data']['birth_date']   = $requestData['nn_sepa_birthday'];                    
                 }
             }
-            $this->getLogger(__METHOD__)->error('guranteeStatus', $guranteeStatus);
-            //nn_sepa_birthday
-            //
         } 
         $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
         $this->getLogger(__METHOD__)->error('RequestData', $requestData);
