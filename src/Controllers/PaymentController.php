@@ -163,6 +163,7 @@ class PaymentController extends Controller
             $serverRequestData['data']['bank_account_holder'] = $requestData['sepa_cardholder'];
         } 
         $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
+        $this->getLogger(__METHOD__)->error('RequestData', $requestData);
         $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
         $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
         $responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
