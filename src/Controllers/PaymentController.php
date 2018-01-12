@@ -233,9 +233,10 @@ class PaymentController extends Controller
         }
         $this->getLogger(__METHOD__)->error('serverRequestData', $serverRequestData);
         $this->getLogger(__METHOD__)->error('RequestData', $requestData);
-        $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
+       // $response = $this->paymentHelper->executeCurl($serverRequestData['data'], $serverRequestData['url']);
         $this->getLogger(__METHOD__)->error('ResData', $response);
-        $responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
+        //$responseData = $this->paymentHelper->convertStringToArray($response['response'], '&');
+        $responseData =[];
         $this->getLogger(__METHOD__)->error('ResnewData', $responseData);
         $responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
         $isPaymentSuccess = isset($responseData['status']) && in_array($responseData['status'], ['90','100']);
