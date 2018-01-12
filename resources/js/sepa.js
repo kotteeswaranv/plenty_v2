@@ -17,6 +17,12 @@ $( function() {
 	    alert($("#nn_sepa_birthday").val().split('-'));
             alert($("#nn_sepa_confirm_iban_bic_msg").val());
        }
+	    
+       if (($("#nn_sepa_birthday")) && (($("#nn_sepa_birthday").val().split('-') == undefine) || ($("#nn_sepa_birthday").val().split('-') == ''))) {
+	  evt.preventDefault();    
+	  //alert($("#nn_sepa_valid_dob_msg").val());
+	  alert("Please enter valid databirth");
+       }
     });
     $("#novalnet_sepa_confirm_id").click(function() {
         if ($("#novalnet_sepa_confirm_id").is(":checked") == true) {
