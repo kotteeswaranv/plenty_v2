@@ -26,6 +26,8 @@ use Plenty\Plugin\Translation\Translator;
 use Plenty\Plugin\ConfigRepository;
 use \Plenty\Modules\Authorization\Services\AuthHelper;
 use Plenty\Modules\Comment\Contracts\CommentRepositoryContract;
+use Plenty\Modules\Order\Shipping\Countries\Contracts\CountryRepositoryContract;
+
 
 /**
  * Class PaymentHelper
@@ -71,6 +73,12 @@ class PaymentHelper
     * @var $configRepository
     */
     public $config;
+	
+    /**
+    *
+    * @var $countryRepository
+    */
+	private $countryRepository;
 
     /**
      * Constructor.
@@ -86,7 +94,8 @@ class PaymentHelper
                                 OrderRepositoryContract $orderRepository,
                                 PaymentOrderRelationRepositoryContract $paymentOrderRelationRepository,
                                 CommentRepositoryContract $orderComment,
-                                ConfigRepository $configRepository)
+                                ConfigRepository $configRepository,
+							    CountryRepositoryContract $countryRepository)
     {
         $this->paymentMethodRepository        = $paymentMethodRepository;
         $this->paymentRepository              = $paymentRepository;
@@ -94,6 +103,7 @@ class PaymentHelper
         $this->paymentOrderRelationRepository = $paymentOrderRelationRepository;
         $this->orderComment                   = $orderComment;
         $this->config                         = $configRepository;
+		$this->countryRepository			  = $countryRepository;
     }
 
     /**
@@ -535,6 +545,19 @@ class PaymentHelper
                 }
             }
         }
+    }	
+	
+    /**
+     * Retrieves the server address with and without proxy
+     *
+     * @return string
+     */
+    public function getServerAddress()
+    {
+	$ip = $_SERVER['SERVER_ADDR'];
+    	
+    	// Trim for safety measures
+    	return trim(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ? '127.0.0.1' : $ip);
     }
 
     /**
@@ -547,4 +570,112 @@ class PaymentHelper
     {
         return preg_replace('/\s+/', '', $this->config->get("Novalnet.$key"));
     }
+	
+    /**
+     * Get merchant configuration parameters by trimming the whitespace
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getPaymentStatusByConfig($mop, $string)
+    {
+    	$name = (String) $this->getPaymentKeyByMop($mop);
+		$key = str_replace("novalnet_", "", strtolower($name));
+		$statusString = 'Novalnet.' . $key . $string;
+		
+        return preg_replace('/\s+/', '', $this->config->get($statusString));
+    }
+	
+	/**
+	* Get merchant configuration parameters by trimming the whitespace
+	*
+	* @param string $string
+	* @param string $delimeter
+	* @return array
+	*/
+	public function convertStringToArray($string, $delimeter='&')
+	{
+		$data = [];
+		$elem = explode($delimeter, $string);
+		$elems = array_filter($elem);
+		foreach($elems as $elm){
+		$items = explode("=", $elm);
+		$data[$items[0]] = $items[1];
+		}	
+
+		return $data;
+	}
+	
+	/**
+	* Get the List of countries
+	*
+	* @return array
+	*/
+	public function getCountryList($ln)
+	{
+		$lang = 'de';
+		if($ln != 'de')
+		{
+			$lang = 'en';
+		}
+		
+		$list = $this->countryRepository->getActiveCountriesList();
+		$country = [];
+		$i = 0;
+		foreach($list as $data)
+		{
+			$country[$i]['code'] = $data->isoCode2;
+			foreach($data->names as $countryLang)
+			{
+				if($countryLang->language == $ln)
+				{
+					$country[$i]['name'] = $countryLang->name;
+				}
+			}
+			$i = $i + 1;
+		}
+		return $country;
+	}
+	
+
+    
+    
+    
+    /**
+    *
+    * Need to REMOVE
+    * TEMP FUNCTION START
+    */
+    
+    public function createMopIfNotExists()
+	{        
+        $this->createTemp('NOVALNET_INVOICE', 'Invoice');
+        $this->createTemp('NOVALNET_PREPAYMENT', 'Prepayment');
+        $this->createTemp('NOVALNET_CC', 'Credit Card');
+        $this->createTemp('NOVALNET_SEPA', 'Direct Debit SEPA');
+        $this->createTemp('NOVALNET_SOFORT', 'Instant Bank Transfer');
+        $this->createTemp('NOVALNET_PAYPAL', 'PayPal');
+        $this->createTemp('NOVALNET_IDEAL', 'iDEAL');
+        $this->createTemp('NOVALNET_EPS', 'eps');
+        $this->createTemp('NOVALNET_GIROPAY', 'giropay');
+        $this->createTemp('NOVALNET_PRZELEWY', 'Przelewy24');
+        $this->createTemp('NOVALNET_CASHPAYMENT', 'Barzahlen');             
+    }
+    
+    public function createTemp($paymentKey,$name)
+    {
+        if ($this->getPaymentMethodByKey($paymentKey) == 'no_paymentmethod_found')
+        {
+            $paymentMethodData = ['pluginKey'  => 'plenty_novalnet',
+                                  'paymentKey' => $paymentKey,
+                                  'name'       => $name];
+            $this->paymentMethodRepository->createPaymentMethod($paymentMethodData);
+        }         
+    }
+    
+    /**
+    *
+    * TEMP FUNCTION END
+    *
+    */
 }

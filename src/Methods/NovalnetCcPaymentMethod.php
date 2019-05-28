@@ -20,11 +20,11 @@ use Plenty\Plugin\Application;
 use Novalnet\Helper\PaymentHelper;
 
 /**
- * Class NovalnetPaymentMethod
+ * Class NovalnetCcPaymentMethod
  *
  * @package Novalnet\Methods
  */
-class NovalnetPaymentMethod extends PaymentMethodService
+class NovalnetCcPaymentMethod extends PaymentMethodService
 {
     /**
      * @var ConfigRepository
@@ -57,7 +57,7 @@ class NovalnetPaymentMethod extends PaymentMethodService
      */
     public function isActive():bool
     {
-        return (bool)(($this->configRepository->get('Novalnet.payment_active') == 'true') && is_numeric($this->paymentHelper->getNovalnetConfig('vendor_id')) && !empty($this->paymentHelper->getNovalnetConfig('auth_code')) && is_numeric($this->paymentHelper->getNovalnetConfig('product_id')) && is_numeric($this->paymentHelper->getNovalnetConfig('tariff_id')) && !empty($this->paymentHelper->getNovalnetConfig('access_key')));
+        return (bool)(($this->configRepository->get('Novalnet.cc_payment_active') == 'true') && is_numeric($this->paymentHelper->getNovalnetConfig('vendor_id')) && !empty($this->paymentHelper->getNovalnetConfig('activation_key'))&& !empty($this->paymentHelper->getNovalnetConfig('auth_code')) && is_numeric($this->paymentHelper->getNovalnetConfig('product_id')) && is_numeric($this->paymentHelper->getNovalnetConfig('tariff_id')) && !empty($this->paymentHelper->getNovalnetConfig('access_key')));
     }
 
     /**
@@ -67,11 +67,11 @@ class NovalnetPaymentMethod extends PaymentMethodService
      * @return string
      */
     public function getName():string
-    {        
-        $name = trim($this->configRepository->get('Novalnet.payment_name'));
+    {   
+        $name = trim($this->configRepository->get('Novalnet.cc_payment_name'));
         if(empty($name))
         {
-            $name = $this->paymentHelper->getTranslatedText('novalnet_frontend_name');
+            $name = $this->paymentHelper->getTranslatedText('cc_name');
         }
         return $name;
     }
@@ -85,7 +85,7 @@ class NovalnetPaymentMethod extends PaymentMethodService
     {
         /** @var Application $app */
         $app = pluginApp(Application::class);
-        return $app->getUrlPath('novalnet') .'/images/icon.png';
+        return $app->getUrlPath('novalnet') .'/images/cc.png';
     }
 
     /**
@@ -95,10 +95,13 @@ class NovalnetPaymentMethod extends PaymentMethodService
      */
     public function getDescription():string
     {
-        $description = trim($this->configRepository->get('Novalnet.description'));
+        $description = trim($this->configRepository->get('Novalnet.cc_description'));
         if(empty($description))
         {
-            $description = $this->paymentHelper->getTranslatedText('payment_description');
+            if($this->configRepository->get('Novalnet.cc_3d') == 'true')
+                $description = $this->paymentHelper->getTranslatedText('redirectional_payment_description');
+            else
+                $description = $this->paymentHelper->getTranslatedText('cc_payment_description');
         }
         return $description;
     }

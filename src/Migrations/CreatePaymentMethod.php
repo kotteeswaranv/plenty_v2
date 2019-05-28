@@ -44,8 +44,17 @@ class CreatePaymentMethod
      */
     public function run()
     {
-        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET', 'Novalnet');
         $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_INVOICE', 'Invoice');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_PREPAYMENT', 'Prepayment');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_CC', 'Credit Card');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_SEPA', 'Direct Debit SEPA');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_SOFORT', 'Instant Bank Transfer');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_PAYPAL', 'PayPal');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_IDEAL', 'iDEAL');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_EPS', 'eps');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_GIROPAY', 'giropay');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_PRZELEWY', 'Przelewy24');
+        $this->createNovalnetPaymentMethodByPaymentKey('NOVALNET_CASHPAYMENT', 'Barzahlen');
     }
     
     

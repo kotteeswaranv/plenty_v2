@@ -120,13 +120,13 @@ class PaymentService
                 $requestData['paid_amount'] = $requestData['amount'];
             }
             elseif(in_array($requestData['payment_id'], ['27','59']))
-            {
-                $requestData['order_status'] = trim($this->config->get('Novalnet.order_completion_status'));
+            {                
+                $requestData['order_status'] = trim($this->paymentHelper->getPaymentStatusByConfig($requestData['mop'], '_order_completion_status'));
                 $requestData['paid_amount'] = 0;
             }
             else
             {
-                $requestData['order_status'] = trim($this->config->get('Novalnet.order_completion_status'));
+                $requestData['order_status'] = trim($this->paymentHelper->getPaymentStatusByConfig($requestData['mop'], '_order_completion_status'));
                 $requestData['paid_amount'] = $requestData['amount'];
             }
 
@@ -158,7 +158,9 @@ class PaymentService
         $comments  = '</br>' . $this->paymentHelper->getDisplayPaymentMethodName($requestData);
         $comments .= '</br>' . $this->paymentHelper->getTranslatedText('nn_tid') . $requestData['tid'];
 
-        if(!empty($requestData['test_mode']) || ($this->config->get('Novalnet.test_mode') == 'true'))
+        $paymentKey = strtolower((string) $this->paymentHelper->getPaymentKeyByMop($requestData['mop']));
+        $testModeKey = 'Novalnet.' . $paymentKey . '_test_mode';
+        if(!empty($requestData['test_mode']) || ($this->config->get($testModeKey) == 'true'))
             $comments .= '</br>' . $this->paymentHelper->getTranslatedText('test_order');
 
         if(in_array($requestData['payment_id'], ['40','41']))
@@ -278,19 +280,21 @@ class PaymentService
      *
      * @return array
      */
-    public function getRequestParameters(Basket $basket)
+    public function getRequestParameters(Basket $basket, $paymentKey)
     {
         $billingAddressId = $basket->customerInvoiceAddressId;
         $address = $this->addressRepository->findAddressById($billingAddressId);
         $account = pluginApp(AccountService::class);
         $customerId = $account->getAccountContactId();
-
+        $paymentKeyLower = strtolower((string) $paymentKey);
+        $testModeKey = 'Novalnet.' . $paymentKeyLower . '_test_mode';
+       
         $paymentRequestData = [
                 'vendor'             => $this->paymentHelper->getNovalnetConfig('vendor_id'),
                 'auth_code'          => $this->paymentHelper->getNovalnetConfig('auth_code'),
                 'product'            => $this->paymentHelper->getNovalnetConfig('product_id'),
                 'tariff'             => $this->paymentHelper->getNovalnetConfig('tariff_id'),
-                'test_mode'          => (int)($this->config->get('Novalnet.test_mode') == 'true'),
+                'test_mode'          => (int)($this->config->get($testModeKey) == 'true'),
                 'first_name'         => $address->firstName,
                 'last_name'          => $address->lastName,
                 'email'              => $address->email,
@@ -303,18 +307,16 @@ class PaymentService
                 'lang'               => strtoupper($this->session->getLocaleSettings()->language),
                 'amount'             => (sprintf('%0.2f', $basket->basketAmount) * 100),
                 'currency'           => $basket->currency,
-                'remote_ip'          => $this->paymentHelper->getRemoteAddress(),
-                'return_url'         => $this->getReturnPageUrl(),
-                'return_method'      => 'POST',
-                'error_return_url'   => $this->getReturnPageUrl(),
-                'error_return_method'=> 'POST',
+                'remote_ip'          => $this->paymentHelper->getRemoteAddress(),                
                 'implementation'     => 'ENC',
                 'uniqid'             => $this->paymentHelper->getUniqueId(),
                 'system_ip'          => (filter_var($_SERVER['SERVER_ADDR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ? '127.0.0.1' : $_SERVER['SERVER_ADDR']),
                 'system_url'         => $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl,
                 'system_name'        => 'PlentyMarket',
                 'system_version'     => NovalnetConstants::PLUGIN_VERSION,
-                'notify_url'         => $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/callback'
+                'notify_url'         => $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/callback',
+                'key'                => $this->getkeyByPaymentKey($paymentKey),
+                'payment_type'       => $this->getTypeByPaymentKey($paymentKey)
         ];
 
         if(!empty($address->houseNumber))
@@ -330,49 +332,98 @@ class PaymentService
             $paymentRequestData['company'] = $address->companyName;
 
         if(!empty($address->phone))
-            $paymentRequestData['mobile'] = $address->phone;
-
-        if($this->config->get('Novalnet.cc_3d') == 'true')
-            $paymentRequestData['cc_3d'] = '1';
-
-        $paymentRequestData['sepa_due_date'] = $this->getSepaDueDate();
-
-        $invoiceDueDate = $this->paymentHelper->getNovalnetConfig('invoice_due_date');
-        if(is_numeric($invoiceDueDate))
-            $paymentRequestData['invoice_due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $invoiceDueDate . ' days' ) );
-
-        $cashpaymentDueDate = $this->paymentHelper->getNovalnetConfig('cashpayment_due_date');
-        if(is_numeric($cashpaymentDueDate))
-            $paymentRequestData['cashpayment_due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $cashpaymentDueDate . ' days' ) );
-
-        $onHoldLimit = $this->paymentHelper->getNovalnetConfig('on_hold');
-        if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
-            $paymentRequestData['on_hold'] = '1';
+            $paymentRequestData['tel'] = $address->phone;
 
         $referrerId = $this->paymentHelper->getNovalnetConfig('referrer_id');
         if(is_numeric($referrerId))
             $paymentRequestData['referrer_id'] = $referrerId;
 
-        $txnReference1 = strip_tags($this->paymentHelper->getNovalnetConfig('reference1'));
+        $txnReference1 = strip_tags($this->config->get('Novalnet.' . $paymentKeyLower . '_reference1'));
         if(!empty($txnReference1))
         {
             $paymentRequestData['input1'] = 'reference1';
             $paymentRequestData['inputval1'] = $txnReference1;
         }
-
-        $txnReference2 = strip_tags($this->paymentHelper->getNovalnetConfig('reference2'));
+        
+        $txnReference2 = strip_tags($this->config->get('Novalnet.' . $paymentKeyLower . '_reference2'));
         if(!empty($txnReference2))
         {
             $paymentRequestData['input2'] = 'reference2';
             $paymentRequestData['inputval2'] = $txnReference2;
         }
-
+        
+        $paymentRequestData['url'] = $this->getpaymentUrl($paymentKey);
+        $this->getPaymentParam($paymentRequestData, $paymentKey);                       
+        
         $this->encodePaymentData($paymentRequestData);
-
+        $url = $paymentRequestData['url'];
+        unset($paymentRequestData['url']);
+        
         return [
             'data' => $paymentRequestData,
-            'url'  => NovalnetConstants::PAYGATE_URI
+            'url'  => $url
         ];
+    }
+    
+    
+    public function getPaymentParam(&$paymentRequestData, $paymentKey)
+    {
+        if($paymentKey == 'NOVALNET_CC')
+        {
+            $onHoldLimit = $this->paymentHelper->getNovalnetConfig('cc_on_hold');
+            if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
+                $paymentRequestData['on_hold'] = '1';
+            
+            if($this->config->get('Novalnet.cc_3d') == 'true') {
+                $paymentRequestData['cc_3d'] = '1';
+                $paymentRequestData['url'] = NovalnetConstants::CC3D_PAYMENT_URL;
+            }    
+        } 
+        else if($paymentKey == 'NOVALNET_SEPA')
+        {
+            $onHoldLimit = $this->paymentHelper->getNovalnetConfig('sepa_on_hold');
+            if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
+                $paymentRequestData['on_hold'] = '1';
+            
+            $paymentRequestData['sepa_due_date'] = $this->getSepaDueDate();            
+            $paymentRequestData['iban_bic_confirmed'] = '1'; 
+        }
+        else if($paymentKey == 'NOVALNET_INVOICE')
+        {
+            $onHoldLimit = $this->paymentHelper->getNovalnetConfig('invoice_on_hold');
+            if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
+                $paymentRequestData['on_hold'] = '1';
+            
+            $paymentRequestData['invoice_type'] = 'INVOICE';
+            $invoiceDueDate = $this->paymentHelper->getNovalnetConfig('invoice_due_date');
+            if(is_numeric($invoiceDueDate))
+                $paymentRequestData['due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $invoiceDueDate . ' days' ) );
+        }
+        else if($paymentKey == 'NOVALNET_PREPAYMENT')
+        {
+            $paymentRequestData['invoice_type'] = 'PREPAYMENT';
+        }
+        else if($paymentKey == 'NOVALNET_CASHPAYMENT')
+        {
+            $cashpaymentDueDate = $this->paymentHelper->getNovalnetConfig('cashpayment_due_date');
+            if(is_numeric($cashpaymentDueDate))
+                $paymentRequestData['cashpayment_due_date'] = date( 'Y-m-d', strtotime( date( 'y-m-d' ) . '+ ' . $cashpaymentDueDate . ' days' ) );
+        }
+        else if($paymentKey == 'NOVALNET_PAYPAL')
+        {
+            $onHoldLimit = $this->paymentHelper->getNovalnetConfig('paypal_on_hold');
+            if(is_numeric($onHoldLimit) && $onHoldLimit <= $paymentRequestData['amount'])
+                $paymentRequestData['on_hold'] = '1';   
+        }
+        
+        
+        if(in_array($paymentKey, ['NOVALNET_SOFORT', 'NOVALNET_PAYPAL', 'NOVALNET_IDEAL', 'NOVALNET_EPS', 'NOVALNET_GIROPAY', 'NOVALNET_PRZELEWY']) || ($paymentKey == 'NOVALNET_CC' && !empty($paymentRequestData['cc_3d'])))
+        {
+            $paymentRequestData['return_url']          = $this->getReturnPageUrl();
+            $paymentRequestData['return_method']       = 'POST';
+            $paymentRequestData['error_return_url']    = $this->getReturnPageUrl();
+            $paymentRequestData['error_return_method'] = 'POST';
+        }  
     }
 
     /**
@@ -421,8 +472,11 @@ class PaymentService
             $paymentRequestData[$key] = $this->paymentHelper->encodeData($paymentRequestData[$key], $paymentRequestData['uniqid']);
          }
 
-         // Generate hash value
-         $paymentRequestData['hash'] = $this->paymentHelper->generateHash($paymentRequestData);
+        if(!empty($paymentRequestData['return_url']))
+        {
+            // Generate hash value
+            $paymentRequestData['hash'] = $this->paymentHelper->generateHash($paymentRequestData);
+        }
     }
 
     /**
@@ -445,5 +499,198 @@ class PaymentService
     private function getReturnPageUrl()
     {
         return $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/paymentResponse';
+    }
+    
+    /**
+    *
+    *
+    *
+    */
+    public function getProcessPaymentUrl()
+    {
+        return $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/processPayment';
+    }
+    
+    /**
+    *
+    *
+    *
+    */
+    public function getpaymentUrl($paymentKey)
+    {
+        $payment = [
+            'NOVALNET_INVOICE'=>NovalnetConstants::PAYPORT_URI,
+            'NOVALNET_PREPAYMENT'=>NovalnetConstants::PAYPORT_URI,
+            'NOVALNET_CC'=>NovalnetConstants::PAYPORT_URI,
+            'NOVALNET_SEPA'=>NovalnetConstants::PAYPORT_URI,
+            'NOVALNET_CASHPAYMENT'=>NovalnetConstants::PAYPORT_URI,
+            'NOVALNET_PAYPAL'=>NovalnetConstants::PAYPAL_PAYMENT_URL,
+            'NOVALNET_IDEAL'=>NovalnetConstants::IDEAL_PAYMENT_URL,
+            'NOVALNET_EPS'=>NovalnetConstants::EPS_PAYMENT_URL,
+            'NOVALNET_GIROPAY'=>NovalnetConstants::GIROPAY_PAYMENT_URL,
+            'NOVALNET_PRZELEWY'=>NovalnetConstants::PRZELEWY_PAYMENT_URL,
+            'NOVALNET_SOFORT'=>NovalnetConstants::SOFORT_PAYMENT_URL,        
+        ];
+        
+        return $payment[$paymentKey];
+       // $paymentRequestData['url']
+        
+    }
+    
+   /**
+    *
+    *
+    *
+    */
+    public function getkeyByPaymentKey($paymentKey)
+    {
+        $payment = [
+            'NOVALNET_INVOICE'=>'27',
+            'NOVALNET_PREPAYMENT'=>'27',
+            'NOVALNET_CC'=>'6',
+            'NOVALNET_SEPA'=>'37',
+            'NOVALNET_CASHPAYMENT'=>'59',
+            'NOVALNET_PAYPAL'=>'34',
+            'NOVALNET_IDEAL'=>'49',
+            'NOVALNET_EPS'=>'50',
+            'NOVALNET_GIROPAY'=>'69',
+            'NOVALNET_PRZELEWY'=>'78',
+            'NOVALNET_SOFORT'=>'33',        
+        ];
+        
+        return $payment[$paymentKey];
+       // $paymentRequestData['url']
+        
+    }
+    
+    /**
+    *
+    *
+    *
+    */
+    public function getTypeByPaymentKey($paymentKey)
+    {
+        $payment = [
+            'NOVALNET_INVOICE'=>'INVOICE_START',
+            'NOVALNET_PREPAYMENT'=>'INVOICE_START',
+            'NOVALNET_CC'=>'CREDITCARD',
+            'NOVALNET_SEPA'=>'DIRECT_DEBIT_SEPA',
+            'NOVALNET_CASHPAYMENT'=>'CASHPAYMENT',
+            'NOVALNET_PAYPAL'=>'PAYPAL',
+            'NOVALNET_IDEAL'=>'IDEAL',
+            'NOVALNET_EPS'=>'EPS',
+            'NOVALNET_GIROPAY'=>'GIROPAY',
+            'NOVALNET_PRZELEWY'=>'PRZELEWY24',
+            'NOVALNET_SOFORT'=>'ONLINE_TRANSFER',        
+        ];
+        
+        return $payment[$paymentKey];
+       // $paymentRequestData['url']
+        
+    }
+    
+    /**
+    *
+    *
+    *
+    */
+    public function getCcDesignConfig()
+    {
+        $design = [];
+        $design['holder_label_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_holder_label_css');
+        $design['holder_field_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_holder_field_css');
+        $design['number_label_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_number_label_css');
+        $design['number_field_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_number_field_css');
+        $design['date_label_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_date_label_css');
+        $design['date_field_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_date_field_css');
+        $design['cvc_label_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_cvc_label_css');
+        $design['cvc_field_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_cvc_field_css');
+        $design['standard_style_label'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_standard_style_label');
+        $design['standard_style_input'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_standard_style_field');
+        $design['standard_style_css'] = $this->paymentHelper->getNovalnetConfig('novalnet_cc_standard_style_css');
+        return $design;
+    }
+    
+    /**
+    *
+    *
+    *
+    */
+    public function getGuaranteeStatus(Basket $basket, $paymentKey)
+    {
+        // Get payment name in lowercase
+        $paymentKeyLow = strtolower((string) $paymentKey);
+         
+        $guaranteePayment = $this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_active');
+        if ($guaranteePayment == 'true') {
+            // Get guarantee minimum and maximum amount value
+            $minimumAmount = $this->paymentHelper->getNovalnetConfig($paymentKeyLow . '_guarantee_min_amount');
+            $minimumAmount = ((preg_match('/^[0-9]*$/', $minimumAmount) && $minimumAmount >= '2000' && $minimumAmount < '500000')  ? $minimumAmount : '2000');
+            $maximumAmount = $this->paymentHelper->getNovalnetConfig($paymentKeyLow . '_guarantee_max_amount');
+            $maximumAmount = ((preg_match('/^[0-9]*$/', $maximumAmount) && $maximumAmount <= '500000' && $maximumAmount > '2000')  ? $maximumAmount : '500000');
+            
+            $amount            = (sprintf('%0.2f', $basket->basketAmount) * 100);
+            
+            $billingAddressId = $basket->customerInvoiceAddressId;
+            $billingAddress = $this->addressRepository->findAddressById($billingAddressId);
+            $customerBillingIsoCode = strtoupper($this->countryRepository->findIsoCode($billingAddress->countryId, 'iso_code_2'));
+            
+            $shippingAddressId = $basket->customerShippingAddressId;
+            
+            $addressValidation = false;
+            if(!empty($shippingAddressId))
+            {
+				
+		    		$shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
+				$customerShippingIsoCode = strtoupper($this->countryRepository->findIsoCode($shippingAddress->countryId, 'iso_code_2'));            
+						   
+				// Delivery address
+				$deliveryAddress = array(
+									 'street_address' => (($billingAddress->street) ? $billingAddress->street : $billingAddress->address1),
+									 'city'           => $billingAddress->town,
+									 'postcode'       => $billingAddress->postalCode,
+									 'country'        => $customerBillingIsoCode,
+									);
+				// Billing address
+				$billingAddress = array(
+									 'street_address' => (($shippingAddress->street) ? $shippingAddress->street : $shippingAddress->address1),
+									 'city'           => $shippingAddress->town,
+									 'postcode'       => $shippingAddress->postalCode,
+									 'country'        => $customerShippingIsoCode,
+									);
+                                
+             }
+             else
+             {
+				 $addressValidation = true;
+			 } 
+		
+		$this->getLogger(__METHOD__)->error('Gurcheck1', $amount);
+		$this->getLogger(__METHOD__)->error('Gurcheck2', $minimumAmount);
+		$this->getLogger(__METHOD__)->error('Gurcheck3', $maximumAmount);
+		$this->getLogger(__METHOD__)->error('Gurcheck4', $customerBillingIsoCode);
+		$this->getLogger(__METHOD__)->error('Gurcheck5', $basket->currency);
+		$this->getLogger(__METHOD__)->error('Gurcheck6', $addressValidation);
+		$this->getLogger(__METHOD__)->error('Gurcheck7', $deliveryAddress);
+		$this->getLogger(__METHOD__)->error('Gurcheck8', $billingAddress);
+            // Check guarantee payment
+            if ((((int) $amount >= (int) $minimumAmount && (int) $amount <= (int) $maximumAmount) && in_array(
+                $customerBillingIsoCode,
+                [
+                 'DE',
+                 'AT',
+                 'CH',
+                ]
+            ) && $basket->currency == 'EUR' && ($addressValidation || ($deliveryAddress === $billingAddress)))
+            ) {
+                $processingType = 'guarantee';
+            } elseif ($this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_force_active') == 'true') {
+                $processingType = 'normal';
+            } else {
+                $processingType = 'error';
+            }
+            return $processingType;
+        }//end if
+        return 'normal';
     }
 }
